@@ -12,7 +12,7 @@ import java.util.Map;
 @AllArgsConstructor
 @Builder
 public class BaseResponse {
-    private String msg;
+    private String message;
     @Builder.Default
     private ResultCode code = ResultCode.SUCCESS;
 
