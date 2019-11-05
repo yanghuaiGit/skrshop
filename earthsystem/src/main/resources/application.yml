@@ -4,3 +4,6 @@ spring:
     name: earth-system
   profiles:
     active: dev
+
+server:
+  port: 8081
