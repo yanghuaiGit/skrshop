@@ -1,0 +1,6 @@
+# application.yml
+spring:
+  application:
+    name: earth-system
+  profiles:
+    active: dev
