@@ -1,2 +1,3 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.skrshop.common.config.ErrorAutoConfiguration
+com.skrshop.common.error.ErrorAutoConfiguration,\
+com.skrshop.common.config.JacksonConfig

@@ -1,5 +1,6 @@
-package com.skrshop.common.config;
+package com.skrshop.common.error;
 
+import com.skrshop.common.error.ErrorAdviceImportSelector;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;

@@ -1,4 +1,4 @@
-package com.skrshop.common.config;
+package com.skrshop.common.error;
 
 /**
  * @author huaiyang
