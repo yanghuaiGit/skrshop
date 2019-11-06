@@ -1,6 +1,6 @@
 package com.skrshop.common.error;
 
-import com.skrshop.common.api.ResultCode;
+import com.skrshop.common.response.ResultCode;
 import lombok.Getter;
 
 /**

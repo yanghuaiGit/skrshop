@@ -1,4 +1,4 @@
-package com.skrshop.common.api;
+package com.skrshop.common.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

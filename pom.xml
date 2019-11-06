@@ -89,6 +89,7 @@
                 <artifactId>hutool-all</artifactId>
                 <version>5.0.3</version>
             </dependency>
+
             <dependency>
                 <groupId>net.sf.dozer</groupId>
                 <artifactId>dozer-spring</artifactId>
@@ -100,7 +101,6 @@
                 <artifactId>dozer</artifactId>
                 <version>5.5.1</version>
             </dependency>
-
         </dependencies>
     </dependencyManagement>
 </project>

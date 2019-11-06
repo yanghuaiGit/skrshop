@@ -1,7 +1,7 @@
 package com.skrshop.common.error;
 
-import com.skrshop.common.api.BaseResponse;
-import com.skrshop.common.api.ResultCode;
+import com.skrshop.common.response.BaseResponse;
+import com.skrshop.common.response.ResultCode;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.validator.internal.engine.path.PathImpl;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -31,7 +31,6 @@ public class GlobalExceptionTranslator {
         log.warn("Missing Request Parameter", e);
         String message = String.format("Missing Request Parameter: %s", e.getParameterName());
         return BaseResponse
-                .builder()
                 .code(ResultCode.PARAM_MISS)
                 .message(message)
                 .build();
@@ -42,7 +41,6 @@ public class GlobalExceptionTranslator {
         log.warn("Method Argument Type Mismatch", e);
         String message = String.format("Method Argument Type Mismatch: %s", e.getName());
         return BaseResponse
-                .builder()
                 .code(ResultCode.PARAM_TYPE_ERROR)
                 .message(message)
                 .build();
@@ -55,7 +53,6 @@ public class GlobalExceptionTranslator {
         FieldError error = result.getFieldError();
         String message = String.format("%s:%s", error.getField(), error.getDefaultMessage());
         return BaseResponse
-                .builder()
                 .code(ResultCode.PARAM_VALID_ERROR)
                 .message(message)
                 .build();
@@ -67,7 +64,6 @@ public class GlobalExceptionTranslator {
         FieldError error = e.getFieldError();
         String message = String.format("%s:%s", error.getField(), error.getDefaultMessage());
         return BaseResponse
-                .builder()
                 .code(ResultCode.PARAM_BIND_ERROR)
                 .message(message)
                 .build();
@@ -81,7 +77,6 @@ public class GlobalExceptionTranslator {
         String path = ((PathImpl) violation.getPropertyPath()).getLeafNode().getName();
         String message = String.format("%s:%s", path, violation.getMessage());
         return BaseResponse
-                .builder()
                 .code(ResultCode.PARAM_VALID_ERROR)
                 .message(message)
                 .build();
@@ -91,7 +86,6 @@ public class GlobalExceptionTranslator {
     public BaseResponse handleError(NoHandlerFoundException e) {
         log.error("404 Not Found", e);
         return BaseResponse
-                .builder()
                 .code(ResultCode.NOT_FOUND)
                 .message(e.getMessage())
                 .build();
@@ -101,7 +95,6 @@ public class GlobalExceptionTranslator {
     public BaseResponse handleError(HttpMessageNotReadableException e) {
         log.error("Message Not Readable", e);
         return BaseResponse
-                .builder()
                 .code(ResultCode.MSG_NOT_READABLE)
                 .message(e.getMessage())
                 .build();
@@ -111,7 +104,6 @@ public class GlobalExceptionTranslator {
     public BaseResponse handleError(HttpRequestMethodNotSupportedException e) {
         log.error("Request Method Not Supported", e);
         return BaseResponse
-                .builder()
                 .code(ResultCode.METHOD_NOT_SUPPORTED)
                 .message(e.getMessage())
                 .build();
@@ -121,7 +113,6 @@ public class GlobalExceptionTranslator {
     public BaseResponse handleError(HttpMediaTypeNotSupportedException e) {
         log.error("Media Type Not Supported", e);
         return BaseResponse
-                .builder()
                 .code(ResultCode.MEDIA_TYPE_NOT_SUPPORTED)
                 .message(e.getMessage())
                 .build();
@@ -131,7 +122,6 @@ public class GlobalExceptionTranslator {
     public BaseResponse handleError(ServiceException e) {
         log.error("Service Exception", e);
         return BaseResponse
-                .builder()
                 .code(e.getResultCode())
                 .message(e.getMessage())
                 .build();
@@ -142,7 +132,6 @@ public class GlobalExceptionTranslator {
     public BaseResponse handleError(Throwable e) {
         log.error("Internal Server Error", e);
         return BaseResponse
-                .builder()
                 .code(ResultCode.INTERNAL_SERVER_ERROR)
                 .message(e.getMessage())
                 .build();
