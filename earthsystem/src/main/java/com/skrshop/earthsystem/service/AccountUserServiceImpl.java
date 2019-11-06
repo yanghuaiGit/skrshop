@@ -28,7 +28,7 @@ public class AccountUserServiceImpl implements AccountUserService {
     @Override
     public AccountUserVo create(AccountUserDto accountUserDto) {
         AccountUser accountUser = dozerHolder.convert(accountUserDto, AccountUser.class);
-            int i = accountUserMapper.insertSelective(accountUser);
+        int i = accountUserMapper.insertSelective(accountUser);
         if (i < 1) {
             throw new RuntimeException("插入失败");
         }

@@ -1,9 +1,0 @@
-# application.yml
-spring:
-  application:
-    name: skrmall
-  profiles:
-    active: dev
-
-server:
-  port: 8080
