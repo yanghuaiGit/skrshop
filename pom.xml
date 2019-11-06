@@ -21,6 +21,7 @@
         <module>common</module>
         <module>earthsystem</module>
         <module>earthsystem-api</module>
+        <module>mall</module>
     </modules>
 
     <dependencies>
