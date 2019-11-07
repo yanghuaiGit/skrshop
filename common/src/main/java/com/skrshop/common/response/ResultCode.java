@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author william
  */
+@Getter
+@AllArgsConstructor
 public enum ResultCode {
     SUCCESS(HttpServletResponse.SC_OK, "Operation is Successful"),
 
@@ -38,34 +40,16 @@ public enum ResultCode {
     PARAM_VALID_ERROR(HttpServletResponse.SC_BAD_REQUEST, "Parameter Validation Error"),
 
 
-
-
-//==================系统异常
-    REQUEST_ERROR(2000,"REQUEST ERROR"),
-
-
-
-
+    //==================系统异常
+    REQUEST_ERROR(2000, "REQUEST ERROR"),
 
 
     //=============================业务异常
 
-    CREATE_ERROR(3000,"Create Error");
+    CREATE_ERROR(3000, "Create Error");
 
     final int code;
 
     final String msg;
 
-    ResultCode(int code, String msg) {
-        this.code = code;
-        this.msg = msg;
-    }
-
-    public int getCode() {
-        return code;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
 }

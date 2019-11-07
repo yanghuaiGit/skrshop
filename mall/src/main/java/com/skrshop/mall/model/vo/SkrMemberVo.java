@@ -19,7 +19,4 @@ public class SkrMemberVo {
     private Integer registerFrom;
     private Integer ffreezeStatus;
 
-
-
-
 }
