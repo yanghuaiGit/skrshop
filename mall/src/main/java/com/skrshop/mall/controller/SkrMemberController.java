@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 
 @RestController
-@RequestMapping("/mall/user")
+@RequestMapping("/user")
 public class SkrMemberController {
 
 

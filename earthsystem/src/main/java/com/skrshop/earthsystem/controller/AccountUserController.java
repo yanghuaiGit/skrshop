@@ -6,6 +6,8 @@ import com.skrshop.earthsystemapi.api.AccountUserApi;
 import com.skrshop.earthsystemapi.model.dto.AccountUserDto;
 import com.skrshop.earthsystemapi.model.vo.AccountUserVo;
 import io.swagger.annotations.Api;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,7 +28,8 @@ public class AccountUserController implements AccountUserApi {
     private AccountUserService accountUserService;
 
     @Override
-    public BaseResponse<AccountUserVo> createAccountUser(AccountUserDto accountUserDto) {
+    @PostMapping(path = "/create")
+    public BaseResponse<AccountUserVo> createAccountUser(@RequestBody AccountUserDto accountUserDto) {
         return BaseResponse.code().data(accountUserService.create(accountUserDto)).build();
     }
 }
