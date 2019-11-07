@@ -24,6 +24,30 @@ public class BaseResponse<T> {
         this.extra = extra;
     }
 
+    public Boolean isSuccess() {
+        return code.equals(ResultCode.SUCCESS.getCode());
+    }
+
+    public Integer getCode() {
+        return code;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public T getData() {
+        return data;
+    }
+
+    public Map<String, Object> getExtra() {
+        return extra;
+    }
+
     public static BaseResponseBuilder code() {
         return code(ResultCode.SUCCESS);
     }

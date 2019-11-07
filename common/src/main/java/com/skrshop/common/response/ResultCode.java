@@ -35,7 +35,22 @@ public enum ResultCode {
 
     PARAM_BIND_ERROR(HttpServletResponse.SC_BAD_REQUEST, "Parameter Binding Error"),
 
-    PARAM_VALID_ERROR(HttpServletResponse.SC_BAD_REQUEST, "Parameter Validation Error");
+    PARAM_VALID_ERROR(HttpServletResponse.SC_BAD_REQUEST, "Parameter Validation Error"),
+
+
+
+
+//==================系统异常
+    REQUEST_ERROR(2000,"REQUEST ERROR"),
+
+
+
+
+
+
+    //=============================业务异常
+
+    CREATE_ERROR(3000,"Create Error");
 
     final int code;
 

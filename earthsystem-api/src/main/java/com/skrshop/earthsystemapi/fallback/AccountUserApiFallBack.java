@@ -18,6 +18,6 @@ import org.springframework.stereotype.Component;
 public class AccountUserApiFallBack implements AccountUserApi {
     @Override
     public BaseResponse<AccountUserVo> createAccountUser(AccountUserDto accountUserDto) {
-        return BaseResponse.code(ResultCode.FAILURE).message("Feign失败").build();
+        return BaseResponse.code(ResultCode.REQUEST_ERROR).build();
     }
 }
