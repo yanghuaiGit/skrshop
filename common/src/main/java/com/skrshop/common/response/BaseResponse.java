@@ -1,8 +1,17 @@
 package com.skrshop.common.response;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import java.util.Map;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
 public class BaseResponse<T> {
 
 
@@ -16,37 +25,12 @@ public class BaseResponse<T> {
 
     private Map<String, Object> extra;
 
-    private BaseResponse(Integer code, String desc, String message, T data, Map<String, Object> extra) {
-        this.code = code;
-        this.desc = desc;
-        this.message = message;
-        this.data = data;
-        this.extra = extra;
-    }
 
     public Boolean isSuccess() {
         return code.equals(ResultCode.SUCCESS.getCode());
     }
 
-    public Integer getCode() {
-        return code;
-    }
 
-    public String getDesc() {
-        return desc;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public T getData() {
-        return data;
-    }
-
-    public Map<String, Object> getExtra() {
-        return extra;
-    }
 
     public static BaseResponseBuilder code() {
         return code(ResultCode.SUCCESS);
