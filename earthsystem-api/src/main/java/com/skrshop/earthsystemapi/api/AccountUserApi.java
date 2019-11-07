@@ -19,6 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 @FeignClient(name = "earth-system", path = "skrshop/earthsystem", fallback = AccountUserApiFallBack.class)
 public interface AccountUserApi {
 
-    @PostMapping("/create")
+    @PostMapping("/accountUserManagement/create")
     BaseResponse<AccountUserVo> createAccountUser(@RequestBody AccountUserDto accountUserDto);
 }
