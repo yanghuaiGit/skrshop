@@ -10,8 +10,6 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author william
  */
-@Getter
-@AllArgsConstructor
 public enum ResultCode {
     SUCCESS(HttpServletResponse.SC_OK, "Operation is Successful"),
 
@@ -42,4 +40,17 @@ public enum ResultCode {
     final int code;
 
     final String msg;
+
+    ResultCode(int code, String msg) {
+        this.code = code;
+        this.msg = msg;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
 }
