@@ -27,6 +27,7 @@
         <module>oauthclient</module>
         <module>oauthserver</module>
         <module>redis-support</module>
+        <module>skrshop-tkmybatis</module>
     </modules>
 
     <dependencies>

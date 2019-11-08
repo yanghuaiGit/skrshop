@@ -1,7 +1,7 @@
 package com.skrshop.mall.repo.skrmember;
 
 import com.skrshop.mall.model.po.SkrMember;
-import tk.mybatis.mapper.common.Mapper;
+import com.skrshop.skrshoptkmybatis.extensionmapper.ExtensionMapper;
 
-public interface SkrMemberMapper extends Mapper<SkrMember> {
+public interface SkrMemberMapper extends ExtensionMapper<SkrMember> {
 }

@@ -17,7 +17,9 @@
 package com.skrshop.common.config;
 
 import cn.hutool.core.date.DatePattern;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.skrshop.common.jackson.JavaTimeModule;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -38,6 +40,8 @@ public class JacksonConfig {
     @Bean
     public Jackson2ObjectMapperBuilderCustomizer customizer() {
         return builder -> {
+            //为空的字段不返回
+            builder.serializationInclusion(JsonInclude.Include.NON_NULL);
             builder.locale(Locale.CHINA);
             builder.timeZone(TimeZone.getTimeZone(ZoneId.systemDefault()));
             builder.simpleDateFormat(DatePattern.NORM_DATETIME_PATTERN);

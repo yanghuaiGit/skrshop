@@ -1,9 +1,9 @@
 package com.skrshop.mall.service.impl;
 
 import com.skrshop.common.config.DozerHolder;
-import com.skrshop.common.error.ServiceException;
 import com.skrshop.common.response.BaseResponse;
 import com.skrshop.common.response.ResultCode;
+import com.skrshop.common.rpc.RpcData;
 import com.skrshop.earthsystemapi.api.AccountUserApi;
 import com.skrshop.earthsystemapi.model.dto.AccountUserDto;
 import com.skrshop.earthsystemapi.model.vo.AccountUserVo;
@@ -41,15 +41,10 @@ public class SkrMemberServiceImpl implements SkrMemberService {
         accountUserDto.setUsername(skrMemberDto.getUsername());
 
         BaseResponse<AccountUserVo> accountUser = accountUserApi.createAccountUser(accountUserDto);
-        if (!accountUser.isSuccess()) {
-            throw new ServiceException(ResultCode.CREATE_ERROR);
-        }
 
         SkrMember skrMember = dozerHolder.convert(skrMemberDto, SkrMember.class);
-        skrMember.setUid(accountUser.getData().getId());
-        if (skrMemberMapper.insertSelective(skrMember) != 1) {
-            throw new ServiceException(ResultCode.CREATE_ERROR);
-        }
-        return dozerHolder.convert(skrMember, SkrMemberVo.class);
+        skrMember.setUid(RpcData.of(accountUser, ResultCode.REMOTE_DATA_NULL_ERROR).getId());
+
+        return dozerHolder.convert(skrMemberMapper.createAndReturn(skrMember), SkrMemberVo.class);
     }
 }

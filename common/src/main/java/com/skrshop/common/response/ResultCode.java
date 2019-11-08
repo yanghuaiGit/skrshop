@@ -40,8 +40,13 @@ public enum ResultCode {
     PARAM_VALID_ERROR(HttpServletResponse.SC_BAD_REQUEST, "Parameter Validation Error"),
 
 
-    //==================系统异常
-    REQUEST_ERROR(2000, "REQUEST ERROR"),
+    //==================数据库异常
+    //插入失败异常
+    INSERT_DB_ERROR(1001, "INSERT_DB_EXCEPTION"),
+
+    //RPC远程服务异常
+    REMOTE_REQUEST_ERROR(2000, "REMOTE SERVICE EXCEPTION"),
+    REMOTE_DATA_NULL_ERROR(2000, "REMOTE SERVICE EXCEPTION"),
 
 
     //=============================业务异常

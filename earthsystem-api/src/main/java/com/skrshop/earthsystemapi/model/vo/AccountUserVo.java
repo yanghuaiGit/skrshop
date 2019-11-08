@@ -1,6 +1,5 @@
 package com.skrshop.earthsystemapi.model.vo;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -10,9 +9,7 @@ import java.io.Serializable;
  * @version 1.0.0
  * @date 2019/11/6
  * @description
- * @copyright 本内容仅限于深圳市天行云供应链有限公司内部传阅，禁止外泄以及用于其他的商业目的
  */
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Data
 public class AccountUserVo implements Serializable {
 
