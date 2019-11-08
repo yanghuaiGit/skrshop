@@ -29,4 +29,7 @@ build/
 
 ### VS Code ###
 .vscode/
-!/.mvn/
+/mvnw.cmd
+/mvnw
+/redis-support.iml
+/.mvn/
