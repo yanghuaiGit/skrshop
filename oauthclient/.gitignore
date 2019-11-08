@@ -29,3 +29,8 @@ build/
 
 ### VS Code ###
 .vscode/
+/mvnw.cmd
+/.mvn/
+/mvnw
+/oauthclient.iml
+/HELP.md

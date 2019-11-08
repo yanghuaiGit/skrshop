@@ -23,7 +23,10 @@
         <module>earthsystem-api</module>
         <module>mall</module>
         <module>oauth</module>
+        <module>oauthcenter</module>
         <module>oauthclient</module>
+        <module>oauthserver</module>
+        <module>redis-support</module>
     </modules>
 
     <dependencies>
