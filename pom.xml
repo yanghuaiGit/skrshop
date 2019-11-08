@@ -23,6 +23,7 @@
         <module>earthsystem-api</module>
         <module>mall</module>
         <module>oauth</module>
+        <module>oauthclient</module>
     </modules>
 
     <dependencies>
