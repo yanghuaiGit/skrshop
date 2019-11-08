@@ -1,0 +1,13 @@
+package com.skrshop.skrshoptkmybatis;
+
+import org.junit.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class SkrshopTkmybatisApplicationTests {
+
+    @Test
+    void contextLoads() {
+    }
+
+}
