@@ -8,7 +8,7 @@ spring:
   logging:
     level:
       root: info
-      com.yh.mybatis.mapper: info
+      com.skrshop.mall.repo: trace
   cloud:
     nacos:
       discovery:

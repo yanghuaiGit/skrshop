@@ -2,18 +2,20 @@ package com.skrshop.mall.model.po;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.util.Date;
 
 
 /**
- * 用户DTO
+ * 用户
  */
 @Data
+@TableName("skr_member")
 public class SkrMember {
 
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(type = IdType.AUTO)
     private Long id;
     private Long uid;
     private String nickName;

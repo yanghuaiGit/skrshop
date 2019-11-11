@@ -7,8 +7,8 @@ spring:
       password: root
   logging:
     level:
-      root: info
-      com.yh.mybatis.mapper: info
+      root: warn
+      com.skrshop.earthsystem.repo: trace
   cloud:
     nacos:
       discovery:

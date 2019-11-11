@@ -2,6 +2,7 @@ package com.skrshop.earthsystem.model.po.account;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -14,11 +15,12 @@ import java.io.Serializable;
  */
 
 @Data
+@TableName("account_user")
 public class AccountUser implements Serializable {
     /**
      * 账号id
      */
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(type = IdType.AUTO)
     private Long id;
     /**
      * 账户类型 0:员工,1:用户
