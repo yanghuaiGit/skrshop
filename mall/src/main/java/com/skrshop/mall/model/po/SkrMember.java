@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 
@@ -25,7 +26,7 @@ public class SkrMember {
     private String withdrawPasswd;
     private Integer registerFrom;
     private Integer ffreezeStatus;
-    private Date createAt;
-    private Date modifyAt;
+    private LocalDateTime createAt;
+    private LocalDateTime modifyAt;
 
 }

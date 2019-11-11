@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * @author huaiyang
@@ -51,7 +52,7 @@ public class AccountUser implements Serializable {
     /**
      * 创建时间
      */
-    private Long createAt;
+    private LocalDateTime createAt;
     /**
      * 创建ip
      */
@@ -59,7 +60,7 @@ public class AccountUser implements Serializable {
     /**
      * 最后登录时间
      */
-    private Long lastLoginAt;
+    private LocalDateTime lastLoginAt;
     /**
      * 最后一次登录ip
      */

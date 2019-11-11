@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * @author huaiyang
@@ -54,10 +55,10 @@ public class AccountPlatform implements Serializable {
     /**
      * 创建时间
      */
-    private Long createAt;
+    private LocalDateTime createAt;
 
     /**
      * 更新时间
      */
-    private Long updateAt;
+    private LocalDateTime updateAt;
 }
