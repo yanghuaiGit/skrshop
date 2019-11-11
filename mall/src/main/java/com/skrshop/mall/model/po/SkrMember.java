@@ -1,10 +1,9 @@
 package com.skrshop.mall.model.po;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import java.util.Date;
 
 
@@ -14,8 +13,7 @@ import java.util.Date;
 @Data
 public class SkrMember {
 
-    @Id
-    @GeneratedValue(generator = "JDBC")
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
     private Long uid;
     private String nickName;

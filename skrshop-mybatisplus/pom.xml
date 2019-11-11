@@ -8,7 +8,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <groupId>com.skrshop</groupId>
-    <artifactId>skrshop-tkmybatis</artifactId>
+    <artifactId>skrshop-mybatisplus</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>skrshop-tkmybatis</name>
     <description>Demo project for Spring Boot</description>
@@ -46,9 +46,9 @@
         </dependency>
 
         <dependency>
-            <groupId>tk.mybatis</groupId>
-            <artifactId>mapper-spring-boot-starter</artifactId>
-            <version>2.1.5</version>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>3.2.0</version>
         </dependency>
 
 

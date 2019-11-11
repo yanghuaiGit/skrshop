@@ -1,9 +1,9 @@
 package com.skrshop.earthsystem.model.po.account;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import java.io.Serializable;
 
 /**
@@ -18,8 +18,7 @@ public class AccountUser implements Serializable {
     /**
      * 账号id
      */
-    @Id
-    @GeneratedValue(generator = "JDBC")
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
     /**
      * 账户类型 0:员工,1:用户

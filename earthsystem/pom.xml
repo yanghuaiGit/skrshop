@@ -28,7 +28,7 @@
 
         <dependency>
             <groupId>com.skrshop</groupId>
-            <artifactId>skrshop-tkmybatis</artifactId>
+            <artifactId>skrshop-mybatisplus</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
