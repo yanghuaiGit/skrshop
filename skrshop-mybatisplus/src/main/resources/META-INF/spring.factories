@@ -1,2 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.skrshop.skrshoptkmybatis.pagehelper.PageHelperConfig
+com.skrshop.skrshoptkmybatis.pagehelper.PageHelperConfig,\
+com.skrshop.skrshoptkmybatis.version.VersionConfig,\
+com.skrshop.skrshoptkmybatis.Performance.PerformanceConfig

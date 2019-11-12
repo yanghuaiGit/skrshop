@@ -28,6 +28,7 @@
         <module>oauthserver</module>
         <module>redis-support</module>
         <module>skrshop-mybatisplus</module>
+        <module>cloud-gateway</module>
     </modules>
 
     <dependencies>
