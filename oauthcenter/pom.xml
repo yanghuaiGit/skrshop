@@ -31,12 +31,21 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>com.skrshop</groupId>
+            <artifactId>common</artifactId>
+        </dependency>
+
         <!-- oauth2 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-oauth2</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
