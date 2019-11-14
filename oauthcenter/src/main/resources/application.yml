@@ -1,3 +1,18 @@
+# application.yml
+spring:
+  application:
+    name: skrshop-oauth-center
+  profiles:
+    active: dev
+server:
+  port: 8083
+  servlet:
+    context-path: /skrshop/oauth
+mybatis-plus:
+  mapper-locations:  classpath*:mapper/**/*.xml
+
+
+#权限中心配置
 skrshop:
   auth:
     type: center

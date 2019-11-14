@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -19,7 +20,7 @@ public class AuthenticationHandler {
     /**
      * 处理登录成功后返回 JWT Token 对.
      *
-     * @return the authentication success handler
+     * @return the authentication success process
      */
     @Bean
     public AuthenticationSuccessHandler authenticationSuccessHandler() {
@@ -42,6 +43,12 @@ public class AuthenticationHandler {
                     roles.add(roleName);
                 }
             }
+            response.setCharacterEncoding("utf-8");
+            response.setContentType("application/json; charset=utf-8");
+            PrintWriter writer = response.getWriter();
+            Map<String, String> responseMap = new HashMap<>();
+            responseMap.put("status", "success");
+            writer.write(responseMap.toString());
 
 //            JwtTokenPair jwtTokenPair = jwtTokenGenerator.jwtTokenPair(username, roles, null);
 //
@@ -55,7 +62,7 @@ public class AuthenticationHandler {
     /**
      * 失败登录处理器 处理登录失败后的逻辑 登录失败返回信息 以此为依据跳转
      *
-     * @return the authentication failure handler
+     * @return the authentication failure process
      */
     @Bean
     public AuthenticationFailureHandler authenticationFailureHandler() {

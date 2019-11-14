@@ -1,14 +1,19 @@
 package com.skrshop.oauthcenter.config;
 
 
+import com.skrshop.oauthcenter.security.userdetail.UserDetailsRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
@@ -20,8 +25,8 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
  * @author yh
  */
 @Slf4j
-@Configuration
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+//@Configuration
+//@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -29,6 +34,52 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private AuthenticationFailureHandler failHandler;
+
+    @Bean
+    public UserDetailsRepository userDetailsRepository() {
+        UserDetailsRepository userDetailsRepository = new UserDetailsRepository();
+
+        // 为了让我们的登录能够运行 这里我们初始化一个用户Felordcn 密码采用明文 当你在密码12345上使用了前缀{noop} 意味着你的密码不使用加密，authorities 一定不能为空 这代表用户的角色权限集合
+        UserDetails felordcn = User.withUsername("Felordcn").password("{noop}12345").authorities(AuthorityUtils.NO_AUTHORITIES).build();
+        userDetailsRepository.createUser(felordcn);
+        return userDetailsRepository;
+    }
+
+    @Bean
+    public UserDetailsManager userDetailsManager(UserDetailsRepository userDetailsRepository) {
+        return new UserDetailsManager() {
+            @Override
+            public void createUser(UserDetails user) {
+                userDetailsRepository.createUser(user);
+            }
+
+            @Override
+            public void updateUser(UserDetails user) {
+                userDetailsRepository.updateUser(user);
+            }
+
+            @Override
+            public void deleteUser(String username) {
+                userDetailsRepository.deleteUser(username);
+            }
+
+            @Override
+            public void changePassword(String oldPassword, String newPassword) {
+                userDetailsRepository.changePassword(oldPassword, newPassword);
+            }
+
+            @Override
+            public boolean userExists(String username) {
+                return userDetailsRepository.userExists(username);
+            }
+
+            @Override
+            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+                return userDetailsRepository.loadUserByUsername(username);
+            }
+        };
+    }
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -44,12 +95,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         registry.and()
                 // 表单登录方式
                 .formLogin()
-                .loginPage("/xboot/common/needLogin")
+                //  .loginPage("/xboot/common/needLogin")//登录 页面而并不是接口，对于前后分离模式需要我们进行改造 默认为 /login。
                 // 登录请求url
-                .loginProcessingUrl("/xboot/login")
-                .permitAll()
+//                .loginProcessingUrl("/xboot/login")//实际表单向后台提交用户信息的 Action，再由过滤器UsernamePasswordAuthenticationFilter 拦截处理，该 Action 其实不会处理任何逻辑。
+                .permitAll()//form 表单登录是否放开
+//                .failureUrl()//登录失败后会重定向到此路径， 一般前后分离不会使用它。
+//                .failureForwardUrl()//登录失败会转发到此， 一般前后分离用到它。 可定义一个 Controller （控制器）来处理返回值,但是要注意 RequestMethod。
                 // 成功处理类
-                .successHandler(successHandler)
+                .successHandler(successHandler)//自定义认证成功处理器，可替代上面所有的 success 方式
                 // 失败
                 .failureHandler(failHandler)
                 .and()
@@ -72,8 +125,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // 前后端分离采用JWT 不需要session
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
+//        .addFilterBefore(preLoginFilter, UsernamePasswordAuthenticationFilter.class) //比登录Filter先执行 自定义登录
         // 自定义权限拒绝处理类
 //                .exceptionHandling().accessDeniedHandler(accessDeniedHandler)
+        // .authenticationEntryPoint()authenticationEntryPoint 处理未授权认证失败
 //                .and()
         // 添加自定义权限过滤器
 //                .addFilterBefore(myFilterSecurityInterceptor, FilterSecurityInterceptor.class)
