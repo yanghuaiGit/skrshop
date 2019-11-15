@@ -21,6 +21,9 @@ public class AuthResultCode implements ResultCode {
         return null;
     }
 
+
+    //登录方式异常
+    public static ResultCode LOGIN_TYPE_NOT_SUPPORT = new AuthResultCode(4001, "Login Type Not Support");
     //获取登录来源异常
     public static ResultCode LOGIN_SOURCE_INVALID = new AuthResultCode(4004, "Source Invalid");
 
@@ -30,5 +33,5 @@ public class AuthResultCode implements ResultCode {
     public static ResultCode TOKEN_INVALID = new AuthResultCode(4004, "Token Invalid");
 
     //token 过期
-    public static ResultCode TOKEN_EXPIRE = new AuthResultCode(4005, "Token Expire");
+    public static ResultCode TOKEN_EXPIRE = new AuthResultCode(4010, "Token Expire");
 }
