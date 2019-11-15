@@ -15,7 +15,6 @@ import javax.annotation.Resource;
 @RequestMapping("/user")
 public class SkrMemberController {
 
-
     @Resource
     private SkrMemberService skrMemberService;
 

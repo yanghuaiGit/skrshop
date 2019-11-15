@@ -1,6 +1,8 @@
 package com.skrshop.common.response;
 
 
+import com.skrshop.common.error.CommonResultCode;
+import com.skrshop.common.error.ResultCode;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -27,13 +29,13 @@ public class BaseResponse<T> {
 
 
     public Boolean isSuccess() {
-        return code.equals(ResultCode.SUCCESS.getCode());
+        return code.equals(CommonResultCode.SUCCESS.getCode());
     }
 
 
 
     public static BaseResponseBuilder code() {
-        return code(ResultCode.SUCCESS);
+        return code(CommonResultCode.SUCCESS);
     }
 
     public static BaseResponseBuilder code(ResultCode resultCode) {

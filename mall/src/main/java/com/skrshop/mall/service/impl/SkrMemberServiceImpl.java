@@ -2,7 +2,7 @@ package com.skrshop.mall.service.impl;
 
 import com.skrshop.common.config.DozerHolder;
 import com.skrshop.common.response.BaseResponse;
-import com.skrshop.common.response.ResultCode;
+import com.skrshop.common.error.ResultCode;
 import com.skrshop.common.rpc.RpcData;
 import com.skrshop.earthsystemapi.api.AccountUserApi;
 import com.skrshop.earthsystemapi.model.dto.AccountUserDto;

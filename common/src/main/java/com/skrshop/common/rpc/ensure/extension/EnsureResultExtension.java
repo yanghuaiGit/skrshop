@@ -2,7 +2,8 @@ package com.skrshop.common.rpc.ensure.extension;
 
 import com.skrshop.common.error.ServiceException;
 import com.skrshop.common.response.BaseResponse;
-import com.skrshop.common.response.ResultCode;
+import com.skrshop.common.error.CommonResultCode;
+import com.skrshop.common.error.ResultCode;
 import com.skrshop.common.rpc.ensure.Ensure;
 import org.apache.commons.collections.CollectionUtils;
 
@@ -30,8 +31,8 @@ public class EnsureResultExtension {
     }
 
     public EnsureResultExtension isNotNullData(ResultCode errorCode) {
-        Ensure.that(param).isNotNull(ResultCode.REMOTE_REQUEST_ERROR);
-        Ensure.that(param.isSuccess()).isTrue(ResultCode.REMOTE_REQUEST_ERROR);
+        Ensure.that(param).isNotNull(CommonResultCode.REMOTE_REQUEST_ERROR);
+        Ensure.that(param.isSuccess()).isTrue(CommonResultCode.REMOTE_REQUEST_ERROR);
         if (Objects.isNull(this.param.getData())) {
             throw new ServiceException(errorCode);
         }
@@ -39,8 +40,8 @@ public class EnsureResultExtension {
     }
 
     public EnsureResultExtension isNotEmptyData(ResultCode errorCode) {
-        Ensure.that(param).isNotNull(ResultCode.FAILURE);
-        Ensure.that(param.isSuccess()).isTrue(ResultCode.REMOTE_REQUEST_ERROR);
+        Ensure.that(param).isNotNull(CommonResultCode.FAILURE);
+        Ensure.that(param.isSuccess()).isTrue(CommonResultCode.REMOTE_REQUEST_ERROR);
         if (CollectionUtils.sizeIsEmpty(this.param.getData())) {
             throw new ServiceException(errorCode);
         }
@@ -52,7 +53,7 @@ public class EnsureResultExtension {
      * @return
      */
     public EnsureResultExtension isSuccess(ResultCode errorCode) {
-        Ensure.that(param).isNotNull(ResultCode.REMOTE_REQUEST_ERROR);
+        Ensure.that(param).isNotNull(CommonResultCode.REMOTE_REQUEST_ERROR);
         if (param.isSuccess()) {
             return this;
         }

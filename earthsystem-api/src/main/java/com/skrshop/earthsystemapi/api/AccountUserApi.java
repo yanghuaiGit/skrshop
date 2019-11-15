@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
  * @copyright 本内容仅限于深圳市天行云供应链有限公司内部传阅，禁止外泄以及用于其他的商业目的
  */
 
-@FeignClient(name = "earth-system", path = "skrshop/earthsystem", fallback = AccountUserApiFallBack.class)
+@FeignClient(name = "skrshop-earth-system", path = "skrshop/earthsystem", fallback = AccountUserApiFallBack.class)
 public interface AccountUserApi {
 
     @PostMapping("/accountUserManagement/create")

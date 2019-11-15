@@ -1,14 +1,15 @@
 package com.skrshop.common.rpc;
 
 import com.skrshop.common.response.BaseResponse;
-import com.skrshop.common.response.ResultCode;
+import com.skrshop.common.error.CommonResultCode;
+import com.skrshop.common.error.ResultCode;
 import com.skrshop.common.rpc.ensure.Ensure;
 
 public class RpcData {
 
 
     public static <T> T of(BaseResponse<T> BaseResponse) {
-        Ensure.that(BaseResponse).isNotNullData(ResultCode.REMOTE_DATA_NULL_ERROR);
+        Ensure.that(BaseResponse).isNotNullData(CommonResultCode.REMOTE_DATA_NULL_ERROR);
         return BaseResponse.getData();
     }
 
@@ -32,7 +33,7 @@ public class RpcData {
      * @return
      */
     public static <T> T ofNullable(BaseResponse<T> BaseResponse) {
-        Ensure.that(BaseResponse).isSuccess(ResultCode.REMOTE_REQUEST_ERROR);
+        Ensure.that(BaseResponse).isSuccess(CommonResultCode.REMOTE_REQUEST_ERROR);
         return BaseResponse.getData();
     }
 

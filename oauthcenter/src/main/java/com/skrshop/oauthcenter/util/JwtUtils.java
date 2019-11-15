@@ -70,8 +70,8 @@ public class JwtUtils {
         Date now = new Date(nowMillis);
         //创建payload的私有声明（根据特定的业务需要添加，如果要拿这个做验证，一般是需要和jwt的接收方提前沟通好验证方式的）
         Map<String, Object> claims = new HashMap<String, Object>();
-        claims.put("userid", user.getStaffId());
-        claims.put("username", user.getName());
+        claims.put(JwtInfo.USER_ID, user.getStaffId());
+        claims.put(JwtInfo.USER_NAME, user.getName());
         // 没配置过期时间 默认是30分钟
         ttlMillis = ttlMillis >= 0 ? ttlMillis : 30 * 60 * 1000;
         // 当前时间加上过期的秒数
@@ -87,7 +87,7 @@ public class JwtUtils {
                 .setClaims(claims)
                 .setHeaderParam("typ", "JWT")
                 .setIssuedAt(now)
-                .setSubject(JackSonUtil.encode(user))
+                //  .setSubject(JackSonUtil.encode(user))
                 .signWith(signatureAlgorithm, privateKey);
 
 
@@ -130,7 +130,8 @@ public class JwtUtils {
         staffInfo.setName("yh");
         String s = buildJwtRS256(staffInfo, 10000L);
         System.out.println(s);
-        System.out.println(parseJwtRS256(s).getExp());
+        JwtInfo jwtInfo = parseJwtRS256(s);
+        System.out.println(jwtInfo.getExp() + "id" + jwtInfo.getUid() + jwtInfo.getUserName());
 
 
     }

@@ -1,7 +1,7 @@
 package com.skrshop.common.rpc.ensure.extension;
 
 import com.skrshop.common.error.ServiceException;
-import com.skrshop.common.response.ResultCode;
+import com.skrshop.common.error.ResultCode;
 import org.apache.commons.lang3.BooleanUtils;
 
 

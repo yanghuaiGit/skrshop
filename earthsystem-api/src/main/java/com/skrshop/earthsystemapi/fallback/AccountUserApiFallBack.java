@@ -1,11 +1,10 @@
 package com.skrshop.earthsystemapi.fallback;
 
 import com.skrshop.common.response.BaseResponse;
-import com.skrshop.common.response.ResultCode;
+import com.skrshop.common.error.ResultCode;
 import com.skrshop.earthsystemapi.api.AccountUserApi;
 import com.skrshop.earthsystemapi.model.dto.AccountUserDto;
 import com.skrshop.earthsystemapi.model.vo.AccountUserVo;
-import org.springframework.stereotype.Component;
 
 /**
  * @author huaiyang

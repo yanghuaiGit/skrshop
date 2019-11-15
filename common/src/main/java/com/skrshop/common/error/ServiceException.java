@@ -1,6 +1,5 @@
 package com.skrshop.common.error;
 
-import com.skrshop.common.response.ResultCode;
 import lombok.Getter;
 
 /**
@@ -16,7 +15,7 @@ public class ServiceException extends RuntimeException {
 
     public ServiceException(String message) {
         super(message);
-        this.resultCode = ResultCode.FAILURE;
+        this.resultCode = CommonResultCode.FAILURE;
     }
 
     public ServiceException(ResultCode resultCode) {
@@ -36,7 +35,7 @@ public class ServiceException extends RuntimeException {
 
     public ServiceException(String msg, Throwable cause) {
         super(msg, cause);
-        this.resultCode = ResultCode.FAILURE;
+        this.resultCode = CommonResultCode.FAILURE;
     }
 
     /**
