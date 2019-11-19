@@ -1,6 +1,9 @@
 package com.skrshop.common.utils;
 
 import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
 
 public class DateUtil {
 
@@ -98,14 +101,128 @@ public class DateUtil {
      * 时间创建类
      */
     public static class DateCreate {
+        public static LocalDateTime ofTime(int year, int month, int dayOfMonth, int hour, int minute, int second) {
+            return LocalDateTime.of(year, month, dayOfMonth, hour, minute, second);
+        }
 
+        public static LocalDate ofDate(int year, int month, int dayOfMonth) {
+            return LocalDate.of(year, month, dayOfMonth);
+        }
+
+        public static LocalTime oftime(int hour, int minute, int second) {
+            return LocalTime.of(hour, minute, second);
+        }
+
+        //time 格式 2019-10-01T22:22:22.222"
+        public static LocalDateTime parseStringToLocalDateTime(String time) {
+            return LocalDateTime.parse(time);
+        }
+
+        //格式 20190101
+        public static LocalDate parseStringToLocalDate(String time) {
+            return LocalDate.parse(time, DateTimeFormatter.BASIC_ISO_DATE);
+        }
+
+        public static LocalDateTime dateConventLocalDateTime(Date date) {
+            ZoneId zoneId = ZoneId.systemDefault();
+            return dateConventLocalDateTime(date, zoneId);
+
+        }
+
+        public static LocalDateTime dateConventLocalDateTime(Date date, ZoneId zoneId) {
+            return LocalDateTime.ofInstant(date.toInstant(), zoneId);
+
+        }
+
+        public static Date localDateTimeConventDate(LocalDateTime localDateTime, ZoneId zoneId) {
+            return Date.from(localDateTime.atZone(zoneId).toInstant());
+        }
+
+        public static Long currentTime(ZoneOffset zoneOffset) {
+            return LocalDateTime.now().toInstant(zoneOffset).toEpochMilli();
+        }
+
+        //转为时间戳
+        public static Long epochMilli() {
+            return LocalDateTime.now().toInstant(ZoneOffset.of("+8")).toEpochMilli();
+        }
+
+        //时间戳转为time
+        public static LocalDateTime epochMilliTime(Long epochMilli) {
+            return epochMilliTime(epochMilli, ZoneId.systemDefault());
+        }
+
+        public static LocalDateTime epochMilliTime(Long epochMilli, ZoneId zoneId) {
+            return LocalDateTime.ofInstant(Instant.ofEpochMilli(epochMilli), zoneId);
+        }
+
+        //formatter "YYYY-MM-dd hh:mm:ss"
+        public static String timeToString(LocalDateTime localDateTime, String formatter) {
+            return localDateTime.format(DateTimeFormatter.ofPattern(formatter));
+        }
+
+        public static String timeToStringSencond(LocalDateTime localDateTime) {
+            return timeToString(localDateTime, "YYYY-MM-dd hh:mm:ss");
+        }
+
+        public static String timeToStringDay(LocalDateTime localDateTime) {
+            return timeToString(localDateTime, "YYYY-MM-dd");
+        }
     }
 
     /**
      * 时间比较类
      */
     public static class DateCompare {
+        // 时间差
 
+        public long untilDay(LocalDateTime dateTime, LocalDateTime dateTime1) {
+            return dateTime.until(dateTime1, ChronoUnit.DAYS);
+        }
+
+        public long untilMonth(LocalDateTime dateTime, LocalDateTime dateTime1) {
+            return dateTime.until(dateTime1, ChronoUnit.MONTHS);
+        }
+
+        public long untilHours(LocalDateTime dateTime, LocalDateTime dateTime1) {
+            return dateTime.until(dateTime1, ChronoUnit.HOURS);
+        }
+
+        public long untilMinutes(LocalDateTime dateTime, LocalDateTime dateTime1) {
+            return dateTime.until(dateTime1, ChronoUnit.MINUTES);
+        }
+
+        public long untilDay(LocalDate dateTime, LocalDate dateTime1) {
+            return dateTime.until(dateTime1, ChronoUnit.DAYS);
+        }
+
+        public long untilMonth(LocalDate dateTime, LocalDate dateTime1) {
+            return dateTime.until(dateTime1, ChronoUnit.MONTHS);
+        }
+
+        public long untilHours(LocalDate dateTime, LocalDate dateTime1) {
+            return dateTime.until(dateTime1, ChronoUnit.HOURS);
+        }
+
+        public long untilMinutes(LocalDate dateTime, LocalDate dateTime1) {
+            return dateTime.until(dateTime1, ChronoUnit.MINUTES);
+        }
+
+        public long untilMinutes(LocalTime dateTime, LocalTime dateTime1) {
+            return dateTime.until(dateTime1, ChronoUnit.MINUTES);
+        }
+
+        public long untilDay(LocalTime dateTime, LocalTime dateTime1) {
+            return dateTime.until(dateTime1, ChronoUnit.DAYS);
+        }
+
+        public long untilMonth(LocalTime dateTime, LocalTime dateTime1) {
+            return dateTime.until(dateTime1, ChronoUnit.MONTHS);
+        }
+
+        public long untilHours(LocalTime dateTime, LocalTime dateTime1) {
+            return dateTime.until(dateTime1, ChronoUnit.HOURS);
+        }
     }
 
 }
