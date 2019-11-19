@@ -1,17 +1,37 @@
 package com.skrshop.oauthcenter.security.userdetail;
 
+import com.skrshop.common.context.RequestHolder;
+import com.skrshop.common.error.ServiceException;
+import com.skrshop.oauthcenter.model.AuthResultCode;
+import com.skrshop.oauthcenter.security.login.LoginManager;
+import com.skrshop.oauthcenter.security.process.LoginProcessor;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_PASSWORD_KEY;
+
+@Data
+@AllArgsConstructor
 public class UserDetailsRepository {
 
-    private Map<String, UserDetails> users = new HashMap<>();
+    private static Map<String, UserDetails> users = new HashMap<>();
+
+    static {
+        UserDetails felordcn = User.withUsername("Felordcn").password("{noop}12345").authorities(AuthorityUtils.NO_AUTHORITIES).build();
+        users.putIfAbsent(felordcn.getUsername(), felordcn);
+    }
+
+    private LoginManager loginManager;
 
 
     public void createUser(UserDetails user) {
@@ -60,6 +80,13 @@ public class UserDetailsRepository {
 
 
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return users.get(username);
+        LoginProcessor loginProcessor = loginManager.getLoginProcessors()
+                .stream()
+                .filter(item -> item.match(RequestHolder.getRequest()))
+                .findFirst()
+                .orElseThrow(() -> new ServiceException(AuthResultCode.LOGIN_TYPE_NOT_SUPPORT));
+
+        return loginProcessor.getUserDetails(username, RequestHolder.getRequest().getParameter(SPRING_SECURITY_FORM_PASSWORD_KEY));
+
     }
 }

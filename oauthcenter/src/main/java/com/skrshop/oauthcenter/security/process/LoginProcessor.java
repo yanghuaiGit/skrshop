@@ -2,8 +2,8 @@ package com.skrshop.oauthcenter.security.process;
 
 
 import com.skrshop.common.error.ServiceException;
-import com.skrshop.oauthcenter.common.enums.LoginTypeEnum;
 import com.skrshop.oauthcenter.model.AuthResultCode;
+import com.skrshop.oauthcenter.security.userdetail.AuthUserDetail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,34 +13,13 @@ import javax.servlet.http.HttpServletRequest;
 public interface LoginProcessor {
     Logger LOGGER = LoggerFactory.getLogger(LoginProcessor.class);
 
-    /**
-     * 获取 登录类型 1普通登录 2快捷登录
-     *
-     * @return the type
-     */
-    LoginTypeEnum getLoginTypeEnum();
+    int logintype();
 
-    /**
-     * 获取用户名
-     *
-     * @param request the request
-     * @return the string
-     */
-    String obtainUsername(ServletRequest request);
-
-    /**
-     * 获取密码
-     *
-     * @param request the request
-     * @return the string
-     */
-    String obtainPassword(ServletRequest request);
+    AuthUserDetail getUserDetails(String name, String verify);
 
     /**
      * 获取来源
-     *
-     * @param request
-     * @return
+     * 默认是从resource头中获取到
      */
     default Long obtainResource(ServletRequest request) {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;

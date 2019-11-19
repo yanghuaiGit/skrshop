@@ -1,4 +1,4 @@
-package com.skrshop.oauthcenter.model;
+package com.skrshop.oauthcenter.security.userdetail;
 
 import com.skrshop.common.enums.AccountStatus;
 import org.springframework.security.core.GrantedAuthority;
