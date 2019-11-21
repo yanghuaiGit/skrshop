@@ -34,7 +34,7 @@ public class SecurityController {
     @RequestMapping("/authentication/require")
     public String requireAuthentication(HttpServletRequest request, HttpServletResponse response) {
         SavedRequest savedRequest = requestCache.getRequest(request, response);
-
+        
         if (savedRequest != null) {
             String redirectUrl = savedRequest.getRedirectUrl();
             log.info("跳转到url {}", redirectUrl);

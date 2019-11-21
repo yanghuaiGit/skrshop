@@ -1,4 +1,4 @@
-package com.skrshop.oauthcenter.config.properties;
+package com.skrshop.oauthcenter.security.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

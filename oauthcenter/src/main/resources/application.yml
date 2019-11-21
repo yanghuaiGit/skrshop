@@ -17,3 +17,4 @@ skrshop:
   authority:
     security:
       loginpage: "https://www.baidu.com/"
+      loginTypeEnum: JSON
