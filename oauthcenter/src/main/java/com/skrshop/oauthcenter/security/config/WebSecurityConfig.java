@@ -1,4 +1,4 @@
-package com.skrshop.oauthcenter.config;
+package com.skrshop.oauthcenter.security.config;
 
 
 import com.skrshop.oauthcenter.security.login.LoginManager;
@@ -7,13 +7,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
@@ -25,8 +24,8 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
  * @author yh
  */
 @Slf4j
-//@Configuration
-//@EnableGlobalMethodSecurity(prePostEnabled = true)
+@Configuration
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -35,46 +34,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private AuthenticationFailureHandler failHandler;
 
+    @Autowired
+    private SkrShopAuthorityCenterProperties skrShopAuthorityCenterProperties;
+
     @Bean
     public UserDetailsRepository userDetailsRepository(ObjectProvider<LoginManager> loginManagers) {
         return new UserDetailsRepository(loginManagers.getIfAvailable());
     }
-
-    @Bean
-    public UserDetailsManager userDetailsManager(UserDetailsRepository userDetailsRepository) {
-        return new UserDetailsManager() {
-            @Override
-            public void createUser(UserDetails user) {
-                userDetailsRepository.createUser(user);
-            }
-
-            @Override
-            public void updateUser(UserDetails user) {
-                userDetailsRepository.updateUser(user);
-            }
-
-            @Override
-            public void deleteUser(String username) {
-                userDetailsRepository.deleteUser(username);
-            }
-
-            @Override
-            public void changePassword(String oldPassword, String newPassword) {
-                userDetailsRepository.changePassword(oldPassword, newPassword);
-            }
-
-            @Override
-            public boolean userExists(String username) {
-                return userDetailsRepository.userExists(username);
-            }
-
-            @Override
-            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-                return userDetailsRepository.loadUserByUsername(username);
-            }
-        };
-    }
-
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -90,7 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         registry.and()
                 // 表单登录方式
                 .formLogin()
-                //  .loginPage("/xboot/common/needLogin")//登录 页面而并不是接口，对于前后分离模式需要我们进行改造 默认为 /login。
+                .loginPage("/authentication/require")//登录 页面而并不是接口，对于前后分离模式需要我们进行改造 默认为 /login。
                 // 登录请求url
 //                .loginProcessingUrl("/xboot/login")//实际表单向后台提交用户信息的 Action，再由过滤器UsernamePasswordAuthenticationFilter 拦截处理，该 Action 其实不会处理任何逻辑。
                 .permitAll()//form 表单登录是否放开
@@ -101,9 +67,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // 失败
                 .failureHandler(failHandler)
                 .and()
-                // 允许网页iframe
-                .headers().frameOptions().disable()
+                .authorizeRequests()
+                .antMatchers(skrShopAuthorityCenterProperties.getSecurity().getLoginpage())
+                .permitAll()
                 .and()
+                // 允许网页iframe
+//                .headers().frameOptions().disable()
+//                .and()
                 .logout()
                 .permitAll()
                 .and()

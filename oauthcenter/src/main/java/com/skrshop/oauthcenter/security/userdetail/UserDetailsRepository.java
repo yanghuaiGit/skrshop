@@ -14,15 +14,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.provisioning.UserDetailsManager;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_PASSWORD_KEY;
-
 @Data
 @AllArgsConstructor
-public class UserDetailsRepository {
+public class UserDetailsRepository implements UserDetailsManager {
 
     private static Map<String, UserDetails> users = new HashMap<>();
 
@@ -86,7 +85,9 @@ public class UserDetailsRepository {
                 .findFirst()
                 .orElseThrow(() -> new ServiceException(AuthResultCode.LOGIN_TYPE_NOT_SUPPORT));
 
-        return loginProcessor.getUserDetails(username, RequestHolder.getRequest().getParameter(SPRING_SECURITY_FORM_PASSWORD_KEY));
+//        AuthorityUtils.commaSeparatedStringToAuthorityList("");将字符串转为对应的权限
+        return users.get(username);
+        //  return loginProcessor.getUserDetails(username, RequestHolder.getRequest().getParameter(SPRING_SECURITY_FORM_PASSWORD_KEY));
 
     }
 }

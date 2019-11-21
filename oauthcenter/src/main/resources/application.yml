@@ -14,5 +14,6 @@ mybatis-plus:
 
 #权限中心配置
 skrshop:
-  auth:
-    type: center
+  authority:
+    security:
+      loginpage: "https://www.baidu.com/"

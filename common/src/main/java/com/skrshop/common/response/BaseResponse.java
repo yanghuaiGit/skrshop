@@ -3,10 +3,7 @@ package com.skrshop.common.response;
 
 import com.skrshop.common.error.CommonResultCode;
 import com.skrshop.common.error.ResultCode;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Map;
 
@@ -14,7 +11,7 @@ import java.util.Map;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class BaseResponse<T> {
+public class BaseResponse<T>  {
 
 
     private Integer code;
@@ -29,7 +26,7 @@ public class BaseResponse<T> {
 
 
     public Boolean isSuccess() {
-        return code.equals(CommonResultCode.SUCCESS.getCode());
+        return CommonResultCode.SUCCESS.getCode().equals(code);
     }
 
 
