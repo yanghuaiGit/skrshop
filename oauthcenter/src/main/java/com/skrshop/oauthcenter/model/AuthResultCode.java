@@ -43,5 +43,8 @@ public class AuthResultCode implements ResultCode {
     //token 过期
     public static ResultCode TOKEN_EXPIRE = new AuthResultCode(4011, "Token Expire");
 
+    //图片验证码生成失败
+    public static ResultCode IMAGE_CODE_CREATE_ERROR = new AuthResultCode(4020, "ImageCode Create Error");
+
 
 }

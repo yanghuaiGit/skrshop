@@ -1,7 +1,7 @@
 package com.skrshop.oauthcenter.security.process;
 
 
-import com.skrshop.common.error.ServiceException;
+import com.skrshop.common.error.SkrShopException;
 import com.skrshop.oauthcenter.model.AuthResultCode;
 import com.skrshop.oauthcenter.security.userdetail.AuthUserDetail;
 import org.slf4j.Logger;
@@ -27,7 +27,7 @@ public interface LoginProcessor {
             return Long.valueOf(httpServletRequest.getHeader("resource"));
         } catch (Exception e) {
             LOGGER.error("获取登录来源出现异常", e);
-            throw new ServiceException(AuthResultCode.LOGIN_SOURCE_INVALID);
+            throw new SkrShopException(AuthResultCode.LOGIN_SOURCE_INVALID);
         }
     }
 

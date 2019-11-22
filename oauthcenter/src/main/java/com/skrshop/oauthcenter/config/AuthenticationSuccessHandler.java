@@ -29,11 +29,11 @@ public class AuthenticationSuccessHandler extends SavedRequestAwareAuthenticatio
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws ServletException, IOException {
+        if (response.isCommitted()) {
+            log.debug("Response has already been committed");
+            return;
+        }
         if (LoginTypeEnum.JSON.equals(skrShopAuthorityCenterProperties.getSecurity().getLoginTypeEnum())) {
-            if (response.isCommitted()) {
-                log.debug("Response has already been committed");
-                return;
-            }
             Map<String, Object> map = new HashMap<>(5);
             map.put("time", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
             map.put("flag", "success_login");

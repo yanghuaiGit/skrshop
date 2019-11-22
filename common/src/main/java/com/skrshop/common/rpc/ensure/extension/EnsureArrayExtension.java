@@ -1,6 +1,6 @@
 package com.skrshop.common.rpc.ensure.extension;
 
-import com.skrshop.common.error.ServiceException;
+import com.skrshop.common.error.SkrShopException;
 import com.skrshop.common.error.CommonResultCode;
 import com.skrshop.common.error.ResultCode;
 
@@ -19,26 +19,26 @@ public class EnsureArrayExtension {
         if (Objects.nonNull(this.param) && this.param.length > 0) {
             return this;
         }
-        throw new ServiceException(errorCode);
+        throw new SkrShopException(errorCode);
     }
 
     public EnsureArrayExtension isNotNull(CommonResultCode errorCode) {
         if (this.param == null) {
-            throw new ServiceException(errorCode);
+            throw new SkrShopException(errorCode);
         }
         return this;
     }
 
     public EnsureArrayExtension isEqualTo(Collection param, CommonResultCode errorCode) {
         if (!Objects.equals(this.param, param)) {
-            throw new ServiceException(errorCode);
+            throw new SkrShopException(errorCode);
         }
         return this;
     }
 
     public EnsureArrayExtension isNotEqualTo(Collection param, ResultCode errorCode) {
         if (Objects.equals(this.param, param)) {
-            throw new ServiceException(errorCode);
+            throw new SkrShopException(errorCode);
         }
         return this;
     }

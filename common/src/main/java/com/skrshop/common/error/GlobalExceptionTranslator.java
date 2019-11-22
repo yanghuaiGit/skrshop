@@ -117,8 +117,8 @@ public class GlobalExceptionTranslator {
                 .build();
     }
 
-    @ExceptionHandler(ServiceException.class)
-    public BaseResponse handleError(ServiceException e) {
+    @ExceptionHandler(SkrShopException.class)
+    public BaseResponse handleError(SkrShopException e) {
         log.error("Service Exception", e);
         return BaseResponse
                 .code(e.getResultCode())

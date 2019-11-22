@@ -1,6 +1,6 @@
 package com.skrshop.common.rpc.ensure.extension;
 
-import com.skrshop.common.error.ServiceException;
+import com.skrshop.common.error.SkrShopException;
 import com.skrshop.common.response.BaseResponse;
 import com.skrshop.common.error.CommonResultCode;
 import com.skrshop.common.error.ResultCode;
@@ -25,7 +25,7 @@ public class EnsureResultExtension {
 
     public EnsureResultExtension isNotNull(ResultCode errorCode) {
         if (this.param == null) {
-            throw new ServiceException(errorCode);
+            throw new SkrShopException(errorCode);
         }
         return this;
     }
@@ -34,7 +34,7 @@ public class EnsureResultExtension {
         Ensure.that(param).isNotNull(CommonResultCode.REMOTE_REQUEST_ERROR);
         Ensure.that(param.isSuccess()).isTrue(CommonResultCode.REMOTE_REQUEST_ERROR);
         if (Objects.isNull(this.param.getData())) {
-            throw new ServiceException(errorCode);
+            throw new SkrShopException(errorCode);
         }
         return this;
     }
@@ -43,7 +43,7 @@ public class EnsureResultExtension {
         Ensure.that(param).isNotNull(CommonResultCode.FAILURE);
         Ensure.that(param.isSuccess()).isTrue(CommonResultCode.REMOTE_REQUEST_ERROR);
         if (CollectionUtils.sizeIsEmpty(this.param.getData())) {
-            throw new ServiceException(errorCode);
+            throw new SkrShopException(errorCode);
         }
         return this;
     }
@@ -57,7 +57,7 @@ public class EnsureResultExtension {
         if (param.isSuccess()) {
             return this;
         }
-        throw new ServiceException(errorCode);
+        throw new SkrShopException(errorCode);
     }
 
 

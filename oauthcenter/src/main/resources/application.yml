@@ -2,8 +2,20 @@
 spring:
   application:
     name: skrshop-oauth-center
+  redis:
+     database: 0
+     host: 127.0.0.1
+     port: 6379
+     password: root
+
+
   profiles:
     active: dev
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: LEGACYHTML5
 server:
   port: 8083
   servlet:
@@ -16,5 +28,5 @@ mybatis-plus:
 skrshop:
   authority:
     security:
-      loginpage: "https://www.baidu.com/"
+      loginpage: "/index"
       loginTypeEnum: JSON

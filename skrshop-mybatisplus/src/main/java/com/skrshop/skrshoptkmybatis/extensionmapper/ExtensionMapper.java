@@ -1,7 +1,7 @@
 package com.skrshop.skrshoptkmybatis.extensionmapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.skrshop.common.error.ServiceException;
+import com.skrshop.common.error.SkrShopException;
 import com.skrshop.common.error.CommonResultCode;
 import com.skrshop.common.error.ResultCode;
 import org.slf4j.Logger;
@@ -14,7 +14,7 @@ public interface ExtensionMapper<T> extends BaseMapper {
         int result = this.insert(data);
         if (result != 1) {
             LOGGER.error("添加 {} 失败，影响行数result {}", data, result);
-            throw new ServiceException(resultCode);
+            throw new SkrShopException(resultCode);
         }
     }
 

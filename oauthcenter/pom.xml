@@ -32,6 +32,12 @@
             <scope>test</scope>
         </dependency>
 
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>com.skrshop</groupId>
             <artifactId>skrshop-mybatisplus</artifactId>
@@ -41,6 +47,12 @@
         <dependency>
             <groupId>com.skrshop</groupId>
             <artifactId>common</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.skrshop</groupId>
+            <artifactId>redis-support</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
         <!-- oauth2 -->

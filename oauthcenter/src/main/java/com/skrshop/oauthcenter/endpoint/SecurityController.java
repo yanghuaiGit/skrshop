@@ -1,6 +1,6 @@
 package com.skrshop.oauthcenter.endpoint;
 
-import com.skrshop.common.error.ServiceException;
+import com.skrshop.common.error.SkrShopException;
 import com.skrshop.oauthcenter.model.AuthResultCode;
 import com.skrshop.oauthcenter.security.config.SkrShopAuthorityCenterProperties;
 import lombok.extern.slf4j.Slf4j;
@@ -10,7 +10,6 @@ import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
-import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,20 +32,19 @@ public class SecurityController {
      */
     @RequestMapping("/authentication/require")
     public String requireAuthentication(HttpServletRequest request, HttpServletResponse response) {
-        SavedRequest savedRequest = requestCache.getRequest(request, response);
-        
-        if (savedRequest != null) {
-            String redirectUrl = savedRequest.getRedirectUrl();
+   //     SavedRequest savedRequest = requestCache.getRequest(request, response);
+
+
+            String redirectUrl = request.getRequestURI();
             log.info("跳转到url {}", redirectUrl);
             if (StringUtils.endsWithIgnoreCase(redirectUrl, ".html")) {
                 try {
                     redirectStrategy.sendRedirect(request, response, skrShopAuthorityCenterProperties.getSecurity().getLoginpage());
                 } catch (IOException e) {
                     log.error("跳转失败{}", redirectUrl);
-                    throw new ServiceException(AuthResultCode.REDIRECT_ERROR);
+                    throw new SkrShopException(AuthResultCode.REDIRECT_ERROR);
                 }
             }
-        }
-        throw new ServiceException(AuthResultCode.NO_AUTHORITY);
+        throw new SkrShopException(AuthResultCode.NO_AUTHORITY);
     }
 }

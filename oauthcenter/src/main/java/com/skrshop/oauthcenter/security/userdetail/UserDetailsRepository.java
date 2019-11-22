@@ -1,7 +1,7 @@
 package com.skrshop.oauthcenter.security.userdetail;
 
 import com.skrshop.common.context.RequestHolder;
-import com.skrshop.common.error.ServiceException;
+import com.skrshop.common.error.SkrShopException;
 import com.skrshop.oauthcenter.model.AuthResultCode;
 import com.skrshop.oauthcenter.security.login.LoginManager;
 import com.skrshop.oauthcenter.security.process.LoginProcessor;
@@ -83,7 +83,7 @@ public class UserDetailsRepository implements UserDetailsManager {
                 .stream()
                 .filter(item -> item.match(RequestHolder.getRequest()))
                 .findFirst()
-                .orElseThrow(() -> new ServiceException(AuthResultCode.LOGIN_TYPE_NOT_SUPPORT));
+                .orElseThrow(() -> new SkrShopException(AuthResultCode.LOGIN_TYPE_NOT_SUPPORT));
 
 //        AuthorityUtils.commaSeparatedStringToAuthorityList("");将字符串转为对应的权限
         return users.get(username);

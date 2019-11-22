@@ -4,7 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.skrshop.common.error.ServiceException;
+import com.skrshop.common.error.SkrShopException;
 import org.springframework.util.StringUtils;
 
 import java.util.Date;
@@ -83,7 +83,7 @@ public class Sign {
 
     public static String generateSessionToken(String userId, String signingToken, boolean support, long duration) {
         if (StringUtils.isEmpty(signingToken)) {
-            throw new ServiceException("No signing token present");
+            throw new SkrShopException("No signing token present");
         }
         Algorithm algorithm = getAlgorithm(signingToken);
         String token = JWT.create()

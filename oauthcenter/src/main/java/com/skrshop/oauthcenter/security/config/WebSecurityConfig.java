@@ -58,7 +58,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/authentication/require")//登录 页面而并不是接口，对于前后分离模式需要我们进行改造 默认为 /login。
                 // 登录请求url
-//                .loginProcessingUrl("/xboot/login")//实际表单向后台提交用户信息的 Action，再由过滤器UsernamePasswordAuthenticationFilter 拦截处理，该 Action 其实不会处理任何逻辑。
+                .loginProcessingUrl("/authentication/form")//实际表单向后台提交用户信息的 Action，再由过滤器UsernamePasswordAuthenticationFilter 拦截处理，该 Action 其实不会处理任何逻辑。
                 .permitAll()//form 表单登录是否放开
 //                .failureUrl()//登录失败后会重定向到此路径， 一般前后分离不会使用它。
 //                .failureForwardUrl()//登录失败会转发到此， 一般前后分离用到它。 可定义一个 Controller （控制器）来处理返回值,但是要注意 RequestMethod。

@@ -7,33 +7,33 @@ import lombok.Getter;
  *
  * @author william
  */
-public class ServiceException extends RuntimeException {
+public class SkrShopException extends RuntimeException {
     private static final long serialVersionUID = 2359767895161832954L;
 
     @Getter
     private final ResultCode resultCode;
 
-    public ServiceException(String message) {
+    public SkrShopException(String message) {
         super(message);
         this.resultCode = CommonResultCode.FAILURE;
     }
 
-    public ServiceException(ResultCode resultCode) {
+    public SkrShopException(ResultCode resultCode) {
         super(resultCode.getMsg());
         this.resultCode = resultCode;
     }
 
-    public ServiceException(ResultCode resultCode, String msg) {
+    public SkrShopException(ResultCode resultCode, String msg) {
         super(msg);
         this.resultCode = resultCode;
     }
 
-    public ServiceException(ResultCode resultCode, Throwable cause) {
+    public SkrShopException(ResultCode resultCode, Throwable cause) {
         super(cause);
         this.resultCode = resultCode;
     }
 
-    public ServiceException(String msg, Throwable cause) {
+    public SkrShopException(String msg, Throwable cause) {
         super(msg, cause);
         this.resultCode = CommonResultCode.FAILURE;
     }

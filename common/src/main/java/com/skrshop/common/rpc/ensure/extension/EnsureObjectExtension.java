@@ -1,6 +1,6 @@
 package com.skrshop.common.rpc.ensure.extension;
 
-import com.skrshop.common.error.ServiceException;
+import com.skrshop.common.error.SkrShopException;
 import com.skrshop.common.error.ResultCode;
 
 /**
@@ -21,7 +21,7 @@ public class EnsureObjectExtension {
 
     public EnsureObjectExtension isNotNull(ResultCode errorCode) {
         if (this.param == null) {
-            throw new ServiceException(errorCode);
+            throw new SkrShopException(errorCode);
         }
         return this;
     }
@@ -29,7 +29,7 @@ public class EnsureObjectExtension {
     public EnsureObjectExtension isEqualTo(Object param, ResultCode errorCode) {
         this.flag = (param == this.param) || (param != null && this.param != null && this.param.equals(param));
         if (!this.flag) {
-            throw new ServiceException(errorCode);
+            throw new SkrShopException(errorCode);
         }
         return this;
     }
@@ -47,7 +47,7 @@ public class EnsureObjectExtension {
             this.flag = false;
         }
         if (!this.flag) {
-            throw new ServiceException(errorCode);
+            throw new SkrShopException(errorCode);
         }
         return this;
     }
