@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class SkrShopSecurityproperties {
 
-    private String loginpage;
+    private String loginpage = "/login.html";
 
     private LoginTypeEnum loginTypeEnum;
 }

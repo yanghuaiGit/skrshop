@@ -34,11 +34,6 @@
 
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>com.skrshop</groupId>
             <artifactId>skrshop-mybatisplus</artifactId>
             <version>0.0.1-SNAPSHOT</version>

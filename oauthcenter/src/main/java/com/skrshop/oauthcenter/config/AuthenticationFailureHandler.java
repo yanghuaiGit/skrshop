@@ -32,9 +32,9 @@ public class AuthenticationFailureHandler extends SimpleUrlAuthenticationFailure
         }
         if (LoginTypeEnum.JSON.equals(skrShopAuthorityCenterProperties.getSecurity().getLoginTypeEnum())) {
             Map<String, Object> map = new HashMap<>(2);
-
             map.put("time", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
             map.put("flag", "failure_login");
+            response.getWriter().write(map.toString());
         } else {
             super.onAuthenticationFailure(request, response, exception);
         }

@@ -86,7 +86,8 @@ public class UserDetailsRepository implements UserDetailsManager {
                 .orElseThrow(() -> new SkrShopException(AuthResultCode.LOGIN_TYPE_NOT_SUPPORT));
 
 //        AuthorityUtils.commaSeparatedStringToAuthorityList("");将字符串转为对应的权限
-        return users.get(username);
+//        return users.get(username);
+        return User.withUsername("Felordcn").password("{noop}12345").authorities(AuthorityUtils.NO_AUTHORITIES).build();
         //  return loginProcessor.getUserDetails(username, RequestHolder.getRequest().getParameter(SPRING_SECURITY_FORM_PASSWORD_KEY));
 
     }

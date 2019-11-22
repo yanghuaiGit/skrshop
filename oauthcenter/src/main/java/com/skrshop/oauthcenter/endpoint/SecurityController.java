@@ -10,14 +10,15 @@ import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
+import org.springframework.security.web.savedrequest.SavedRequest;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@RestController
+@Controller
 @Slf4j
 public class SecurityController {
 
@@ -31,20 +32,18 @@ public class SecurityController {
      * 当需要身份认证时跳转到此地址
      */
     @RequestMapping("/authentication/require")
-    public String requireAuthentication(HttpServletRequest request, HttpServletResponse response) {
-   //     SavedRequest savedRequest = requestCache.getRequest(request, response);
-
-
-            String redirectUrl = request.getRequestURI();
-            log.info("跳转到url {}", redirectUrl);
-            if (StringUtils.endsWithIgnoreCase(redirectUrl, ".html")) {
+    public void requireAuthentication(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        SavedRequest savedRequest = requestCache.getRequest(request, response);
+        if (savedRequest != null ) {
+            if (StringUtils.endsWithIgnoreCase(savedRequest.getRedirectUrl(), ".html")) {
                 try {
                     redirectStrategy.sendRedirect(request, response, skrShopAuthorityCenterProperties.getSecurity().getLoginpage());
                 } catch (IOException e) {
-                    log.error("跳转失败{}", redirectUrl);
+                    log.error("跳转失败{}", savedRequest.getRedirectUrl());
                     throw new SkrShopException(AuthResultCode.REDIRECT_ERROR);
                 }
             }
+        }
         throw new SkrShopException(AuthResultCode.NO_AUTHORITY);
     }
 }

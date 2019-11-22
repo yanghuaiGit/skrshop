@@ -1,6 +1,7 @@
 package com.skrshop.oauthcenter.config;
 
 import cn.hutool.core.collection.CollectionUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.skrshop.oauthcenter.security.config.SkrShopAuthorityCenterProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -25,6 +25,9 @@ public class AuthenticationSuccessHandler extends SavedRequestAwareAuthenticatio
 
     @Autowired
     private SkrShopAuthorityCenterProperties skrShopAuthorityCenterProperties;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
 
     @Override
@@ -50,10 +53,9 @@ public class AuthenticationSuccessHandler extends SavedRequestAwareAuthenticatio
             }
             response.setCharacterEncoding("utf-8");
             response.setContentType("application/json; charset=utf-8");
-            PrintWriter writer = response.getWriter();
-            Map<String, String> responseMap = new HashMap<>();
-            responseMap.put("status", "success");
-            writer.write(responseMap.toString());
+            response.setCharacterEncoding("utf-8");
+            response.setContentType("application/json; charset=utf-8");
+            response.getWriter().write(objectMapper.writeValueAsString(authentication));
 
 //            JwtTokenPair jwtTokenPair = jwtTokenGenerator.jwtTokenPair(username, roles, null);
 //
