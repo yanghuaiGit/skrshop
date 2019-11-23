@@ -1,9 +1,10 @@
 package com.skrshop.oauthcenter.security.config;
 
 
+import com.skrshop.oauthcenter.security.config.properties.SkrShopAuthorityCenterProperties;
 import com.skrshop.oauthcenter.security.login.LoginManager;
 import com.skrshop.oauthcenter.security.userdetail.UserDetailsRepository;
-import com.skrshop.oauthcenter.security.validate.ValidateCodeFilter;
+import com.skrshop.oauthcenter.security.validate.code.ValidateCodeFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.context.annotation.Bean;

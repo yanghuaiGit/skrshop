@@ -3,7 +3,7 @@ package com.skrshop.oauthcenter.security.handler;
 import cn.hutool.core.collection.CollectionUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.skrshop.oauthcenter.config.LoginTypeEnum;
-import com.skrshop.oauthcenter.security.config.SkrShopAuthorityCenterProperties;
+import com.skrshop.oauthcenter.security.config.properties.SkrShopAuthorityCenterProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;

@@ -7,10 +7,10 @@ spring:
       prefix: classpath:/templates/
       suffix: .html
   redis:
-     database: 0
-     host: 127.0.0.1
-     port: 6379
-     password: root
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+    password: root
 
 
   profiles:
@@ -27,5 +27,17 @@ mybatis-plus:
 skrshop:
   authority:
     security:
+      #登录的请求页面
       loginpage: "/index.html"
+      #登录的类型
       loginTypeEnum: JSON
+#      loginTypeEnum: REDIRECT
+      #验证码配置
+      code:
+        #图形验证码配置
+        image:
+          width: 160
+          height: 40
+          codeCount: 4
+          lineCount: 0
+          url: "/skrshop/oauth/test/*"

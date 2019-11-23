@@ -4,6 +4,8 @@ package com.skrshop.oauthcenter.endpoint;
 import com.skrshop.common.context.RequestHolder;
 import com.skrshop.common.error.SkrShopException;
 import com.skrshop.oauthcenter.model.AuthResultCode;
+import com.skrshop.oauthcenter.security.config.properties.ImageCodeProperties;
+import com.skrshop.oauthcenter.security.config.properties.SkrShopAuthorityCenterProperties;
 import com.skrshop.oauthcenter.security.validate.code.ImageCode;
 import com.skrshop.oauthcenter.util.ImageCodeUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -25,9 +27,15 @@ public class ValidCodeController {
     @Resource
     private ValueOperations<String, String> valueOperations;
 
+    @Resource
+    private SkrShopAuthorityCenterProperties skrShopAuthorityCenterProperties;
+
+
     @GetMapping("/code/image")
     public void createImageCode() {
-        ImageCode imageCode = ImageCodeUtil.createCode();
+        ImageCodeProperties image = skrShopAuthorityCenterProperties.getSecurity().getCode().getImage();
+        ImageCode imageCode = ImageCodeUtil.createCode(image.getWidth(), image.getHeight(),
+                image.getCodeCount(), image.getLineCount());
         try {
             ImageIO.write(imageCode.getBuffImg(), "JPEG", RequestHolder.getResponse().getOutputStream());
         } catch (IOException e) {

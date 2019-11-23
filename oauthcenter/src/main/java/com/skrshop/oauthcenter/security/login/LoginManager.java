@@ -1,7 +1,7 @@
 package com.skrshop.oauthcenter.security.login;
 
 
-import com.skrshop.oauthcenter.security.config.SkrShopAuthorityCenterProperties;
+import com.skrshop.oauthcenter.security.config.properties.SkrShopAuthorityCenterProperties;
 import com.skrshop.oauthcenter.security.process.LoginProcessor;
 import lombok.Data;
 import org.springframework.beans.factory.ObjectProvider;
