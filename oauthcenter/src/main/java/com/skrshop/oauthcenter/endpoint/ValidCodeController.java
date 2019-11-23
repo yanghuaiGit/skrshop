@@ -4,14 +4,11 @@ package com.skrshop.oauthcenter.endpoint;
 import com.skrshop.common.context.RequestHolder;
 import com.skrshop.common.error.SkrShopException;
 import com.skrshop.oauthcenter.model.AuthResultCode;
-import com.skrshop.oauthcenter.security.config.properties.ImageCodeProperties;
-import com.skrshop.oauthcenter.security.config.properties.SkrShopAuthorityCenterProperties;
 import com.skrshop.oauthcenter.security.validate.code.ImageCode;
-import com.skrshop.oauthcenter.util.ImageCodeUtil;
+import com.skrshop.oauthcenter.security.validate.code.ValidateCodeGenerator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -22,20 +19,19 @@ import java.io.IOException;
 @Slf4j
 public class ValidCodeController {
 
-    private final String IMAGECODEKEY = "security_imagecode";
 
     @Resource
     private ValueOperations<String, String> valueOperations;
 
     @Resource
-    private SkrShopAuthorityCenterProperties skrShopAuthorityCenterProperties;
+    private ValidateCodeGenerator imageCodeGenerator;
 
 
     @GetMapping("/code/image")
     public void createImageCode() {
-        ImageCodeProperties image = skrShopAuthorityCenterProperties.getSecurity().getCode().getImage();
-        ImageCode imageCode = ImageCodeUtil.createCode(image.getWidth(), image.getHeight(),
-                image.getCodeCount(), image.getLineCount());
+        String IMAGECODEKEY = "security_imagecode";
+        //图形验证码暂时不需要request
+        ImageCode imageCode = imageCodeGenerator.generateCode(null);
         try {
             ImageIO.write(imageCode.getBuffImg(), "JPEG", RequestHolder.getResponse().getOutputStream());
         } catch (IOException e) {
@@ -46,7 +42,7 @@ public class ValidCodeController {
     }
 
     @GetMapping("/code/sms")
-    public void createSms(@RequestParam Long phone) {
+    public void createSms() {
 
     }
 

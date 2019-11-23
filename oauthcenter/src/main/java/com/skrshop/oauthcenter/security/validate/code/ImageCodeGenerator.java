@@ -1,13 +1,22 @@
-package com.skrshop.oauthcenter.util;
+package com.skrshop.oauthcenter.security.validate.code;
 
-import com.skrshop.oauthcenter.security.validate.code.ImageCode;
+import com.skrshop.oauthcenter.security.config.properties.ImageCodeProperties;
+import com.skrshop.oauthcenter.security.config.properties.SkrShopAuthorityCenterProperties;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import javax.servlet.http.HttpServletRequest;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
-public class ImageCodeUtil {
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class ImageCodeGenerator implements ValidateCodeGenerator {
 
+    private SkrShopAuthorityCenterProperties skrShopAuthorityCenterProperties;
 
     // 验证码范围,去掉0(数字)和O(拼音)容易混淆的(小写的1和L也可以去掉,大写不用了)
     private static char[] codeSequence = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
@@ -15,14 +24,17 @@ public class ImageCodeUtil {
             'X', 'Y', 'Z', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
 
-    public static ImageCode createCode(int width, int height, int codeCount, int lineCount) {
+    @Override
+    public ImageCode generateCode(HttpServletRequest httpServletRequest) {
+        ImageCodeProperties image = skrShopAuthorityCenterProperties.getSecurity().getCode().getImage();
+        int width = image.getWidth();
+        int height = image.getHeight();
+        int codeCount = image.getCodeCount();
+        int lineCount = image.getLineCount();
         ImageCode imageCode = new ImageCode();
-        int x = 0, fontHeight = 0, codeY = 0;
-        int red = 0, green = 0, blue = 0;
-
-        x = width / codeCount - 6;//每个字符的宽度(左右各空出一个字符)
-        fontHeight = height - 2;//字体的高度
-        codeY = height - 4;
+        //每个字符的宽度(左右各空出一个字符) 字体的高度
+        int x = width / codeCount - 6, fontHeight = height - 2, codeY = height - 4;
+        int red, green, blue;
 
         // 图像buffer
         imageCode.setBuffImg(new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB));
@@ -65,7 +77,7 @@ public class ImageCodeUtil {
         }
 
         // randomCode记录随机产生的验证码
-        StringBuffer randomCode = new StringBuffer();
+        StringBuilder randomCode = new StringBuilder();
         // 随机产生codeCount个字符的验证码。
         for (int i = 0; i < codeCount; i++) {
             String strRand = String.valueOf(codeSequence[random.nextInt(codeSequence.length)]);
@@ -84,4 +96,5 @@ public class ImageCodeUtil {
         imageCode.setCode(randomCode.toString());
         return imageCode;
     }
+
 }
