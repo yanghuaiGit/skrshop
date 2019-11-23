@@ -1,6 +1,5 @@
 package com.skrshop.oauthcenter.security.validate;
 
-import com.skrshop.common.error.CommonResultCode;
 import com.skrshop.common.error.SkrShopException;
 import com.skrshop.oauthcenter.model.AuthResultCode;
 import lombok.extern.slf4j.Slf4j;
@@ -61,9 +60,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
     private boolean validate(HttpServletRequest servletWebRequest) throws ServletRequestBindingException {
         String imageCode = Optional.ofNullable(ServletRequestUtils.getStringParameter(servletWebRequest, "imageCode"))
                 .orElseThrow(() -> new SkrShopException(AuthResultCode.VALIDATE_CODE_NOT_EXISTS));
-        String s = Optional.ofNullable(valueOperations.get(IMAGECODEKEY +
-                Optional.ofNullable(servletWebRequest.getParameter("phone"))
-                        .orElseThrow(() -> new SkrShopException(CommonResultCode.PARAM_MISS))))
+        String s = Optional.ofNullable(valueOperations.get(IMAGECODEKEY))
                 .orElseThrow(() -> new SkrShopException(AuthResultCode.VALIDATE_CODE_EXPIRE));
         log.info("入参code {},实际值 {}", imageCode, s);
         return imageCode.equals(s);

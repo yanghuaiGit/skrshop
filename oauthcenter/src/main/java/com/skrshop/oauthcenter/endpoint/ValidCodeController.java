@@ -26,15 +26,15 @@ public class ValidCodeController {
     private ValueOperations<String, String> valueOperations;
 
     @GetMapping("/code/image")
-    public void createImageCode(@RequestParam Long phone) {
+    public void createImageCode() {
         ImageCode imageCode = ImageCodeUtil.createCode();
         try {
             ImageIO.write(imageCode.getBuffImg(), "JPEG", RequestHolder.getResponse().getOutputStream());
         } catch (IOException e) {
             throw new SkrShopException(AuthResultCode.IMAGE_CODE_CREATE_ERROR);
         }
-        log.info("请求的图像验证码 {}" , imageCode.getCode() );
-        valueOperations.set(IMAGECODEKEY + phone, imageCode.getCode());
+        log.info("请求的图像验证码 {}", imageCode.getCode());
+        valueOperations.set(IMAGECODEKEY, imageCode.getCode());
     }
 
     @GetMapping("/code/sms")
