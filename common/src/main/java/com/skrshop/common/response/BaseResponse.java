@@ -3,7 +3,10 @@ package com.skrshop.common.response;
 
 import com.skrshop.common.error.CommonResultCode;
 import com.skrshop.common.error.ResultCode;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.Map;
 
@@ -11,7 +14,7 @@ import java.util.Map;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class BaseResponse<T>  {
+public class BaseResponse<T> {
 
 
     private Integer code;
@@ -30,7 +33,6 @@ public class BaseResponse<T>  {
     }
 
 
-
     public static BaseResponseBuilder code() {
         return code(CommonResultCode.SUCCESS);
     }
@@ -42,8 +44,6 @@ public class BaseResponse<T>  {
     public static class BaseResponseBuilder<T> {
 
         private ResultCode resultCode;
-
-        private String message;
 
         private T data;
 
@@ -58,10 +58,6 @@ public class BaseResponse<T>  {
             return this;
         }
 
-        public BaseResponseBuilder message(String message) {
-            this.message = message;
-            return this;
-        }
 
         public BaseResponseBuilder extra(Map<String, Object> extra) {
             this.extra = extra;
@@ -69,7 +65,7 @@ public class BaseResponse<T>  {
         }
 
         public BaseResponse<T> build() {
-            return new BaseResponse(resultCode.getCode(), resultCode.getMsg(), message, data, extra);
+            return new BaseResponse(resultCode.getCode(), resultCode.getDesc(), resultCode.getMsg(), data, extra);
         }
     }
 

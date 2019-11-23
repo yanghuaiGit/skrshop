@@ -3,9 +3,9 @@ package com.skrshop.oauthcenter.security.config;
 
 import com.skrshop.oauthcenter.security.login.LoginManager;
 import com.skrshop.oauthcenter.security.userdetail.UserDetailsRepository;
+import com.skrshop.oauthcenter.security.validate.ValidateCodeFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -13,6 +13,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import javax.annotation.Resource;
 
 
 /**
@@ -26,14 +29,18 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
+    @Resource
     private AuthenticationSuccessHandler successHandler;
 
-    @Autowired
+    @Resource
     private AuthenticationFailureHandler failHandler;
 
-    @Autowired
+    @Resource
     private SkrShopAuthorityCenterProperties skrShopAuthorityCenterProperties;
+
+    @Resource
+    private ValidateCodeFilter validateCodeFilter;
+
 
     @Bean
     public UserDetailsRepository userDetailsRepository(ObjectProvider<LoginManager> loginManagers) {
@@ -44,21 +51,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
 
-        http.formLogin()
+        http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class) //比登录Filter先执行 自定义登录
+                .formLogin()
                 .loginPage("/authentication/require")
                 .loginProcessingUrl("/authentication/form")
                 .successHandler(successHandler)
                 .failureHandler(failHandler)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/authentication/require",skrShopAuthorityCenterProperties.getSecurity().getLoginpage())
+                .antMatchers("/authentication/require",
+                        skrShopAuthorityCenterProperties.getSecurity().getLoginpage(),
+                        "/code/image")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
                 .csrf()
                 .disable()
-                ;
+
+        ;
 //                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
 

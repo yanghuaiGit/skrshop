@@ -1,5 +1,6 @@
-package com.skrshop.oauthcenter.config;
+package com.skrshop.oauthcenter.security.handler;
 
+import com.skrshop.oauthcenter.config.LoginTypeEnum;
 import com.skrshop.oauthcenter.security.config.SkrShopAuthorityCenterProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ public class AuthenticationFailureHandler extends SimpleUrlAuthenticationFailure
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
 
+        log.error("--登录失败--");
         if (response.isCommitted()) {
             log.debug("Response has already been committed");
             return;

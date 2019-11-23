@@ -30,8 +30,7 @@ public class GlobalExceptionTranslator {
         log.warn("Missing Request Parameter", e);
         String message = String.format("Missing Request Parameter: %s", e.getParameterName());
         return BaseResponse
-                .code(CommonResultCode.PARAM_MISS)
-                .message(message)
+                .code(CommonResultCode.resultCodeFactory(CommonResultCode.PARAM_MISS,message))
                 .build();
     }
 
@@ -40,8 +39,7 @@ public class GlobalExceptionTranslator {
         log.warn("Method Argument Type Mismatch", e);
         String message = String.format("Method Argument Type Mismatch: %s", e.getName());
         return BaseResponse
-                .code(CommonResultCode.PARAM_TYPE_ERROR)
-                .message(message)
+                .code(CommonResultCode.resultCodeFactory(CommonResultCode.PARAM_TYPE_ERROR,message))
                 .build();
     }
 
@@ -52,8 +50,7 @@ public class GlobalExceptionTranslator {
         FieldError error = result.getFieldError();
         String message = String.format("%s:%s", error.getField(), error.getDefaultMessage());
         return BaseResponse
-                .code(CommonResultCode.PARAM_VALID_ERROR)
-                .message(message)
+                .code(CommonResultCode.resultCodeFactory(CommonResultCode.PARAM_VALID_ERROR,message))
                 .build();
     }
 
@@ -63,8 +60,7 @@ public class GlobalExceptionTranslator {
         FieldError error = e.getFieldError();
         String message = String.format("%s:%s", error.getField(), error.getDefaultMessage());
         return BaseResponse
-                .code(CommonResultCode.PARAM_BIND_ERROR)
-                .message(message)
+                .code(CommonResultCode.resultCodeFactory(CommonResultCode.PARAM_BIND_ERROR,message))
                 .build();
     }
 
@@ -76,8 +72,7 @@ public class GlobalExceptionTranslator {
         String path = ((PathImpl) violation.getPropertyPath()).getLeafNode().getName();
         String message = String.format("%s:%s", path, violation.getMessage());
         return BaseResponse
-                .code(CommonResultCode.PARAM_VALID_ERROR)
-                .message(message)
+                .code(CommonResultCode.resultCodeFactory(CommonResultCode.PARAM_VALID_ERROR, message))
                 .build();
     }
 
@@ -86,7 +81,6 @@ public class GlobalExceptionTranslator {
         log.error("404 Not Found", e);
         return BaseResponse
                 .code(CommonResultCode.NOT_FOUND)
-                .message(e.getMessage())
                 .build();
     }
 
@@ -95,7 +89,6 @@ public class GlobalExceptionTranslator {
         log.error("Message Not Readable", e);
         return BaseResponse
                 .code(CommonResultCode.MSG_NOT_READABLE)
-                .message(e.getMessage())
                 .build();
     }
 
@@ -104,7 +97,6 @@ public class GlobalExceptionTranslator {
         log.error("Request Method Not Supported", e);
         return BaseResponse
                 .code(CommonResultCode.METHOD_NOT_SUPPORTED)
-                .message(e.getMessage())
                 .build();
     }
 
@@ -113,7 +105,6 @@ public class GlobalExceptionTranslator {
         log.error("Media Type Not Supported", e);
         return BaseResponse
                 .code(CommonResultCode.MEDIA_TYPE_NOT_SUPPORTED)
-                .message(e.getMessage())
                 .build();
     }
 
@@ -122,7 +113,6 @@ public class GlobalExceptionTranslator {
         log.error("Service Exception", e);
         return BaseResponse
                 .code(e.getResultCode())
-                .message(e.getMessage())
                 .build();
     }
 
@@ -132,7 +122,6 @@ public class GlobalExceptionTranslator {
         log.error("Internal Server Error", e);
         return BaseResponse
                 .code(CommonResultCode.INTERNAL_SERVER_ERROR)
-                .message(e.getMessage())
                 .build();
     }
 }

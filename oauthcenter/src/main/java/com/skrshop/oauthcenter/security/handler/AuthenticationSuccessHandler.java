@@ -1,7 +1,8 @@
-package com.skrshop.oauthcenter.config;
+package com.skrshop.oauthcenter.security.handler;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.skrshop.oauthcenter.config.LoginTypeEnum;
 import com.skrshop.oauthcenter.security.config.SkrShopAuthorityCenterProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,8 @@ public class AuthenticationSuccessHandler extends SavedRequestAwareAuthenticatio
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws ServletException, IOException {
+
+        log.info("--登录成功--");
         if (response.isCommitted()) {
             log.debug("Response has already been committed");
             return;

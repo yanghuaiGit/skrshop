@@ -1,6 +1,6 @@
 package com.skrshop.oauthcenter.util;
 
-import com.skrshop.oauthcenter.security.vo.ImageCode;
+import com.skrshop.oauthcenter.security.validate.code.ImageCode;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -8,6 +8,14 @@ import java.util.Random;
 
 public class ImageCodeUtil {
 
+    // 图片的宽度。
+    private static int width = 160;
+    // 图片的高度。
+    private static int height = 40;
+    // 验证码字符个数
+    private static int codeCount = 5;
+    // 验证码干扰线数
+    private static int lineCount = 3;
 
     // 验证码范围,去掉0(数字)和O(拼音)容易混淆的(小写的1和L也可以去掉,大写不用了)
     private static char[] codeSequence = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
@@ -18,7 +26,7 @@ public class ImageCodeUtil {
      * 默认构造函数,设置默认参数
      */
     public ImageCodeUtil() {
-        this.createCode();
+        createCode();
     }
 
 
@@ -27,19 +35,19 @@ public class ImageCodeUtil {
         int x = 0, fontHeight = 0, codeY = 0;
         int red = 0, green = 0, blue = 0;
 
-        x = imageCode.getWidth() / (imageCode.getWidth() + 2);//每个字符的宽度(左右各空出一个字符)
-        fontHeight = imageCode.getHeight() - 2;//字体的高度
-        codeY = imageCode.getHeight() - 4;
+        x = width / (width + 2);//每个字符的宽度(左右各空出一个字符)
+        fontHeight = height - 2;//字体的高度
+        codeY = height - 4;
 
         // 图像buffer
-        imageCode.setBuffImg(new BufferedImage(imageCode.getWidth(), imageCode.getHeight(), BufferedImage.TYPE_INT_RGB));
+        imageCode.setBuffImg(new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB));
         Graphics2D g = imageCode.getBuffImg().createGraphics();
 
-        /*// 将图像背景填充为白色
+        // 将图像背景填充为白色
         g.setColor(Color.WHITE);
-        g.fillRect(0, 0, width, height);*/
+        g.fillRect(0, 0, width, height);
         // 增加下面代码使得背景透明
-        imageCode.setBuffImg(g.getDeviceConfiguration().createCompatibleImage(imageCode.getWidth(), imageCode.getHeight(), Transparency.TRANSLUCENT));
+      //  imageCode.setBuffImg(g.getDeviceConfiguration().createCompatibleImage(width, height, Transparency.TRANSLUCENT));
         g.dispose();
         g = imageCode.getBuffImg().createGraphics();
         // 背景透明代码结束
@@ -47,7 +55,7 @@ public class ImageCodeUtil {
         // 画图BasicStroke是JDK中提供的一个基本的画笔类,我们对他设置画笔的粗细，就可以在drawPanel上任意画出自己想要的图形了。
         g.setColor(new Color(255, 0, 0));
         g.setStroke(new BasicStroke(1f));
-        g.fillRect(128, 128, imageCode.getWidth(), imageCode.getHeight());
+        g.fillRect(128, 128, width, height);
 
         // 生成随机数
         Random random = new Random();
@@ -56,12 +64,12 @@ public class ImageCodeUtil {
 
         g.setFont(font);
 
-        for (int i = 0; i < imageCode.getLineCount(); i++) {
+        for (int i = 0; i < lineCount; i++) {
             // 设置随机开始和结束坐标
-            int xs = random.nextInt(imageCode.getWidth());//x坐标开始
-            int ys = random.nextInt(imageCode.getHeight());//y坐标开始
-            int xe = xs + random.nextInt(imageCode.getWidth() / 8);//x坐标结束
-            int ye = ys + random.nextInt(imageCode.getHeight() / 8);//y坐标结束
+            int xs = random.nextInt(width);//x坐标开始
+            int ys = random.nextInt(height);//y坐标开始
+            int xe = xs + random.nextInt(width <<3);//x坐标结束
+            int ye = ys + random.nextInt(height <<3);//y坐标结束
 
             // 产生随机的颜色值，让输出的每个干扰线的颜色值都将不同。
             red = random.nextInt(255);
@@ -74,15 +82,15 @@ public class ImageCodeUtil {
         // randomCode记录随机产生的验证码
         StringBuffer randomCode = new StringBuffer();
         // 随机产生codeCount个字符的验证码。
-        for (int i = 0; i < imageCode.getCodeCount(); i++) {
+        for (int i = 0; i <codeCount; i++) {
             String strRand = String.valueOf(codeSequence[random.nextInt(codeSequence.length)]);
             // 产生随机的颜色值，让输出的每个字符的颜色值都将不同。
-            red = random.nextInt(255);
-            green = random.nextInt(255);
-            blue = random.nextInt(255);
+//            red = random.nextInt(255);
+//            green = random.nextInt(255);
+//            blue = random.nextInt(255);
             //指定某种颜色
-            //g.setColor(new Color(252, 145, 83));
-            g.setColor(new Color(red, green, blue));
+            g.setColor(new Color(252, 145, 83));
+//            g.setColor(new Color(red, green, blue));
             g.drawString(strRand, (i + 1) * x, codeY);
             // 将产生的四个随机数组合在一起。
             randomCode.append(strRand);

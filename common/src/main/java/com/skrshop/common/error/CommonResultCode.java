@@ -11,6 +11,8 @@ public class CommonResultCode implements ResultCode {
 
     private int code;
 
+    private String desc;
+
     private String msg;
 
     @Override
@@ -19,8 +21,22 @@ public class CommonResultCode implements ResultCode {
     }
 
     @Override
+    public String getDesc() {
+        return desc;
+    }
+
+    @Override
     public String getMsg() {
         return msg;
+    }
+
+    public CommonResultCode(int code, String desc) {
+        this.code = code;
+        this.desc = desc;
+    }
+
+    static ResultCode resultCodeFactory(ResultCode resultCode, String msg) {
+        return new CommonResultCode(resultCode.getCode(), resultCode.getDesc(), msg);
     }
 
     public static ResultCode SUCCESS = new CommonResultCode(HttpServletResponse.SC_OK, "Operation is Successful");

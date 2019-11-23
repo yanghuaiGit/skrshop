@@ -5,6 +5,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Objects;
 
 /**
  * @author nick
@@ -12,11 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 public class RequestHolder {
 
     public static HttpServletRequest getRequest() {
-        return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        return ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
     }
 
     public static HttpServletResponse getResponse() {
-        return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
+        return ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getResponse();
     }
 
 }

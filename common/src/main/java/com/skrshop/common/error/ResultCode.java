@@ -8,6 +8,7 @@ package com.skrshop.common.error;
 public interface ResultCode {
     Integer getCode();
 
-    String getMsg();
+    String getDesc();
 
+    String getMsg();
 }
