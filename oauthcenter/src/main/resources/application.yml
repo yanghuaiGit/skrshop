@@ -40,4 +40,4 @@ skrshop:
           height: 40
           codeCount: 4
           lineCount: 0
-          url: "/skrshop/oauth/test/*"
+#          url: "/skrshop/oauth/test/*"

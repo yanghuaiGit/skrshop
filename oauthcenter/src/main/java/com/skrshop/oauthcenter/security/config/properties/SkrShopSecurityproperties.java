@@ -10,5 +10,7 @@ public class SkrShopSecurityproperties {
 
     private LoginTypeEnum loginTypeEnum;
 
+    private int rememberMeSeconds = 3600;
+
     private ValidateCodeProperties code = new ValidateCodeProperties();
 }

@@ -20,10 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import static org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_PASSWORD_KEY;
 import static org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY;
@@ -45,12 +42,13 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
     private AntPathMatcher pathMatcher = new AntPathMatcher();
 
 
-
     @Override
     public void afterPropertiesSet() throws ServletException {
         super.afterPropertiesSet();
         String[] configUrls = StringUtils.splitByWholeSeparatorPreserveAllTokens(skrShopAuthorityCenterProperties.getSecurity().getCode().getImage().getUrl(), ",");
-        urls.addAll(Arrays.asList(configUrls));
+        if (Objects.nonNull(configUrls)) {
+            urls.addAll(Arrays.asList(configUrls));
+        }
         urls.add("/skrshop/oauth/authentication/form");
     }
 

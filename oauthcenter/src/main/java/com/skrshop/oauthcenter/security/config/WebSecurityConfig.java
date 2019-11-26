@@ -15,8 +15,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 import javax.annotation.Resource;
+import javax.sql.DataSource;
 
 
 /**
@@ -42,6 +45,29 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource
     private ValidateCodeFilter validateCodeFilter;
 
+    @Resource
+    private DataSource dataSource;
+
+    @Resource
+    private UserDetailsRepository userDetailsRepository;
+
+//    @Bean
+//    public PasswordEncoder passwordEncoder(){
+//        return new BCryptPasswordEncoder();
+//    }
+
+
+//    @Bean
+//    public PersistentTokenRepository persistentTokenRepository(ValueOperations<String, String> valueOperations) {
+//        return new TokenRepository(valueOperations);
+//    }
+
+    @Bean
+    public PersistentTokenRepository persistentTokenRepository() {
+        JdbcTokenRepositoryImpl jdbcTokenRepository = new JdbcTokenRepositoryImpl();
+        jdbcTokenRepository.setDataSource(dataSource);
+        return jdbcTokenRepository;
+    }
 
     @Bean
     public UserDetailsRepository userDetailsRepository(ObjectProvider<LoginManager> loginManagers) {
@@ -58,6 +84,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/authentication/form")
                 .successHandler(successHandler)
                 .failureHandler(failHandler)
+                .and()
+                //如果是jwt直接设置jwt的有效时间就行了
+                .rememberMe()
+                .tokenRepository(persistentTokenRepository())
+                .tokenValiditySeconds(skrShopAuthorityCenterProperties.getSecurity().getRememberMeSeconds())
+                .userDetailsService(userDetailsRepository)
                 .and()
                 .authorizeRequests()
                 .antMatchers("/authentication/require",
