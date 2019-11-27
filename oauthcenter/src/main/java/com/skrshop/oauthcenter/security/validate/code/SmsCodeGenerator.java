@@ -23,7 +23,7 @@ public class SmsCodeGenerator implements ValidateCodeGenerator {
 
     @Override
     public ValidateCode generateCode(HttpServletRequest httpServletRequest) {
-        return new ValidateCode(RandomUtil.randomNumbers(skrShopAuthorityCenterProperties.getSecurity().getCode().getImage().getLineCount()), 1000L);
+        return new ValidateCode(RandomUtil.randomNumbers(skrShopAuthorityCenterProperties.getSecurity().getCode().getSms().getCodeCount()), 1000L);
     }
 
 }

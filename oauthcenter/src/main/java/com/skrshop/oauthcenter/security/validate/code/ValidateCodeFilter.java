@@ -55,7 +55,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        if (urls.stream().anyMatch(itm -> pathMatcher.match(itm, request.getRequestURI()))) {
+        if (skrShopAuthorityCenterProperties.getSecurity().getCode().getImage().getEnable() && urls.stream().anyMatch(itm -> pathMatcher.match(itm, request.getRequestURI()))) {
             log.info("--------匹配到需要验证码接口----{}", request.getRequestURI());
             HttpServletRequest parameterRequestWrapper = new HttpServletRequestWrapper((HttpServletRequest) request);
             //或者使用定义好的SecurityFailHandler异常处理器进行捕获

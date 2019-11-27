@@ -3,11 +3,12 @@ package com.skrshop.oauthcenter.security.validate.code;
 import com.skrshop.common.utils.DateUtil;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 
 @Data
-public class ValidateCode {
+public class ValidateCode implements Serializable {
 
     // 验证码
     private String code = null;

@@ -94,7 +94,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/authentication/require",
                         skrShopAuthorityCenterProperties.getSecurity().getLoginpage(),
-                        "/code/image")
+                        "/code/*")
                 .permitAll()
                 .anyRequest()
                 .authenticated()

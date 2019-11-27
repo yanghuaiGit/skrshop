@@ -3,11 +3,12 @@ package com.skrshop.oauthcenter.security.validate.code;
 import lombok.Data;
 
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 
 @Data
-public class ImageCode  extends ValidateCode {
+public class ImageCode  extends ValidateCode implements Serializable {
 
 
     // 验证码图片Buffer

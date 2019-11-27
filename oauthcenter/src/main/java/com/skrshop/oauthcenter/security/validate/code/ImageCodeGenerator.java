@@ -5,6 +5,7 @@ import com.skrshop.oauthcenter.security.config.properties.SkrShopAuthorityCenter
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.http.HttpServletRequest;
 import java.awt.*;
@@ -14,6 +15,7 @@ import java.util.Random;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Slf4j
 public class ImageCodeGenerator implements ValidateCodeGenerator {
 
     private SkrShopAuthorityCenterProperties skrShopAuthorityCenterProperties;
@@ -94,6 +96,7 @@ public class ImageCodeGenerator implements ValidateCodeGenerator {
         }
         // 将四位数字的验证码保存到Session中。
         imageCode.setCode(randomCode.toString());
+        log.info("生成的图形验证码{}", imageCode.getCode());
         return imageCode;
     }
 
