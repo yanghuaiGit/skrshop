@@ -4,5 +4,5 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface ValidateCodeGenerator {
 
-    ImageCode generateCode(HttpServletRequest httpServletRequest);
+    ValidateCode generateCode(HttpServletRequest httpServletRequest);
 }

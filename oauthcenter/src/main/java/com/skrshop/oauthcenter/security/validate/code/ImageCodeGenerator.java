@@ -25,7 +25,7 @@ public class ImageCodeGenerator implements ValidateCodeGenerator {
 
 
     @Override
-    public ImageCode generateCode(HttpServletRequest httpServletRequest) {
+    public ValidateCode generateCode(HttpServletRequest httpServletRequest) {
         ImageCodeProperties image = skrShopAuthorityCenterProperties.getSecurity().getCode().getImage();
         int width = image.getWidth();
         int height = image.getHeight();
