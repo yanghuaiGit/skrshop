@@ -1,5 +1,6 @@
 package com.skrshop.oauthcenter.security.validate.code;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -9,6 +10,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@Slf4j
 public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
 
@@ -16,11 +18,12 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
 
 
     public SmsCodeAuthenticationFilter() {
-        super(new AntPathRequestMatcher("/skrshop/oauth/authentication/mobile", "POST"));
+        super(new AntPathRequestMatcher("/authentication/mobile", "POST"));
     }
 
     public Authentication attemptAuthentication(HttpServletRequest request,
                                                 HttpServletResponse response) throws AuthenticationException {
+
         if (!request.getMethod().equals("POST")) {
             throw new AuthenticationServiceException(
                     "Authentication method not supported: " + request.getMethod());

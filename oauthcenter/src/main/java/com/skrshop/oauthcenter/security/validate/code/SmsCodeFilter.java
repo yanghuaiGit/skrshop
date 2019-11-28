@@ -82,7 +82,7 @@ public class SmsCodeFilter extends OncePerRequestFilter implements InitializingB
                 .orElseThrow(() -> new SkrShopException(AuthResultCode.VALIDATE_CODE_EXPIRE));
         JSONObject jsonObject = JSON.parseObject(s);
         String string = jsonObject.getString("code");
-        log.info("入参code {},实际值 {}", smsCode, s);
+        log.info("入参code {},实际值 {}", smsCode, string);
         return smsCode.equals(string);
     }
 }
