@@ -39,6 +39,7 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
                 .withClient("client")
                 .authorizedGrantTypes("authorization_code", "refresh_token", "password")
                 .accessTokenValiditySeconds(7200)
+                .refreshTokenValiditySeconds(329000)
                 .scopes("all", "write", "read")
                 .secret("123")// client_id
                 .redirectUris("http://www.baidu.com");
