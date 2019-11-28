@@ -36,6 +36,7 @@ skrshop:
       code:
         #图形验证码配置
         image:
+          enable: true
           width: 160
           height: 40
           codeCount: 4

@@ -77,10 +77,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return jdbcTokenRepository;
     }
 
-    @Bean
-    public UserDetailsRepository userDetailsRepository(ObjectProvider<LoginManager> loginManagers) {
-        return new UserDetailsRepository(loginManagers.getIfAvailable());
-    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

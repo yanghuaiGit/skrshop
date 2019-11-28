@@ -1,8 +1,11 @@
 package com.skrshop.oauthcenter.security.config;
 
+import com.skrshop.oauthcenter.security.login.LoginManager;
 import com.skrshop.oauthcenter.security.userdetail.UserDetailsRepository;
 import com.skrshop.oauthcenter.security.validate.code.SmsCodeAuthenticationFilter;
 import com.skrshop.oauthcenter.security.validate.code.SmsCodeAuthenticationProvider;
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -25,6 +28,12 @@ public class SmsCodeAuthenticationSecurityConfig extends SecurityConfigurerAdapt
 
     @Resource
     private UserDetailsRepository userDetailsRepository;
+
+    @Bean
+    public UserDetailsRepository userDetailsRepository(ObjectProvider<LoginManager> loginManagers) {
+        return new UserDetailsRepository(loginManagers.getIfAvailable());
+    }
+
 
     @Override
     public void configure(HttpSecurity builder) throws Exception {
