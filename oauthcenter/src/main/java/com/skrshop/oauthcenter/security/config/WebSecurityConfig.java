@@ -2,17 +2,17 @@ package com.skrshop.oauthcenter.security.config;
 
 
 import com.skrshop.oauthcenter.security.config.properties.SkrShopAuthorityCenterProperties;
-import com.skrshop.oauthcenter.security.login.LoginManager;
 import com.skrshop.oauthcenter.security.userdetail.UserDetailsRepository;
 import com.skrshop.oauthcenter.security.validate.code.SmsCodeFilter;
 import com.skrshop.oauthcenter.security.validate.code.ValidateCodeFilter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -59,10 +59,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource
     private UserDetailsRepository userDetailsRepository;
 
-//    @Bean
-//    public PasswordEncoder passwordEncoder(){
-//        return new BCryptPasswordEncoder();
-//    }
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
 
 
 //    @Bean
