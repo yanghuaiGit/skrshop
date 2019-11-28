@@ -11,14 +11,12 @@ import org.apache.ibatis.session.defaults.DefaultSqlSession;
 
 import java.lang.reflect.Field;
 import java.sql.Statement;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 @Intercepts(value = {
         @Signature(args = {Statement.class, ResultHandler.class}, method = "query", type = StatementHandler.class),
         @Signature(args = {Statement.class}, method = "update", type = StatementHandler.class),
+        @Signature(args = {Statement.class}, method = "select", type = StatementHandler.class),
         @Signature(args = {Statement.class}, method = "batch", type = StatementHandler.class)})
 @Slf4j
 public class SqlCostInterceptor implements Interceptor {
@@ -66,7 +64,7 @@ public class SqlCostInterceptor implements Interceptor {
 
     private String formatSql(String sql, Object parameterObject, List<ParameterMapping> parameterMappingList) {
         // 输入判断是否为空
-        if (sql == "" || sql.length() == 0) {
+        if (sql.equals("") || sql.length() == 0) {
             return "";
         }
         // 美化sql
@@ -80,7 +78,7 @@ public class SqlCostInterceptor implements Interceptor {
         // 定义一个没有替换过占位符的sql，用于出异常时返回
         String sqlWithoutReplacePlaceholder = sql;
         try {
-            if (parameterMappingList != null) {
+            if (Objects.nonNull(parameterMappingList)) {
                 Class<?> parameterObjectClass = parameterObject.getClass();
 
                 // 如果参数是StrictMap且Value类型为Collection，获取key="list"的属性，这里主要是为了处理<foreach>循环时传入List这种参数的占位符替换
@@ -112,11 +110,6 @@ public class SqlCostInterceptor implements Interceptor {
 
     /**
      * 处理通用场景
-     *
-     * @throws SecurityException
-     * @throws NoSuchFieldException
-     * @throws IllegalAccessException
-     * @throws IllegalArgumentException
      */
     private String handleCommonParameter(String sql, List<ParameterMapping> parameterMappingList,
                                          Class<?> parameterObjectClass, Object parameterObject) throws Exception {
@@ -162,9 +155,7 @@ public class SqlCostInterceptor implements Interceptor {
     }
 
     /**
-     * @param sql
-     * @param col
-     * @Description: 处理List场景
+     * 处理List场景
      */
     private String handleListParameter(String sql, Collection<?> col) {
         if (col != null && col.size() != 0) {
