@@ -13,6 +13,9 @@ public abstract class AbsTractValidateCodeProcessor implements ValidateCodeProce
     @Resource
     private ValueOperations<String, String> valueOperations;
 
+//    @Resource
+//    private ValidateCodeRepository validateCodeRepository;
+
 
 
     @Override
