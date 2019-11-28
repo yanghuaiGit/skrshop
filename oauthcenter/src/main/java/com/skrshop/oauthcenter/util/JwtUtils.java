@@ -3,6 +3,7 @@ package com.skrshop.oauthcenter.util;
 import com.skrshop.oauthcenter.model.JwtInfo;
 import com.skrshop.oauthcenter.model.po.StaffInfo;
 import io.jsonwebtoken.*;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import sun.misc.BASE64Decoder;
 
@@ -24,6 +25,7 @@ import java.util.Map;
  * @author tangbin
  * @date 2018年7月7日12:28:13
  */
+@Slf4j
 public class JwtUtils {
 
 
@@ -114,8 +116,7 @@ public class JwtUtils {
                     .setSigningKey(publicKey)
                     .parseClaimsJws(jwt).getBody();
         } catch (ExpiredJwtException e) {
-            System.out.println(e.getClaims().toString());
-            e.printStackTrace();
+            log.error(e.getClaims().toString(), e);
         } catch (Exception e) {
             e.printStackTrace();
         }
