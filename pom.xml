@@ -29,6 +29,7 @@
         <module>redis-support</module>
         <module>skrshop-mybatisplus</module>
         <module>cloud-gateway</module>
+        <module>mall-resource</module>
     </modules>
 
     <dependencies>

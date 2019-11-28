@@ -76,6 +76,12 @@ public class CommonResultCode implements ResultCode {
     public static ResultCode REMOTE_DATA_NULL_ERROR = new CommonResultCode(2000, "REMOTE SERVICE EXCEPTION");
 
 
+    //
+
+    public static ResultCode SERIALIZE_ERROR = new CommonResultCode(3000, "Serialize Error");
+
+
+
     //=============================业务异常
 
     //权限异常 4000 - 4500
