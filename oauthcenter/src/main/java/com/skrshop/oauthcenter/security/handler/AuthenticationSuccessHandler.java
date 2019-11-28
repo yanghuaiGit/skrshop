@@ -45,7 +45,6 @@ public class AuthenticationSuccessHandler extends SavedRequestAwareAuthenticatio
             map.put("flag", "success_login");
             User principal = (User) authentication.getPrincipal();
 
-            String username = principal.getUsername();
             Collection<GrantedAuthority> authorities = principal.getAuthorities();
             Set<String> roles = new HashSet<>();
             if (CollectionUtil.isNotEmpty(authorities)) {
