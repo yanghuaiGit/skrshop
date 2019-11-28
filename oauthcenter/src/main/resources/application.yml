@@ -26,6 +26,8 @@ mybatis-plus:
 #权限中心配置
 skrshop:
   authority:
+    oauth2:
+      storeType: jwt
     security:
       #登录的请求页面
       loginpage: "/index.html"

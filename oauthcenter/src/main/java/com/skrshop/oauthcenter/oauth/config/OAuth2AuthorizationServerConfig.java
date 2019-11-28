@@ -1,18 +1,24 @@
 package com.skrshop.oauthcenter.oauth.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 
 import javax.annotation.Resource;
+import java.util.Objects;
 
 @Configuration
 public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
     @Resource
     private TokenStore tokenStore;
+
+    @Autowired(required = false)
+    private JwtAccessTokenConverter jwtAccessTokenConverter;
 //    @Resource
 //    private AuthenticationManager authenticationManager;
 //
@@ -33,6 +39,9 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+        if(Objects.nonNull(jwtAccessTokenConverter)){
+            endpoints.accessTokenConverter(jwtAccessTokenConverter);
+        }
         endpoints.tokenStore(tokenStore);
 //        endpoints.authenticationManager(authenticationManager)
 //                .userDetailsService(userDetailsService);
