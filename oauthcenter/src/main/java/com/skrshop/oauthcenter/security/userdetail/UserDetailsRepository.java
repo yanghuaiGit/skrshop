@@ -68,7 +68,6 @@ public class UserDetailsRepository implements UserDetailsManager {
             throw new IllegalStateException("Current user doesn't exist in database.");
         }
 
-        // todo copy InMemoryUserDetailsManager  自行实现具体的更新密码逻辑
     }
 
 
