@@ -4,6 +4,7 @@ package com.skrshop.oauthcenter.security.config;
 import com.skrshop.oauthcenter.security.config.properties.SkrShopAuthorityCenterProperties;
 import com.skrshop.oauthcenter.security.login.LoginManager;
 import com.skrshop.oauthcenter.security.userdetail.UserDetailsRepository;
+import com.skrshop.oauthcenter.security.validate.code.SmsCodeFilter;
 import com.skrshop.oauthcenter.security.validate.code.ValidateCodeFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.ObjectProvider;
@@ -46,6 +47,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private ValidateCodeFilter validateCodeFilter;
 
     @Resource
+    private SmsCodeFilter smsCodeFilter;
+
+
+    @Resource
+    private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
+
+    @Resource
     private DataSource dataSource;
 
     @Resource
@@ -78,7 +86,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
 
-        http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class) //比登录Filter先执行 自定义登录
+        http.addFilterBefore(smsCodeFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class) //比登录Filter先执行 自定义登录
                 .formLogin()
                 .loginPage("/authentication/require")
                 .loginProcessingUrl("/authentication/form")
@@ -101,6 +110,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf()
                 .disable()
+                .apply(smsCodeAuthenticationSecurityConfig)
 
         ;
 //                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
