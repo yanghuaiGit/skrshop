@@ -22,9 +22,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
 
-import static org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_PASSWORD_KEY;
-import static org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY;
-
 @Component
 @Slf4j
 public class ValidateCodeFilter extends OncePerRequestFilter implements InitializingBean {
@@ -62,12 +59,6 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
             if (!validate(parameterRequestWrapper)) {
                 throw new SkrShopException(AuthResultCode.VALIDATE_CODE_ERROR);
             }
-            String username = request.getParameter(SPRING_SECURITY_FORM_USERNAME_KEY);
-
-            String password = request.getParameter(SPRING_SECURITY_FORM_PASSWORD_KEY);
-
-            parameterRequestWrapper.setAttribute(SPRING_SECURITY_FORM_USERNAME_KEY, username);
-            parameterRequestWrapper.setAttribute(SPRING_SECURITY_FORM_PASSWORD_KEY, password);
             filterChain.doFilter(parameterRequestWrapper, response);
         } else {
             filterChain.doFilter(request, response);
