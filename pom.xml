@@ -30,6 +30,7 @@
         <module>skrshop-mybatisplus</module>
         <module>cloud-gateway</module>
         <module>mall-resource</module>
+        <module>security-core</module>
     </modules>
 
     <dependencies>
