@@ -33,11 +33,13 @@ public class TokenStoreConfig {
     public static class JwtTokenConfig {
 
         @Bean
+        @ConditionalOnMissingBean(TokenStore.class)
         public TokenStore jwtTokenStore() {
             return new JwtTokenStore(jwtAccessTokenConverter());
         }
 
         @Bean
+        @ConditionalOnMissingBean(JwtAccessTokenConverter.class)
         public JwtAccessTokenConverter jwtAccessTokenConverter() {
             JwtAccessTokenConverter accessTokenConverter = new JwtAccessTokenConverter();
             accessTokenConverter.setSigningKey("test_key");//配置JWT使用的秘钥
@@ -48,7 +50,7 @@ public class TokenStoreConfig {
          * 扩展jwt内容
          */
         @Bean
-        @ConditionalOnMissingBean(name = "jwtTokenEnhancer")
+        @ConditionalOnMissingBean(TokenEnhancer.class)
         public TokenEnhancer jwtTokenEnhancer() {
             return (accessToken, authentication) -> {
                 Map<String, Object> info = new HashMap<>(2);
