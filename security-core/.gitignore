@@ -31,6 +31,5 @@ build/
 .vscode/
 /security-core.iml
 /mvnw.cmd
-/pom.xml
 /.mvn/
 /mvnw
