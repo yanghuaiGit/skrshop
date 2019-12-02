@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-class ImageCodeProperties extends CodeProperties {
+public class ImageCodeProperties extends CodeProperties {
 
     private int width = 180;
     private int height = 40;

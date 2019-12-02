@@ -3,7 +3,7 @@ package com.skrshop.securitycore.properties;
 import lombok.Data;
 
 @Data
-class CodeProperties {
+public class CodeProperties {
 
     //验证码过期时间 s 默认是5分钟
     private int expireIn = 300;
