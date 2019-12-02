@@ -1,6 +1,7 @@
 package com.skrshop.securitycore.validate;
 
 import com.skrshop.securitycore.validate.code.ValidateCodeException;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.bind.ServletRequestBindingException;
@@ -16,6 +17,7 @@ import java.util.Map;
  * @date 2019/3/23
  */
 @Slf4j
+@AllArgsConstructor
 public abstract class AbsctractValidateCodeProcessor<V> implements ValidateCodeProcessor {
 
     /**

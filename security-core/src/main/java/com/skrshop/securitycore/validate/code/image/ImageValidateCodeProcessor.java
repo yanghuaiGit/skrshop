@@ -3,19 +3,30 @@ package com.skrshop.securitycore.validate.code.image;
 
 import com.skrshop.securitycore.security.SecurityConstants;
 import com.skrshop.securitycore.validate.AbsctractValidateCodeProcessor;
+import com.skrshop.securitycore.validate.ValidateCodeGenerator;
+import com.skrshop.securitycore.validate.ValidateCodeStore;
 import com.skrshop.securitycore.validate.code.ValidateCodeType;
 import org.springframework.web.context.request.ServletWebRequest;
 
 import javax.imageio.ImageIO;
+import java.util.Map;
 
 
 public class ImageValidateCodeProcessor
         extends AbsctractValidateCodeProcessor<ImageCode> {
+
+    private ValidateCodeStore validateCodeStore;
     /**
      * 设置session的key
      */
     private final String IMAGE_SESSION_VALIDATE_CODE_KEY =
             VALIDATE_CODE_KEY_PREFIX.concat(ValidateCodeType.IMAGE.getValidType());
+
+
+    public ImageValidateCodeProcessor(Map<String, ValidateCodeGenerator> validateCodeGenerators, ValidateCodeStore validateCodeStore) {
+        super(validateCodeGenerators);
+        this.validateCodeStore = validateCodeStore;
+    }
 
     /**
      * 实现生成验证码发送到用户浏览器中
@@ -31,7 +42,7 @@ public class ImageValidateCodeProcessor
 
     @Override
     public <V> void save(ServletWebRequest request, V validateCode) {
-
+        validateCodeStore.save(request, IMAGE_SESSION_VALIDATE_CODE_KEY, validateCode);
     }
 
     @Override
