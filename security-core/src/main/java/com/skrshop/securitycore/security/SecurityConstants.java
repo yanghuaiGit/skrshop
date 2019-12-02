@@ -1,4 +1,4 @@
-package com.skrshop.securitycore.auth;
+package com.skrshop.securitycore.security;
 
 /**
  * 配置常量信息
@@ -12,7 +12,7 @@ public interface SecurityConstants {
     /**
      * 请求需要认证时候默认跳转的请求地址
      */
-    String DEFAULT_NEED_AUTHENTICATION_URL = "/auth/require";
+    String DEFAULT_NEED_AUTHENTICATION_URL = "/security/require";
     /**
      * form页面提交登录请求地址
      */
