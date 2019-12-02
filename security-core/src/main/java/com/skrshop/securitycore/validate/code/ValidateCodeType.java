@@ -6,10 +6,6 @@ import lombok.Getter;
 import java.util.Arrays;
 import java.util.Optional;
 
-/**
- * @author 李建珍
- * @date 2019/3/24
- */
 @AllArgsConstructor
 @Getter
 public enum ValidateCodeType {

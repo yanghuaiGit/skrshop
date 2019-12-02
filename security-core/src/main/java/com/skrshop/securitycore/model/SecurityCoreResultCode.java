@@ -29,14 +29,11 @@ public class SecurityCoreResultCode implements ResultCode {
     }
 
 
-    public SecurityCoreResultCode(int code, String desc) {
+    private SecurityCoreResultCode(int code, String desc) {
         this.code = code;
         this.desc = desc;
     }
 
-    static ResultCode resultCodeFactory(ResultCode resultCode, String msg) {
-        return new SecurityCoreResultCode(resultCode.getCode(), resultCode.getDesc(), msg);
-    }
 
     //登录方式异常
     public static ResultCode CODE_TYPE_NOT_SUPPORT = new SecurityCoreResultCode(4000, "Code Type Not Support");

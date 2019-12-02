@@ -1,13 +1,13 @@
 package com.skrshop.securitycore.validate;
 
+import lombok.Data;
+
 import java.time.LocalDateTime;
 
 /**
  * 验证码需要的基本类
- *
- * @author 李建珍
- * @date 2019/3/21
  */
+@Data
 public class ValidateCode {
     /**
      * 验证码
@@ -21,7 +21,7 @@ public class ValidateCode {
     /**
      * 多长时间后过期
      *
-     * @param code
+     * @param code 验证码值
      * @param expireIn 过期时间单位为秒
      */
     public ValidateCode(String code, int expireIn) {
@@ -39,19 +39,4 @@ public class ValidateCode {
         return LocalDateTime.now().isAfter(expireTime);
     }
 
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public LocalDateTime getExpireTime() {
-        return expireTime;
-    }
-
-    public void setExpireTime(LocalDateTime expireTime) {
-        this.expireTime = expireTime;
-    }
 }

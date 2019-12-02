@@ -4,6 +4,7 @@ import com.skrshop.securitycore.properties.SkrShopSecurityCenterProperties;
 import com.skrshop.securitycore.validate.ValidateCodeGenerator;
 import com.skrshop.securitycore.validate.ValidateCodeProcessor;
 import com.skrshop.securitycore.validate.ValidateCodeStore;
+import com.skrshop.securitycore.validate.code.image.ImageCode;
 import com.skrshop.securitycore.validate.code.image.ImageCodeGenerator;
 import com.skrshop.securitycore.validate.code.image.ImageValidateCodeProcessor;
 import com.skrshop.securitycore.validate.code.image.ImageValidateCodeStore;
@@ -23,7 +24,7 @@ public class ValidateCodeProcessorConfig {
     }
 
     @Bean
-    public ValidateCodeStore imageValidateCodeStore() {
+    public ValidateCodeStore<ImageCode> imageValidateCodeStore() {
         return new ImageValidateCodeStore(imageCodeGenerator());
     }
 

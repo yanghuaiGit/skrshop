@@ -2,14 +2,14 @@ package com.skrshop.securitycore.validate.code.image;
 
 
 import com.skrshop.securitycore.validate.ValidateCode;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.awt.image.BufferedImage;
 import java.time.LocalDateTime;
 
-/**
- * @author 李建珍
- * @date 2019/3/21
- */
+@EqualsAndHashCode(callSuper = true)
+@Data
 public class ImageCode extends ValidateCode {
     //验证码图片
     private BufferedImage image;
@@ -17,8 +17,8 @@ public class ImageCode extends ValidateCode {
     /**
      * 多长时间后过期
      *
-     * @param image
-     * @param code
+     * @param image    流对象
+     * @param code     验证码值
      * @param expireIn 过期时间单位为秒
      */
     public ImageCode(BufferedImage image, String code, int expireIn) {
@@ -31,11 +31,4 @@ public class ImageCode extends ValidateCode {
         this.image = image;
     }
 
-    public BufferedImage getImage() {
-        return image;
-    }
-
-    public void setImage(BufferedImage image) {
-        this.image = image;
-    }
 }

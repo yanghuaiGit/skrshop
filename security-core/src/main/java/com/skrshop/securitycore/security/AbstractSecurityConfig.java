@@ -20,9 +20,6 @@ public class AbstractSecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * 密码登录配置相关
-     *
-     * @param httpSecurity
-     * @throws Exception
      */
     protected void applyPasswordAuthenticationConfig(HttpSecurity httpSecurity) throws Exception {
         FormLoginConfigurer<HttpSecurity> formConfigurer = httpSecurity.formLogin()
