@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Data
 @Configuration
-@ConfigurationProperties(prefix = "skrshop.auth")
+@ConfigurationProperties(prefix = "skrshop.security")
 public class TokenProperties {
 
     /**

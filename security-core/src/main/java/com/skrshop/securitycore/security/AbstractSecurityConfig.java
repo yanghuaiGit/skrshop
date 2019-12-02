@@ -1,20 +1,13 @@
 package com.skrshop.securitycore.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 /**
- * @author 李建珍
- * @date 2019/3/24
+ * security-core配置
  */
 public class AbstractSecurityConfig extends WebSecurityConfigurerAdapter {
-    @Autowired
-    private AuthenticationSuccessHandler selfAuthenticationSuccessHandler;
-    @Autowired
-    private AuthenticationFailureHandler selfAuthenticationFailureHandler;
+
 
     /**
      * 密码登录配置相关
@@ -25,8 +18,6 @@ public class AbstractSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void applyPasswordAuthenticationConfig(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.formLogin()
                 .loginPage(SecurityConstants.DEFAULT_LOGIN_PAGE_URL)
-                .loginProcessingUrl(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_FOORM)
-                .successHandler(selfAuthenticationSuccessHandler)
-                .failureHandler(selfAuthenticationFailureHandler);
+                .loginProcessingUrl(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_FOORM);
     }
 }
