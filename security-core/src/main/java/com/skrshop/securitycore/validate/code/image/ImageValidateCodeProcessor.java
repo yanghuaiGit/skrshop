@@ -3,13 +3,11 @@ package com.skrshop.securitycore.validate.code.image;
 
 import com.skrshop.securitycore.security.SecurityConstants;
 import com.skrshop.securitycore.validate.AbsctractValidateCodeProcessor;
-import com.skrshop.securitycore.validate.ValidateCodeGenerator;
 import com.skrshop.securitycore.validate.ValidateCodeStore;
 import com.skrshop.securitycore.validate.code.ValidateCodeType;
 import org.springframework.web.context.request.ServletWebRequest;
 
 import javax.imageio.ImageIO;
-import java.util.Map;
 import java.util.Objects;
 
 
@@ -24,8 +22,8 @@ public class ImageValidateCodeProcessor
             VALIDATE_CODE_KEY_PREFIX.concat(ValidateCodeType.IMAGE.getValidType());
 
 
-    public ImageValidateCodeProcessor(Map<String, ValidateCodeGenerator> validateCodeGenerators, ValidateCodeStore validateCodeStore) {
-        super(validateCodeGenerators,validateCodeStore);
+    public ImageValidateCodeProcessor(ValidateCodeStore<ImageCode> validateCodeStore) {
+        super(validateCodeStore);
 
     }
 

@@ -8,8 +8,6 @@ import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.context.request.ServletWebRequest;
 
-import java.util.Map;
-
 /**
  * 对于process的抽象实现
  */
@@ -17,17 +15,12 @@ import java.util.Map;
 @AllArgsConstructor
 public abstract class AbsctractValidateCodeProcessor<V extends ValidateCode> implements ValidateCodeProcessor {
 
-    /**
-     * 将依赖中所有的generator获得
-     */
-    private Map<String, ValidateCodeGenerator> validateCodeGenerators;
-
-    protected ValidateCodeStore validateCodeStore;
+    protected ValidateCodeStore<V> validateCodeStore;
 
     @Override
     public void create(ServletWebRequest request) throws Exception {
         //生成验证码
-        V validateCode = (V) validateCodeStore.generate(request);
+        V validateCode = validateCodeStore.generate(request);
         //保存session和别的地方
         save(request, validateCode);
         //发送到浏览器和短信
@@ -45,14 +38,13 @@ public abstract class AbsctractValidateCodeProcessor<V extends ValidateCode> imp
     }
 
 
-
     /**
      * 做验证码校验的封装
      */
     @Override
     public void validate(ServletWebRequest request) throws ValidateCodeException {
         //从请求中取出之前存入session的验证码
-        ValidateCode imageCode = (ValidateCode) validateCodeStore.getCode(request, getValidateSeesionKey());
+        ValidateCode imageCode = validateCodeStore.getCode(request, getValidateSeesionKey());
         //获取form表单中用户输入的验证码
         String codeInRequest = null;
         try {

@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.Resource;
-import java.util.Map;
 
 @Configuration
 public class ValidateCodeProcessorConfig {
@@ -29,8 +28,8 @@ public class ValidateCodeProcessorConfig {
     }
 
     @Bean
-    public ValidateCodeProcessor imageValidateCodeProcessor(Map<String, ValidateCodeGenerator> validateCodeGeneratorMap) {
-        return new ImageValidateCodeProcessor(validateCodeGeneratorMap, imageValidateCodeStore());
+    public ValidateCodeProcessor imageValidateCodeProcessor() {
+        return new ImageValidateCodeProcessor(imageValidateCodeStore());
     }
 
 }
