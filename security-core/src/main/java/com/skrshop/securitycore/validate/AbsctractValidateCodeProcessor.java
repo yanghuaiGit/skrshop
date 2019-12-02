@@ -12,13 +12,10 @@ import java.util.Map;
 
 /**
  * 对于process的抽象实现
- *
- * @author 李建珍
- * @date 2019/3/23
  */
 @Slf4j
 @AllArgsConstructor
-public abstract class AbsctractValidateCodeProcessor<V> implements ValidateCodeProcessor {
+public abstract class AbsctractValidateCodeProcessor<V extends ValidateCode> implements ValidateCodeProcessor {
 
     /**
      * 将依赖中所有的generator获得
@@ -30,7 +27,7 @@ public abstract class AbsctractValidateCodeProcessor<V> implements ValidateCodeP
     @Override
     public void create(ServletWebRequest request) throws Exception {
         //生成验证码
-        V validateCode = generate(request);
+        V validateCode = (V) validateCodeStore.generate(request);
         //保存session和别的地方
         save(request, validateCode);
         //发送到浏览器和短信
@@ -39,40 +36,18 @@ public abstract class AbsctractValidateCodeProcessor<V> implements ValidateCodeP
 
     /**
      * 发送验证码，手机验证码
-     *
-     * @param request
-     * @param validateCode
      */
     protected abstract void send(ServletWebRequest request, V validateCode) throws Exception;
 
 
-    /**
-     * @param request
-     * @param validateCode
-     */
-
-    public <V> void save(ServletWebRequest request, V validateCode) {
+    private void save(ServletWebRequest request, V validateCode) {
         validateCodeStore.save(request, getValidateSeesionKey(), validateCode);
     }
 
-    /**
-     * 通过请求类型生成对应的验证码
-     *
-     * @param request
-     * @return
-     */
-    private V generate(ServletWebRequest request) {
-        String type = getProcessorType(request);
-        ValidateCodeGenerator validateCodeGenerator = validateCodeGenerators.get(type + "CodeGenerator");
-        return (V) validateCodeGenerator.generate(request);
-    }
 
 
     /**
      * 做验证码校验的封装
-     *
-     * @param request
-     * @throws ValidateCodeException
      */
     @Override
     public void validate(ServletWebRequest request) throws ValidateCodeException {
@@ -104,15 +79,11 @@ public abstract class AbsctractValidateCodeProcessor<V> implements ValidateCodeP
 
     /**
      * 获取对应的session的key
-     *
-     * @return
      */
     protected abstract String getValidateSeesionKey();
 
     /**
      * 获取需要校验的请求字段的值
-     *
-     * @return
      */
     protected abstract String getValidateParameterName();
 }
