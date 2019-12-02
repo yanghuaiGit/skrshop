@@ -1,12 +1,12 @@
 package com.skrshop.securitycore.validate;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.skrshop.securitycore.properties.SkrShopSecurityCenterProperties;
 import com.skrshop.securitycore.security.SecurityConstants;
 import com.skrshop.securitycore.validate.code.ValidateCodeException;
 import com.skrshop.securitycore.validate.code.ValidateCodeProcessorHolder;
 import com.skrshop.securitycore.validate.code.ValidateCodeType;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
@@ -20,6 +20,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicReference;
@@ -49,7 +50,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
     /**
      * 存放所有需要校验验证码的url
      */
-    private static Map<String, ValidateCodeType> urlMap = new ConcurrentHashMap<>();
+    private Map<String, ValidateCodeType> urlMap = new ConcurrentHashMap<>();
 
     /**
      * 路径匹配
@@ -63,19 +64,9 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
     @Override
     public void afterPropertiesSet() throws ServletException {
         super.afterPropertiesSet();
-        addUrls();
+        updateUrl(securityProperties.getCode().getSms().getUrl(), ValidateCodeType.SMS);
     }
 
-    /**
-     * 增加拦截的url
-     */
-    private void addUrls() {
-        urlMap.put(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_FOORM, ValidateCodeType.IMAGE);
-        addUrlToMap(securityProperties.getCode().getImage().getUrl(), ValidateCodeType.IMAGE);
-
-        urlMap.put(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE, ValidateCodeType.SMS);
-        addUrlToMap(securityProperties.getCode().getSms().getUrl(), ValidateCodeType.SMS);
-    }
 
     /**
      * 将系统中的配置需要校验验证码的url根据校验类型放入map中
@@ -83,13 +74,13 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
      * @param urlString 需要校验的url
      * @param type      校验类型
      */
-    private void addUrlToMap(String urlString, ValidateCodeType type) {
-        if (StringUtils.isNotBlank(urlString)) {
-            String[] configUrls = StringUtils.splitByWholeSeparatorPreserveAllTokens(securityProperties.getCode().getImage().getUrl(), ",");
-            for (String url : configUrls) {
-                urlMap.put(url, type);
-            }
+    private void updateUrl(List<String> urlString, ValidateCodeType type) {
+        Map<String, ValidateCodeType> newUrlMap = new ConcurrentHashMap<>();
+        newUrlMap.put(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE, ValidateCodeType.SMS);
+        if (CollectionUtil.isNotEmpty(urlString)) {
+            urlString.parallelStream().forEach(item -> newUrlMap.put(item, type));
         }
+        urlMap = newUrlMap;
     }
 
 

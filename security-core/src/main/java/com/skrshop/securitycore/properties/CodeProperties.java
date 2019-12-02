@@ -2,6 +2,8 @@ package com.skrshop.securitycore.properties;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class CodeProperties {
 
@@ -15,5 +17,5 @@ public class CodeProperties {
     private Boolean enable = false;
 
     //需要验证码拦截的url以,隔开
-    private String url;
+    private List<String> url;
 }
