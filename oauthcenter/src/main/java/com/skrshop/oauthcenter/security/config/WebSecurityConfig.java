@@ -6,6 +6,7 @@ import com.skrshop.oauthcenter.security.userdetail.UserDetailsRepository;
 import com.skrshop.oauthcenter.security.validate.code.SmsCodeFilter;
 import com.skrshop.oauthcenter.security.validate.code.ValidateCodeFilter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -16,9 +17,11 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.web.savedrequest.RequestCache;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
+import java.util.Objects;
 
 
 /**
@@ -31,6 +34,9 @@ import javax.sql.DataSource;
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired(required = false)
+    private RequestCache requestCache;
 
     @Resource
     private AuthenticationSuccessHandler successHandler;
@@ -78,8 +84,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
-
+        //只有需要验证的接口 才会存储进去
+        if (Objects.nonNull(requestCache)) {
+            http.setSharedObject(RequestCache.class, requestCache);
+        }
         http.addFilterBefore(smsCodeFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class) //比登录Filter先执行 自定义登录
                 .formLogin()
