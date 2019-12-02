@@ -20,8 +20,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -49,7 +49,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
     /**
      * 存放所有需要校验验证码的url
      */
-    private static Map<String, ValidateCodeType> urlMap = new HashMap<>();
+    private static Map<String, ValidateCodeType> urlMap = new ConcurrentHashMap<>();
 
     /**
      * 路径匹配
