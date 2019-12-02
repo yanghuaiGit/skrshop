@@ -11,7 +11,8 @@ import lombok.Getter;
 @Getter
 public enum ValidateCodeType {
     SMS("sms"),
-    ;
+    IMAGE("image");
+
 
     private String validType;
 
