@@ -26,6 +26,7 @@
         <module>oauthcenter</module>
         <module>oauthclient</module>
         <module>oauthserver</module>
+        <module>oauth-core</module>
         <module>redis-support</module>
         <module>skrshop-mybatisplus</module>
         <module>cloud-gateway</module>
