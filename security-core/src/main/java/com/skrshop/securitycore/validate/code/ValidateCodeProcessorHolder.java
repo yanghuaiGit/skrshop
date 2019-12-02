@@ -25,6 +25,6 @@ public class ValidateCodeProcessorHolder {
      * @return
      */
     public ValidateCodeProcessor findValidateCodeProcessor(ValidateCodeType type) {
-        return validateCodeProcessors.get(type.getLowName() + "ValidateCodeProcessor");
+        return validateCodeProcessors.get(type.getValidType() + "ValidateCodeProcessor");
     }
 }

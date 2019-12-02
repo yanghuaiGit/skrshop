@@ -27,6 +27,11 @@ public interface SecurityConstants {
     String DEFAULT_LOGIN_PAGE_URL = "/login.html";
 
     /**
+     * 图片验证码请求默认的参数名称
+     */
+    String DEFAULT_IMAGE_CODE_PARAMETER_NAME = "imageCode";
+
+    /**
      * 短信验证码时，请求参数中默认携带短信验证码的参数名称
      */
     String DEFAULT_SMS_CODE_PARAMETER_NAME = "smsCode";

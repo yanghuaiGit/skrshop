@@ -65,6 +65,8 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
     public void afterPropertiesSet() throws ServletException {
         super.afterPropertiesSet();
         updateUrl(securityProperties.getCode().getSms().getUrl(), ValidateCodeType.SMS);
+
+        updateUrl(securityProperties.getCode().getImage().getUrl(), ValidateCodeType.IMAGE);
     }
 
 
