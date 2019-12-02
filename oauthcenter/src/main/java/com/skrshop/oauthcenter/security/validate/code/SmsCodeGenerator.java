@@ -1,7 +1,7 @@
 package com.skrshop.oauthcenter.security.validate.code;
 
 import cn.hutool.core.util.RandomUtil;
-import com.skrshop.oauthcenter.security.config.properties.SkrShopAuthorityCenterProperties;
+import com.skrshop.oauthcenter.security.config.properties.SkrShopSecurityCenterProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 @NoArgsConstructor
 public class SmsCodeGenerator implements ValidateCodeGenerator {
 
-    private SkrShopAuthorityCenterProperties skrShopAuthorityCenterProperties;
+    private SkrShopSecurityCenterProperties skrShopSecurityCenterProperties;
 
     // 验证码范围,去掉0(数字)和O(拼音)容易混淆的(小写的1和L也可以去掉,大写不用了)
     private static char[] codeSequence = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
@@ -23,7 +23,7 @@ public class SmsCodeGenerator implements ValidateCodeGenerator {
 
     @Override
     public ValidateCode generateCode(HttpServletRequest httpServletRequest) {
-        return new ValidateCode(RandomUtil.randomNumbers(skrShopAuthorityCenterProperties.getSecurity().getCode().getSms().getCodeCount()), 1000L);
+        return new ValidateCode(RandomUtil.randomNumbers(skrShopSecurityCenterProperties.getSecurity().getCode().getSms().getCodeCount()), 1000L);
     }
 
 }

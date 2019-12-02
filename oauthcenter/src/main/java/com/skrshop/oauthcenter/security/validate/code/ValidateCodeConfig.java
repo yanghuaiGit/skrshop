@@ -1,6 +1,6 @@
 package com.skrshop.oauthcenter.security.validate.code;
 
-import com.skrshop.oauthcenter.security.config.properties.SkrShopAuthorityCenterProperties;
+import com.skrshop.oauthcenter.security.config.properties.SkrShopSecurityCenterProperties;
 import com.skrshop.oauthcenter.security.validate.code.sms.DefaultCodeSender;
 import com.skrshop.oauthcenter.security.validate.code.sms.CodeSender;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -13,28 +13,28 @@ public class ValidateCodeConfig {
 
     @Bean
     @ConditionalOnMissingBean(name = "imageCodeGenerator")
-    public ValidateCodeGenerator imageCodeGenerator(SkrShopAuthorityCenterProperties skrShopAuthorityCenterProperties) {
-        return new ImageCodeGenerator(skrShopAuthorityCenterProperties);
+    public ValidateCodeGenerator imageCodeGenerator(SkrShopSecurityCenterProperties skrShopSecurityCenterProperties) {
+        return new ImageCodeGenerator(skrShopSecurityCenterProperties);
     }
 
 
     @Bean
     @ConditionalOnMissingBean(name = "smsCodeGenerator")
-    public ValidateCodeGenerator smsCodeGenerator(SkrShopAuthorityCenterProperties skrShopAuthorityCenterProperties) {
-        return new SmsCodeGenerator(skrShopAuthorityCenterProperties);
+    public ValidateCodeGenerator smsCodeGenerator(SkrShopSecurityCenterProperties skrShopSecurityCenterProperties) {
+        return new SmsCodeGenerator(skrShopSecurityCenterProperties);
     }
 
 
     @Bean
     @ConditionalOnMissingBean(name = "imageCodeProcessor")
-    public ValidateCodeProcessor imageCodeProcessor(SkrShopAuthorityCenterProperties skrShopAuthorityCenterProperties) {
-        return new ImageCodeProcessor(imageCodeGenerator(skrShopAuthorityCenterProperties));
+    public ValidateCodeProcessor imageCodeProcessor(SkrShopSecurityCenterProperties skrShopSecurityCenterProperties) {
+        return new ImageCodeProcessor(imageCodeGenerator(skrShopSecurityCenterProperties));
     }
 
     @Bean
     @ConditionalOnMissingBean(name = "smsCodeProcessor")
-    public ValidateCodeProcessor smsCodeProcessor(SkrShopAuthorityCenterProperties skrShopAuthorityCenterProperties) {
-        return new SmsCodeProcessor(smsCodeGenerator(skrShopAuthorityCenterProperties));
+    public ValidateCodeProcessor smsCodeProcessor(SkrShopSecurityCenterProperties skrShopSecurityCenterProperties) {
+        return new SmsCodeProcessor(smsCodeGenerator(skrShopSecurityCenterProperties));
     }
 
     @Bean

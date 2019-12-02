@@ -1,7 +1,7 @@
 package com.skrshop.oauthcenter.security.config;
 
 
-import com.skrshop.oauthcenter.security.config.properties.SkrShopAuthorityCenterProperties;
+import com.skrshop.oauthcenter.security.config.properties.SkrShopSecurityCenterProperties;
 import com.skrshop.oauthcenter.security.userdetail.UserDetailsRepository;
 import com.skrshop.oauthcenter.security.validate.code.SmsCodeFilter;
 import com.skrshop.oauthcenter.security.validate.code.ValidateCodeFilter;
@@ -45,7 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private AuthenticationFailureHandler failHandler;
 
     @Resource
-    private SkrShopAuthorityCenterProperties skrShopAuthorityCenterProperties;
+    private SkrShopSecurityCenterProperties skrShopSecurityCenterProperties;
 
     @Resource
     private ValidateCodeFilter validateCodeFilter;
@@ -99,12 +99,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //如果是jwt直接设置jwt的有效时间就行了
                 .rememberMe()
                 .tokenRepository(persistentTokenRepository())
-                .tokenValiditySeconds(skrShopAuthorityCenterProperties.getSecurity().getRememberMeSeconds())
+                .tokenValiditySeconds(skrShopSecurityCenterProperties.getSecurity().getRememberMeSeconds())
                 .userDetailsService(userDetailsRepository)
                 .and()
                 .authorizeRequests()
                 .antMatchers("/authentication/require",
-                        skrShopAuthorityCenterProperties.getSecurity().getLoginpage(),
+                        skrShopSecurityCenterProperties.getSecurity().getLoginpage(),
                         "/oauth/**",
                         "/code/*")
                 .permitAll()

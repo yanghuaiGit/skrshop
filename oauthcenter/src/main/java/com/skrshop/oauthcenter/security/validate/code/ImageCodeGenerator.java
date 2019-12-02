@@ -1,7 +1,7 @@
 package com.skrshop.oauthcenter.security.validate.code;
 
 import com.skrshop.oauthcenter.security.config.properties.ImageCodeProperties;
-import com.skrshop.oauthcenter.security.config.properties.SkrShopAuthorityCenterProperties;
+import com.skrshop.oauthcenter.security.config.properties.SkrShopSecurityCenterProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,7 +18,7 @@ import java.util.Random;
 @Slf4j
 public class ImageCodeGenerator implements ValidateCodeGenerator {
 
-    private SkrShopAuthorityCenterProperties skrShopAuthorityCenterProperties;
+    private SkrShopSecurityCenterProperties skrShopSecurityCenterProperties;
 
     // 验证码范围,去掉0(数字)和O(拼音)容易混淆的(小写的1和L也可以去掉,大写不用了)
     private static char[] codeSequence = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
@@ -28,7 +28,7 @@ public class ImageCodeGenerator implements ValidateCodeGenerator {
 
     @Override
     public ValidateCode generateCode(HttpServletRequest httpServletRequest) {
-        ImageCodeProperties image = skrShopAuthorityCenterProperties.getSecurity().getCode().getImage();
+        ImageCodeProperties image = skrShopSecurityCenterProperties.getSecurity().getCode().getImage();
         int width = image.getWidth();
         int height = image.getHeight();
         int codeCount = image.getCodeCount();

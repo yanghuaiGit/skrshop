@@ -1,7 +1,7 @@
 package com.skrshop.oauthcenter.security.handler;
 
 import com.skrshop.oauthcenter.config.LoginTypeEnum;
-import com.skrshop.oauthcenter.security.config.properties.SkrShopAuthorityCenterProperties;
+import com.skrshop.oauthcenter.security.config.properties.SkrShopSecurityCenterProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.AuthenticationException;
@@ -22,7 +22,7 @@ import java.util.Map;
 public class AuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
     @Autowired
-    private SkrShopAuthorityCenterProperties skrShopAuthorityCenterProperties;
+    private SkrShopSecurityCenterProperties skrShopSecurityCenterProperties;
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
@@ -32,7 +32,7 @@ public class AuthenticationFailureHandler extends SimpleUrlAuthenticationFailure
             log.debug("Response has already been committed");
             return;
         }
-        if (LoginTypeEnum.JSON.equals(skrShopAuthorityCenterProperties.getSecurity().getLoginTypeEnum())) {
+        if (LoginTypeEnum.JSON.equals(skrShopSecurityCenterProperties.getSecurity().getLoginTypeEnum())) {
             Map<String, Object> map = new HashMap<>(2);
             map.put("time", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
             map.put("flag", "failure_login");

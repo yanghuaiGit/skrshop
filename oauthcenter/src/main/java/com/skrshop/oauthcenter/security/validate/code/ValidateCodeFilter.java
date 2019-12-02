@@ -2,7 +2,7 @@ package com.skrshop.oauthcenter.security.validate.code;
 
 import com.skrshop.common.error.SkrShopException;
 import com.skrshop.oauthcenter.model.AuthResultCode;
-import com.skrshop.oauthcenter.security.config.properties.SkrShopAuthorityCenterProperties;
+import com.skrshop.oauthcenter.security.config.properties.SkrShopSecurityCenterProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
@@ -29,7 +29,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
     private final String IMAGECODEKEY = "security_imagecode";
 
     @Resource
-    private SkrShopAuthorityCenterProperties skrShopAuthorityCenterProperties;
+    private SkrShopSecurityCenterProperties skrShopSecurityCenterProperties;
 
     @Resource
     private ValueOperations<String, String> valueOperations;
@@ -42,7 +42,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
     @Override
     public void afterPropertiesSet() throws ServletException {
         super.afterPropertiesSet();
-        String[] configUrls = StringUtils.splitByWholeSeparatorPreserveAllTokens(skrShopAuthorityCenterProperties.getSecurity().getCode().getImage().getUrl(), ",");
+        String[] configUrls = StringUtils.splitByWholeSeparatorPreserveAllTokens(skrShopSecurityCenterProperties.getSecurity().getCode().getImage().getUrl(), ",");
         if (Objects.nonNull(configUrls)) {
             urls.addAll(Arrays.asList(configUrls));
         }
@@ -52,7 +52,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        if (skrShopAuthorityCenterProperties.getSecurity().getCode().getImage().getEnable() && urls.stream().anyMatch(itm -> pathMatcher.match(itm, request.getRequestURI()))) {
+        if (skrShopSecurityCenterProperties.getSecurity().getCode().getImage().getEnable() && urls.stream().anyMatch(itm -> pathMatcher.match(itm, request.getRequestURI()))) {
             log.info("--------匹配到需要验证码接口----{}", request.getRequestURI());
             HttpServletRequest parameterRequestWrapper = new HttpServletRequestWrapper((HttpServletRequest) request);
             //或者使用定义好的SecurityFailHandler异常处理器进行捕获
