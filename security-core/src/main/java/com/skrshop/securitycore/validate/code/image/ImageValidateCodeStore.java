@@ -17,4 +17,10 @@ public class ImageValidateCodeStore implements ValidateCodeStore<ImageCode> {
     public ImageCode getCode(ServletWebRequest request, String key) {
         return (ImageCode) request.getRequest().getSession().getAttribute(key);
     }
+
+    @Override
+    public boolean remove(ServletWebRequest request, String key) {
+        request.getRequest().getSession().removeAttribute(key);
+        return true;
+    }
 }

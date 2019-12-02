@@ -25,6 +25,7 @@ public abstract class AbsctractValidateCodeProcessor<V> implements ValidateCodeP
      */
     private Map<String, ValidateCodeGenerator> validateCodeGenerators;
 
+    protected ValidateCodeStore validateCodeStore;
 
     @Override
     public void create(ServletWebRequest request) throws Exception {
@@ -50,7 +51,9 @@ public abstract class AbsctractValidateCodeProcessor<V> implements ValidateCodeP
      * @param validateCode
      */
 
-    public abstract <V> void save(ServletWebRequest request, V validateCode);
+    public <V> void save(ServletWebRequest request, V validateCode) {
+        validateCodeStore.save(request, getValidateSeesionKey(), validateCode);
+    }
 
     /**
      * 通过请求类型生成对应的验证码
@@ -74,7 +77,7 @@ public abstract class AbsctractValidateCodeProcessor<V> implements ValidateCodeP
     @Override
     public void validate(ServletWebRequest request) throws ValidateCodeException {
         //从请求中取出之前存入session的验证码
-        ValidateCode imageCode = (ValidateCode) sessionStrategy.getAttribute(request, getValidateSeesionKey());
+        ValidateCode imageCode = (ValidateCode) validateCodeStore.getCode(request, getValidateSeesionKey());
         //获取form表单中用户输入的验证码
         String codeInRequest = null;
         try {
@@ -89,13 +92,13 @@ public abstract class AbsctractValidateCodeProcessor<V> implements ValidateCodeP
             throw new ValidateCodeException("验证码不存在");
         }
         if (imageCode.isExpired()) {
-            sessionStrategy.removeAttribute(request, getValidateSeesionKey());
+            validateCodeStore.remove(request, getValidateSeesionKey());
             throw new ValidateCodeException("验证码已过期");
         }
         if (!StringUtils.equals(imageCode.getCode(), codeInRequest)) {
             throw new ValidateCodeException("验证码不匹配");
         }
-        sessionStrategy.removeAttribute(request, getValidateSeesionKey());
+        validateCodeStore.remove(request, getValidateSeesionKey());
     }
 
 

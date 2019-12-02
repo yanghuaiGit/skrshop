@@ -6,4 +6,6 @@ public interface ValidateCodeStore<V> {
     void save(ServletWebRequest request, String key, V validateCode);
 
     V getCode(ServletWebRequest request, String key);
+
+    boolean remove(ServletWebRequest request, String key);
 }

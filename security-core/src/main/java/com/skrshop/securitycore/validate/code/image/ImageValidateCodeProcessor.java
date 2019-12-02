@@ -10,12 +10,13 @@ import org.springframework.web.context.request.ServletWebRequest;
 
 import javax.imageio.ImageIO;
 import java.util.Map;
+import java.util.Objects;
 
 
 public class ImageValidateCodeProcessor
         extends AbsctractValidateCodeProcessor<ImageCode> {
 
-    private ValidateCodeStore validateCodeStore;
+
     /**
      * 设置session的key
      */
@@ -24,8 +25,8 @@ public class ImageValidateCodeProcessor
 
 
     public ImageValidateCodeProcessor(Map<String, ValidateCodeGenerator> validateCodeGenerators, ValidateCodeStore validateCodeStore) {
-        super(validateCodeGenerators);
-        this.validateCodeStore = validateCodeStore;
+        super(validateCodeGenerators,validateCodeStore);
+
     }
 
     /**
@@ -33,16 +34,12 @@ public class ImageValidateCodeProcessor
      *
      * @param request      request请求
      * @param validateCode 图形验证码
-     * @throws Exception
      */
     @Override
     protected void send(ServletWebRequest request, ImageCode validateCode) throws Exception {
-        ImageIO.write(validateCode.getImage(), "JPEG", request.getResponse().getOutputStream());
-    }
-
-    @Override
-    public <V> void save(ServletWebRequest request, V validateCode) {
-        validateCodeStore.save(request, IMAGE_SESSION_VALIDATE_CODE_KEY, validateCode);
+        if (Objects.nonNull(request.getResponse())) {
+            ImageIO.write(validateCode.getImage(), "JPEG", request.getResponse().getOutputStream());
+        }
     }
 
     @Override
