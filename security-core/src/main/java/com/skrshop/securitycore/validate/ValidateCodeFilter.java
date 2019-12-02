@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * 保证过滤器每次只会被调用一次
@@ -48,7 +49,8 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
     /**
      * 存放所有需要校验验证码的url
      */
-    private Map<String, ValidateCodeType> urlMap = new HashMap<>();
+    private static Map<String, ValidateCodeType> urlMap = new HashMap<>();
+
     /**
      * 路径匹配
      */
@@ -61,6 +63,13 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
     @Override
     public void afterPropertiesSet() throws ServletException {
         super.afterPropertiesSet();
+        addUrls();
+    }
+
+    /**
+     * 增加拦截的url
+     */
+    private void addUrls() {
         urlMap.put(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_FOORM, ValidateCodeType.IMAGE);
         addUrlToMap(securityProperties.getCode().getImage().getUrl(), ValidateCodeType.IMAGE);
 
@@ -72,7 +81,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
      * 将系统中的配置需要校验验证码的url根据校验类型放入map中
      *
      * @param urlString 需要校验的url
-     * @param type 校验类型
+     * @param type      校验类型
      */
     private void addUrlToMap(String urlString, ValidateCodeType type) {
         if (StringUtils.isNotBlank(urlString)) {
@@ -85,7 +94,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
 
 
     @Override
-    protected void doFilterInternal( HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         //获取请求的类型
         ValidateCodeType type = getValidateType(request);
@@ -107,14 +116,15 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
      * 获取验证类型
      */
     private ValidateCodeType getValidateType(HttpServletRequest request) {
-        ValidateCodeType validateType = null;
+        AtomicReference<ValidateCodeType> validateType = new AtomicReference<>();
         //这里设置提交登录表单信息的请求URL，如果是需要校验的返回校验的类型
-        for (String url : urlMap.keySet()) {
-            if (antPathMatcher.match(url, request.getRequestURI())) {
-                validateType = urlMap.get(url);
-            }
-        }
-        return validateType;
+        urlMap.keySet()
+                .stream()
+                .filter(url -> antPathMatcher.match(url, request.getRequestURI()))
+                .findFirst()
+                .ifPresent(url -> validateType.set(urlMap.get(url)));
+
+        return validateType.get();
     }
 
 }
