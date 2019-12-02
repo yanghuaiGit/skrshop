@@ -1,10 +1,8 @@
 package com.skrshop.securitycore.validate;
 
 import com.skrshop.securitycore.validate.code.ValidateCodeException;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.context.request.ServletWebRequest;
@@ -17,14 +15,14 @@ import java.util.Map;
  * @author 李建珍
  * @date 2019/3/23
  */
+@Slf4j
 public abstract class AbsctractValidateCodeProcessor<V> implements ValidateCodeProcessor {
-    protected Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
      * 将依赖中所有的generator获得
      */
-    @Autowired
     private Map<String, ValidateCodeGenerator> validateCodeGenerators;
+
 
     @Override
     public void create(ServletWebRequest request) throws Exception {
@@ -44,20 +42,13 @@ public abstract class AbsctractValidateCodeProcessor<V> implements ValidateCodeP
      */
     protected abstract void send(ServletWebRequest request, V validateCode) throws Exception;
 
+
     /**
-     * TODO 保存验证码到session中  回看
-     *
      * @param request
      * @param validateCode
      */
-    private void save(ServletWebRequest request, V validateCode) {
-        /**
-         * 拼接请求类型到sessionkey中
-         */
-        sessionStrategy
-                .setAttribute(request, SESSION_VALIDATE_CODE_KEY_PREFIX.concat(getProcessorType(request).toUpperCase()),
-                        validateCode);
-    }
+
+    public abstract <V> void save(ServletWebRequest request, V validateCode);
 
     /**
      * 通过请求类型生成对应的验证码
@@ -69,15 +60,6 @@ public abstract class AbsctractValidateCodeProcessor<V> implements ValidateCodeP
         String type = getProcessorType(request);
         ValidateCodeGenerator validateCodeGenerator = validateCodeGenerators.get(type + "CodeGenerator");
         return (V) validateCodeGenerator.generate(request);
-    }
-
-    /**
-     * 获取请求路径的后半段
-     */
-    private String getProcessorType(ServletWebRequest request) {
-        return StringUtils
-                .substringAfter(request.getRequest().getRequestURI(),
-                        "/validate/");
     }
 
 
@@ -96,7 +78,7 @@ public abstract class AbsctractValidateCodeProcessor<V> implements ValidateCodeP
         try {
             codeInRequest = ServletRequestUtils.getStringParameter(request.getRequest(), getValidateParameterName());
         } catch (ServletRequestBindingException e) {
-            logger.error("验证码参数解析有错，核对图片验证码参数是否绑定错误，绑定name为{}", getValidateParameterName());
+            log.error("验证码参数解析有错，核对图片验证码参数是否绑定错误，绑定name为{}", getValidateParameterName());
         }
         if (StringUtils.isBlank(codeInRequest)) {
             throw new ValidateCodeException("验证码不能为空");

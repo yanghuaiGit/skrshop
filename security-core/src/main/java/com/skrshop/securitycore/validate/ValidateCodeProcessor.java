@@ -1,6 +1,7 @@
 package com.skrshop.securitycore.validate;
 
 import com.skrshop.securitycore.validate.code.ValidateCodeException;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.web.context.request.ServletWebRequest;
 
 /**
@@ -9,9 +10,9 @@ import org.springframework.web.context.request.ServletWebRequest;
 public interface ValidateCodeProcessor {
 
     /**
-     * 验证码放入session时候的前缀
+     * 验证码前缀
      */
-    String SESSION_VALIDATE_CODE_KEY_PREFIX = "SESSION_KEY_CODE_FOR_";
+    String VALIDATE_CODE_KEY_PREFIX = "KEY_CODE_FOR_";
 
     /**
      * 创建校验码
@@ -27,4 +28,13 @@ public interface ValidateCodeProcessor {
      * @throws ValidateCodeException 校验失败
      */
     void validate(ServletWebRequest request) throws ValidateCodeException;
+
+    /**
+     * 获取请求路径的后半段
+     */
+    default String getProcessorType(ServletWebRequest request) {
+        return StringUtils
+                .substringAfter(request.getRequest().getRequestURI(),
+                        "/validate/");
+    }
 }

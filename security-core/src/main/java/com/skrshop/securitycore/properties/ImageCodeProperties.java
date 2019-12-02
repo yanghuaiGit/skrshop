@@ -7,12 +7,19 @@ import lombok.EqualsAndHashCode;
 @Data
 public class ImageCodeProperties extends CodeProperties {
 
-    private int width = 180;
-    private int height = 40;
-    // 验证码干扰线数
-    private int lineCount = 10;
+    /**
+     * 验证码宽度
+     */
+    private int width = 70;
+    /**
+     * 验证码图片高度
+     */
+    private int height = 28;
 
     public ImageCodeProperties() {
-        setCodeCount(4);
+        super(4);
     }
+
+
+
 }

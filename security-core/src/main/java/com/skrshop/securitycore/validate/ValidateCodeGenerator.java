@@ -7,7 +7,7 @@ import org.springframework.web.context.request.ServletWebRequest;
  *
  * @author 李建珍
  */
-public interface ValidateCodeGenerator {
+public interface ValidateCodeGenerator  {
 
     /**
      * 校验码生成器
