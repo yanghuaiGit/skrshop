@@ -3,13 +3,13 @@ package com.skrshop.oauthcenter.security.config;
 
 import com.skrshop.oauthcenter.security.userdetail.UserDetailsRepository;
 import com.skrshop.securitycore.properties.SkrShopSecurityCenterProperties;
+import com.skrshop.securitycore.security.AbstractSecurityConfig;
 import com.skrshop.securitycore.validate.ValidateCodeFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -28,7 +28,7 @@ import java.util.Objects;
 @Slf4j
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig extends AbstractSecurityConfig {
 
     @Autowired(required = false)
     private RequestCache requestCache;
@@ -36,7 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource
     private AuthenticationSuccessHandler successHandler;
 
-    @Resource
+    @Resource(name = "authenticationFailureHandler")
     private AuthenticationFailureHandler failHandler;
 
     @Resource
@@ -74,6 +74,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        applyPasswordAuthenticationConfig(http);
         //只有需要验证的接口 才会存储进去
         if (Objects.nonNull(requestCache)) {
             http.setSharedObject(RequestCache.class, requestCache);

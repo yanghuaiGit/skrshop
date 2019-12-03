@@ -1,2 +1,1 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.skrshop.oauthcenter.security.login.LoginManager
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=

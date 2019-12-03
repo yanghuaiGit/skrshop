@@ -53,5 +53,4 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
         authRequest.setDetails(authenticationDetailsSource.buildDetails(request));
     }
 
-
 }

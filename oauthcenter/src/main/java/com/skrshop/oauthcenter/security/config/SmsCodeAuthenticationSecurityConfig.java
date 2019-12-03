@@ -2,6 +2,8 @@ package com.skrshop.oauthcenter.security.config;
 
 
 import com.skrshop.oauthcenter.security.userdetail.UserDetailsRepository;
+import com.skrshop.oauthcenter.security.validate.sms.SmsCodeAuthenticationFilter;
+import com.skrshop.oauthcenter.security.validate.sms.SmsCodeAuthenticationProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
@@ -36,8 +38,8 @@ public class SmsCodeAuthenticationSecurityConfig extends SecurityConfigurerAdapt
     public void configure(HttpSecurity builder) throws Exception {
         SmsCodeAuthenticationFilter smsCodeAuthenticationFilter = new SmsCodeAuthenticationFilter();
         smsCodeAuthenticationFilter.setAuthenticationManager(builder.getSharedObject(AuthenticationManager.class));
-        smsCodeAuthenticationFilter.setAuthenticationSuccessHandler(successHandler);
-        smsCodeAuthenticationFilter.setAuthenticationFailureHandler(failHandler);
+        smsCodeAuthenticationFilter.setAuthenticationSuccessHandler(authenticationSuccessHandler);
+        smsCodeAuthenticationFilter.setAuthenticationFailureHandler(authenticationFailureHandler);
 
         SmsCodeAuthenticationProvider smsCodeAuthenticationProvider = new SmsCodeAuthenticationProvider();
         smsCodeAuthenticationProvider.setUserDetailsService(userDetailsRepository);
