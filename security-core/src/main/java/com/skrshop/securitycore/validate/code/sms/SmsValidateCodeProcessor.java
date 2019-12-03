@@ -1,6 +1,7 @@
 package com.skrshop.securitycore.validate.code.sms;
 
 
+import com.skrshop.common.context.RequestHolder;
 import com.skrshop.common.error.CommonResultCode;
 import com.skrshop.common.rpc.ensure.Ensure;
 import com.skrshop.securitycore.security.SecurityConstants;
@@ -8,11 +9,13 @@ import com.skrshop.securitycore.validate.AbsctractValidateCodeProcessor;
 import com.skrshop.securitycore.validate.ValidateCode;
 import com.skrshop.securitycore.validate.ValidateCodeStore;
 import com.skrshop.securitycore.validate.code.ValidateCodeType;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.context.request.ServletWebRequest;
 
 
+@Slf4j
 public class SmsValidateCodeProcessor
         extends AbsctractValidateCodeProcessor<ValidateCode> {
 
@@ -22,7 +25,7 @@ public class SmsValidateCodeProcessor
      * 设置session的key
      */
     private final String SMS_SESSION_VALIDATE_CODE_KEY =
-            VALIDATE_CODE_KEY_PREFIX.concat(ValidateCodeType.SMS.getValidType());
+            VALIDATE_CODE_KEY_PREFIX.concat(ValidateCodeType.SMS.getValidType()).concat("_");
 
 
     public SmsValidateCodeProcessor(ValidateCodeStore<ValidateCode> validateCodeStore, SmsCodeSender smsCodeSender) {
@@ -48,7 +51,13 @@ public class SmsValidateCodeProcessor
 
     @Override
     protected String getValidateSeesionKey() {
-        return SMS_SESSION_VALIDATE_CODE_KEY;
+        String codeInRequest = null;
+        try {
+            codeInRequest = ServletRequestUtils.getStringParameter(RequestHolder.getRequest(), SecurityConstants.DEFAULT_MOBILE_AUTH_LOGIN_PARAMETER_NAME);
+        } catch (ServletRequestBindingException e) {
+            log.error("验证码参数解析有错，核对图片验证码参数是否绑定错误，绑定name为{}", getValidateParameterName());
+        }
+        return SMS_SESSION_VALIDATE_CODE_KEY + codeInRequest;
     }
 
     @Override

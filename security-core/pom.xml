@@ -36,6 +36,7 @@
             <groupId>com.skrshop</groupId>
             <artifactId>redis-support</artifactId>
             <version>0.0.1-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- oauth2 -->

@@ -20,12 +20,6 @@ public class UserDetailsRepository implements UserDetailsManager {
 
     private static Map<String, UserDetails> users = new HashMap<>();
 
-    static {
-        UserDetails felordcn = User.withUsername("Felordcn").password("{noop}12345").authorities(AuthorityUtils.NO_AUTHORITIES).build();
-        users.putIfAbsent(felordcn.getUsername(), felordcn);
-    }
-
-
 
     public void createUser(UserDetails user) {
         users.putIfAbsent(user.getUsername(), user);

@@ -4,6 +4,7 @@ package com.skrshop.oauthcenter.security.config;
 import com.skrshop.oauthcenter.security.userdetail.UserDetailsRepository;
 import com.skrshop.securitycore.properties.SkrShopSecurityCenterProperties;
 import com.skrshop.securitycore.security.AbstractSecurityConfig;
+import com.skrshop.securitycore.security.SecurityConstants;
 import com.skrshop.securitycore.validate.ValidateCodeFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,7 +97,7 @@ public class WebSecurityConfig extends AbstractSecurityConfig {
                 .antMatchers("/authentication/require",
                         skrShopSecurityCenterProperties.getLoginpage(),
                         "/oauth/**",
-                        "/code/*")
+                        SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/*")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
