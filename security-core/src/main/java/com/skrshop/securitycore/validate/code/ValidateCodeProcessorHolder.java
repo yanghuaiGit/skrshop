@@ -1,18 +1,16 @@
 package com.skrshop.securitycore.validate.code;
 
 import com.skrshop.securitycore.validate.ValidateCodeProcessor;
-import org.springframework.stereotype.Component;
+import lombok.AllArgsConstructor;
 
-import javax.annotation.Resource;
 import java.util.Map;
 
 /**
  * 获取对应的验证码生成和验证处理器
  */
-@Component
+@AllArgsConstructor
 public class ValidateCodeProcessorHolder {
 
-    @Resource
     private Map<String, ValidateCodeProcessor> validateCodeProcessors;
 
     /**

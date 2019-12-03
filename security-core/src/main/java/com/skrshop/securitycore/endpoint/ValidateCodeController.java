@@ -4,10 +4,9 @@ import com.skrshop.common.error.SkrShopException;
 import com.skrshop.securitycore.model.SecurityCoreResultCode;
 import com.skrshop.securitycore.validate.ValidateCodeProcessor;
 import com.skrshop.securitycore.validate.code.ValidateCodeType;
+import org.springframework.security.oauth2.provider.endpoint.FrameworkEndpoint;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.ServletWebRequest;
 
 import javax.annotation.Resource;
@@ -18,8 +17,7 @@ import java.util.Map;
 /**
  * 获取各种验证码的端点
  */
-@RestController
-@RequestMapping("/validate")
+@FrameworkEndpoint
 public class ValidateCodeController {
 
     @Resource
@@ -28,7 +26,7 @@ public class ValidateCodeController {
     /**
      * 请求验证码
      */
-    @GetMapping("/{createType}")
+    @GetMapping("/validate/{createType}")
     public void createValidateCode(HttpServletRequest request,
                                    HttpServletResponse response,
                                    @PathVariable(name = "createType") String createType) throws Exception {

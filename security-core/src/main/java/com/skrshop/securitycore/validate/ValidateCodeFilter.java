@@ -9,12 +9,10 @@ import com.skrshop.securitycore.validate.code.ValidateCodeType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import javax.annotation.Resource;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -29,23 +27,19 @@ import java.util.concurrent.atomic.AtomicReference;
  * 保证过滤器每次只会被调用一次
  * 在都启动后装配urls的配置值
  */
-@Component("validateCodeFilter")
 @Slf4j
 public class ValidateCodeFilter extends OncePerRequestFilter implements InitializingBean {
     /**
      * 验证码校验失败处理器
      */
-    @Resource
     private AuthenticationFailureHandler authenticationFailureHandler;
     /**
      * 安全信息配置
      */
-    @Resource
     private SkrShopSecurityCenterProperties securityProperties;
     /**
      * 校验码处理器
      */
-    @Resource
     private ValidateCodeProcessorHolder validateCodeProcessorHolder;
     /**
      * 存放所有需要校验验证码的url
@@ -57,6 +51,11 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
      */
     private AntPathMatcher antPathMatcher = new AntPathMatcher();
 
+    public ValidateCodeFilter(AuthenticationFailureHandler authenticationFailureHandler, SkrShopSecurityCenterProperties securityProperties, ValidateCodeProcessorHolder validateCodeProcessorHolder) {
+        this.authenticationFailureHandler = authenticationFailureHandler;
+        this.securityProperties = securityProperties;
+        this.validateCodeProcessorHolder = validateCodeProcessorHolder;
+    }
 
     /**
      * 初始化配置需要验证拦截的url

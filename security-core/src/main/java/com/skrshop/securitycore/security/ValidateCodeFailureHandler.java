@@ -12,20 +12,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * 登录失败认证处理
- * 继承Spring默认的处理器
- */
 @Slf4j
 @AllArgsConstructor
-public class AuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
+public class ValidateCodeFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
     private ObjectMapper objectMapper;
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception)
             throws IOException {
-        log.info("登录失败");
+        log.info("验证码失败");
         response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
         response.setContentType("application/json;charset=utf-8");
         response.getWriter().write(objectMapper.writeValueAsString(BaseResponse.code().data(exception.getMessage()).build()));
