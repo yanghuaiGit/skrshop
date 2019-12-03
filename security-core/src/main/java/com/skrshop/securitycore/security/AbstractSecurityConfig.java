@@ -1,36 +1,36 @@
 package com.skrshop.securitycore.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.skrshop.securitycore.validate.ValidateCodeFilter;
+import com.skrshop.securitycore.validate.code.sms.SmsCodeAuthenticationSecurityConfig;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import java.util.Optional;
+import javax.annotation.Resource;
 
 /**
  * security-core表单登录配置
  */
 public class AbstractSecurityConfig extends WebSecurityConfigurerAdapter {
-    @Autowired(required = false)
-    private AuthenticationSuccessHandler authenticationSuccessHandler;
-    @Autowired(required = false)
-    private AuthenticationFailureHandler authenticationFailureHandler;
+
+    @Resource
+    private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
+
+    @Resource
+    private ValidateCodeFilter validateCodeFilter;
 
     /**
      * 密码登录配置相关
      */
     protected void applyPasswordAuthenticationConfig(HttpSecurity httpSecurity) throws Exception {
-        FormLoginConfigurer<HttpSecurity> formConfigurer = httpSecurity.formLogin()
+        httpSecurity
+                .addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class) //比登录Filter先执行 自定义登录
+                .formLogin()
                 .loginPage(SecurityConstants.DEFAULT_LOGIN_PAGE_URL)
                 .loginProcessingUrl(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_FOORM);
 
-        Optional.ofNullable(authenticationSuccessHandler)
-                .ifPresent(item -> formConfigurer.successHandler(authenticationSuccessHandler));
-
-        Optional.ofNullable(authenticationFailureHandler)
-                .ifPresent(item -> formConfigurer.failureHandler(authenticationFailureHandler));
+        //开启短信验证码登录
+        httpSecurity.apply(smsCodeAuthenticationSecurityConfig);
 
 
     }

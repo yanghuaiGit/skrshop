@@ -5,7 +5,6 @@ import com.skrshop.oauthcenter.security.userdetail.UserDetailsRepository;
 import com.skrshop.securitycore.properties.SkrShopSecurityCenterProperties;
 import com.skrshop.securitycore.security.AbstractSecurityConfig;
 import com.skrshop.securitycore.security.SecurityConstants;
-import com.skrshop.securitycore.validate.ValidateCodeFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -16,7 +15,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.savedrequest.RequestCache;
 
 import javax.annotation.Resource;
@@ -46,8 +44,6 @@ public class WebSecurityConfig extends AbstractSecurityConfig {
     @Resource
     private SkrShopSecurityCenterProperties skrShopSecurityCenterProperties;
 
-    @Resource
-    private ValidateCodeFilter validateCodeFilter;
 
     @Bean
     public UserDetailsRepository userDetailsRepository() {
@@ -68,9 +64,7 @@ public class WebSecurityConfig extends AbstractSecurityConfig {
         if (Objects.nonNull(requestCache)) {
             http.setSharedObject(RequestCache.class, requestCache);
         }
-        http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class) //比登录Filter先执行 自定义登录
-                .formLogin()
+        http.formLogin()
                 .loginPage("/authentication/require")
                 .loginProcessingUrl("/authentication/form")
                 .successHandler(successHandler)

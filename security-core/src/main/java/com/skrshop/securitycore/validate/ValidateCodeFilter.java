@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -97,7 +98,9 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
                         .validate(new ServletWebRequest(request, response));
             } catch (ValidateCodeException e) {
                 logger.error("认证失败，具体错误信息为e={}", e);
-                authenticationFailureHandler.onAuthenticationFailure(request, response, e);
+                if (Objects.nonNull(authenticationFailureHandler)) {
+                    authenticationFailureHandler.onAuthenticationFailure(request, response, e);
+                }
                 return;
             }
         }

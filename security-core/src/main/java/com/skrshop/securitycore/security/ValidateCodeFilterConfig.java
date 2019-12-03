@@ -14,7 +14,7 @@ import java.util.Map;
 @Configuration
 public class ValidateCodeFilterConfig {
 
-    @Resource(name = "validateCodeFailureHandler")
+    @Resource
     private AuthenticationFailureHandler authenticationFailureHandler;
 
     @Resource
