@@ -43,7 +43,7 @@ public abstract class AbsctractValidateCodeProcessor<V extends ValidateCode> imp
      */
     @Override
     public void validate(ServletWebRequest request) throws ValidateCodeException {
-        //从请求中取出之前存入session的验证码
+        //从请求中取出之前存入的验证码
         ValidateCode imageCode = validateCodeStore.getCode(request, getValidateSeesionKey());
         //获取form表单中用户输入的验证码
         String codeInRequest = null;

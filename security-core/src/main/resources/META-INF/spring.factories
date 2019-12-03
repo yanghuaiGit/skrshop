@@ -3,4 +3,5 @@ com.skrshop.securitycore.endpoint.ValidateCodeController,\
 com.skrshop.securitycore.properties.SkrShopSecurityCenterProperties,\
 com.skrshop.securitycore.security.HandlerConfig,\
 com.skrshop.securitycore.security.ValidateCodeProcessorConfig,\
-com.skrshop.securitycore.security.ValidateCodeFilterConfig
+com.skrshop.securitycore.security.ValidateCodeFilterConfig,\
+com.skrshop.securitycore.validate.ValidateCodeSecurityConfig

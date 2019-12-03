@@ -1,10 +1,7 @@
 package com.skrshop.oauthcenter.security.config;
 
-import com.skrshop.oauthcenter.security.login.LoginManager;
+
 import com.skrshop.oauthcenter.security.userdetail.UserDetailsRepository;
-import com.skrshop.oauthcenter.security.validate.code.SmsCodeAuthenticationFilter;
-import com.skrshop.oauthcenter.security.validate.code.SmsCodeAuthenticationProvider;
-import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
@@ -20,18 +17,18 @@ import javax.annotation.Resource;
 @Component
 public class SmsCodeAuthenticationSecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
 
-    @Resource
-    private AuthenticationSuccessHandler successHandler;
+    @Resource(name = "authenticationSuccessHandler")
+    private AuthenticationSuccessHandler authenticationSuccessHandler;
 
-    @Resource
-    private AuthenticationFailureHandler failHandler;
+    @Resource(name = "authenticationFailureHandler")
+    private AuthenticationFailureHandler authenticationFailureHandler;
 
     @Resource
     private UserDetailsRepository userDetailsRepository;
 
     @Bean
-    public UserDetailsRepository userDetailsRepository(ObjectProvider<LoginManager> loginManagers) {
-        return new UserDetailsRepository(loginManagers.getIfAvailable());
+    public UserDetailsRepository userDetailsRepository() {
+        return new UserDetailsRepository();
     }
 
 

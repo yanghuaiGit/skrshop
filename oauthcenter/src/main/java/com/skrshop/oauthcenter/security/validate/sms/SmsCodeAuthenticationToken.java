@@ -1,4 +1,4 @@
-package com.skrshop.oauthcenter.security.validate.code;
+package com.skrshop.oauthcenter.security.validate.sms;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;

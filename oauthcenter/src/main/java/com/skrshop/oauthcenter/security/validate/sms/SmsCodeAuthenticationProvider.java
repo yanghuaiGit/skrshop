@@ -1,4 +1,4 @@
-package com.skrshop.oauthcenter.security.validate.code;
+package com.skrshop.oauthcenter.security.validate.sms;
 
 import lombok.Data;
 import org.springframework.security.authentication.AuthenticationProvider;

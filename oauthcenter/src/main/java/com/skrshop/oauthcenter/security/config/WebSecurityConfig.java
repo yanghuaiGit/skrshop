@@ -1,13 +1,11 @@
 package com.skrshop.oauthcenter.security.config;
 
 
-import com.skrshop.oauthcenter.security.config.properties.SkrShopSecurityCenterProperties;
 import com.skrshop.oauthcenter.security.userdetail.UserDetailsRepository;
-import com.skrshop.oauthcenter.security.validate.code.SmsCodeFilter;
-import com.skrshop.oauthcenter.security.validate.code.ValidateCodeFilter;
+import com.skrshop.securitycore.properties.SkrShopSecurityCenterProperties;
+import com.skrshop.securitycore.validate.ValidateCodeFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,12 +13,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
-import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.savedrequest.RequestCache;
 
 import javax.annotation.Resource;
-import javax.sql.DataSource;
 import java.util.Objects;
 
 
@@ -50,18 +45,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource
     private ValidateCodeFilter validateCodeFilter;
 
-    @Resource
-    private SmsCodeFilter smsCodeFilter;
-
 
     @Resource
     private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
 
     @Resource
-    private DataSource dataSource;
-
-    @Resource
     private UserDetailsRepository userDetailsRepository;
+
 
 //    @Bean
 //    public PasswordEncoder passwordEncoder(){
@@ -74,12 +64,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //        return new TokenRepository(valueOperations);
 //    }
 
-    @Bean
-    public PersistentTokenRepository persistentTokenRepository() {
-        JdbcTokenRepositoryImpl jdbcTokenRepository = new JdbcTokenRepositoryImpl();
-        jdbcTokenRepository.setDataSource(dataSource);
-        return jdbcTokenRepository;
-    }
+//    @Bean
+//    public PersistentTokenRepository persistentTokenRepository() {
+//        JdbcTokenRepositoryImpl jdbcTokenRepository = new JdbcTokenRepositoryImpl();
+//        jdbcTokenRepository.setDataSource(dataSource);
+//        return jdbcTokenRepository;
+//    }
 
 
     @Override
@@ -88,7 +78,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         if (Objects.nonNull(requestCache)) {
             http.setSharedObject(RequestCache.class, requestCache);
         }
-        http.addFilterBefore(smsCodeFilter, UsernamePasswordAuthenticationFilter.class)
+        http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class) //比登录Filter先执行 自定义登录
                 .formLogin()
                 .loginPage("/authentication/require")
@@ -97,14 +87,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .failureHandler(failHandler)
                 .and()
                 //如果是jwt直接设置jwt的有效时间就行了
-                .rememberMe()
-                .tokenRepository(persistentTokenRepository())
-                .tokenValiditySeconds(skrShopSecurityCenterProperties.getSecurity().getRememberMeSeconds())
+                //   .rememberMe()
+                //       .tokenRepository(persistentTokenRepository())
+                //   .tokenValiditySeconds(skrShopSecurityCenterProperties)
                 .userDetailsService(userDetailsRepository)
-                .and()
                 .authorizeRequests()
                 .antMatchers("/authentication/require",
-                        skrShopSecurityCenterProperties.getSecurity().getLoginpage(),
+                        skrShopSecurityCenterProperties.getLoginpage(),
                         "/oauth/**",
                         "/code/*")
                 .permitAll()

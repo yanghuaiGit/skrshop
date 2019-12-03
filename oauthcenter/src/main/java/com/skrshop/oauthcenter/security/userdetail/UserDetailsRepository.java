@@ -1,10 +1,5 @@
 package com.skrshop.oauthcenter.security.userdetail;
 
-import com.skrshop.common.context.RequestHolder;
-import com.skrshop.common.error.SkrShopException;
-import com.skrshop.oauthcenter.model.AuthResultCode;
-import com.skrshop.oauthcenter.security.login.LoginManager;
-import com.skrshop.oauthcenter.security.process.LoginProcessor;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.security.access.AccessDeniedException;
@@ -30,7 +25,6 @@ public class UserDetailsRepository implements UserDetailsManager {
         users.putIfAbsent(felordcn.getUsername(), felordcn);
     }
 
-    private LoginManager loginManager;
 
 
     public void createUser(UserDetails user) {
@@ -78,11 +72,6 @@ public class UserDetailsRepository implements UserDetailsManager {
 
 
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        LoginProcessor loginProcessor = loginManager.getLoginProcessors()
-                .stream()
-                .filter(item -> item.match(RequestHolder.getRequest()))
-                .findFirst()
-                .orElseThrow(() -> new SkrShopException(AuthResultCode.LOGIN_TYPE_NOT_SUPPORT));
 
 //        AuthorityUtils.commaSeparatedStringToAuthorityList("");将字符串转为对应的权限
 //        return users.get(username);

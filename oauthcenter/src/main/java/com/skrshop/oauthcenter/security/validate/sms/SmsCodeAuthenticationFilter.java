@@ -1,5 +1,6 @@
-package com.skrshop.oauthcenter.security.validate.code;
+package com.skrshop.oauthcenter.security.validate.sms;
 
+import com.skrshop.securitycore.security.SecurityConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
@@ -12,10 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 
 @Slf4j
 public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
-
-
-    public static final String SPRING_SECURITY_FORM_MOBILE_KEY = "phone";
-
 
     public SmsCodeAuthenticationFilter() {
         super(new AntPathRequestMatcher("/authentication/mobile", "POST"));
@@ -40,7 +37,6 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
         SmsCodeAuthenticationToken authRequest = new SmsCodeAuthenticationToken(
                 username);
 
-        // Allow subclasses to set the "details" property
         setDetails(request, authRequest);
 
         return this.getAuthenticationManager().authenticate(authRequest);
@@ -48,7 +44,7 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
 
 
     private String obtainPhone(HttpServletRequest request) {
-        return request.getParameter(SPRING_SECURITY_FORM_MOBILE_KEY);
+        return request.getParameter(SecurityConstants.DEFAULT_MOBILE_AUTH_LOGIN_PARAMETER_NAME);
     }
 
 

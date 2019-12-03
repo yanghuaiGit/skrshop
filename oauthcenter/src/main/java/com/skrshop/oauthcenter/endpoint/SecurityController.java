@@ -2,7 +2,7 @@ package com.skrshop.oauthcenter.endpoint;
 
 import com.skrshop.common.error.SkrShopException;
 import com.skrshop.oauthcenter.model.AuthResultCode;
-import com.skrshop.oauthcenter.security.config.properties.SkrShopSecurityCenterProperties;
+import com.skrshop.securitycore.properties.SkrShopSecurityCenterProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.web.DefaultRedirectStrategy;
@@ -38,7 +38,7 @@ public class SecurityController {
         if (savedRequest != null) {
             if (StringUtils.endsWithIgnoreCase(savedRequest.getRedirectUrl(), ".html")) {
                 try {
-                    redirectStrategy.sendRedirect(request, response, skrShopSecurityCenterProperties.getSecurity().getLoginpage());
+                    redirectStrategy.sendRedirect(request, response, skrShopSecurityCenterProperties.getLoginpage());
                 } catch (IOException e) {
                     log.error("跳转失败{}", savedRequest.getRedirectUrl());
                     throw new SkrShopException(AuthResultCode.REDIRECT_ERROR);
