@@ -73,7 +73,7 @@ public class CommonResultCode implements ResultCode {
     //RPC远程服务异常
     public static ResultCode REMOTE_REQUEST_ERROR = new CommonResultCode(2000, "REMOTE SERVICE EXCEPTION");
 
-    public static ResultCode REMOTE_DATA_NULL_ERROR = new CommonResultCode(2000, "REMOTE SERVICE EXCEPTION");
+    public static ResultCode REMOTE_DATA_NULL_ERROR = new CommonResultCode(2000, "REMOTE  DATA NULL EXCEPTION");
 
 
     //
