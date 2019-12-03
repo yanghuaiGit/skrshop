@@ -1,4 +1,4 @@
-package com.skrshop.oauthcenter.security.config;
+package com.skrshop.oauthcenter.security;
 
 
 import com.skrshop.oauthcenter.security.userdetail.UserDetailsRepository;
@@ -8,9 +8,12 @@ import com.skrshop.securitycore.security.SecurityConstants;
 import com.skrshop.securitycore.validate.ValidateCodeFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -37,7 +40,7 @@ public class WebSecurityConfig extends AbstractSecurityConfig {
     @Resource
     private AuthenticationSuccessHandler successHandler;
 
-    @Resource(name = "authenticationFailureHandler")
+    @Resource
     private AuthenticationFailureHandler failHandler;
 
     @Resource
@@ -46,31 +49,16 @@ public class WebSecurityConfig extends AbstractSecurityConfig {
     @Resource
     private ValidateCodeFilter validateCodeFilter;
 
-
-    @Resource
-    private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
-
-    @Resource
-    private UserDetailsRepository userDetailsRepository;
+    @Bean
+    public UserDetailsRepository userDetailsRepository() {
+        return new UserDetailsRepository(passwordEncoder());
+    }
 
 
-//    @Bean
-//    public PasswordEncoder passwordEncoder(){
-//        return new BCryptPasswordEncoder();
-//    }
-
-
-//    @Bean
-//    public PersistentTokenRepository persistentTokenRepository(ValueOperations<String, String> valueOperations) {
-//        return new TokenRepository(valueOperations);
-//    }
-
-//    @Bean
-//    public PersistentTokenRepository persistentTokenRepository() {
-//        JdbcTokenRepositoryImpl jdbcTokenRepository = new JdbcTokenRepositoryImpl();
-//        jdbcTokenRepository.setDataSource(dataSource);
-//        return jdbcTokenRepository;
-//    }
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
 
     @Override
@@ -92,19 +80,19 @@ public class WebSecurityConfig extends AbstractSecurityConfig {
                 //   .rememberMe()
                 //       .tokenRepository(persistentTokenRepository())
                 //   .tokenValiditySeconds(skrShopSecurityCenterProperties)
-                .userDetailsService(userDetailsRepository)
+                .userDetailsService(userDetailsRepository())
                 .authorizeRequests()
                 .antMatchers("/authentication/require",
                         skrShopSecurityCenterProperties.getLoginpage(),
                         "/oauth/**",
-                        SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/*")
+                        SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX + "/*")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
                 .csrf()
-                .disable()
-                .apply(smsCodeAuthenticationSecurityConfig)
+                .disable();
+//                .apply(new SmsCodeAuthenticationSecurityConfig())
 
         ;
 //                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

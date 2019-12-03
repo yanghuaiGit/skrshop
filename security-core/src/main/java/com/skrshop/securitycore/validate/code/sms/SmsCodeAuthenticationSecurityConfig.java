@@ -1,45 +1,42 @@
-package com.skrshop.oauthcenter.security.config;
+package com.skrshop.securitycore.validate.code.sms;
 
 
-import com.skrshop.oauthcenter.security.userdetail.UserDetailsRepository;
-import com.skrshop.oauthcenter.security.validate.sms.SmsCodeAuthenticationFilter;
-import com.skrshop.oauthcenter.security.validate.sms.SmsCodeAuthenticationProvider;
-import org.springframework.context.annotation.Bean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.Optional;
 
-@Component
+
 public class SmsCodeAuthenticationSecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
 
-    @Resource(name = "authenticationSuccessHandler")
-    private AuthenticationSuccessHandler authenticationSuccessHandler;
 
-    @Resource(name = "authenticationFailureHandler")
-    private AuthenticationFailureHandler authenticationFailureHandler;
+    @Autowired(required = false)
+    private AuthenticationSuccessHandler successHandler;
+
+    @Autowired(required = false)
+    private AuthenticationFailureHandler failHandler;
 
     @Resource
-    private UserDetailsRepository userDetailsRepository;
-
-    @Bean
-    public UserDetailsRepository userDetailsRepository() {
-        return new UserDetailsRepository();
-    }
+    private UserDetailsService userDetailsRepository;
 
 
     @Override
     public void configure(HttpSecurity builder) throws Exception {
         SmsCodeAuthenticationFilter smsCodeAuthenticationFilter = new SmsCodeAuthenticationFilter();
         smsCodeAuthenticationFilter.setAuthenticationManager(builder.getSharedObject(AuthenticationManager.class));
-        smsCodeAuthenticationFilter.setAuthenticationSuccessHandler(authenticationSuccessHandler);
-        smsCodeAuthenticationFilter.setAuthenticationFailureHandler(authenticationFailureHandler);
+        Optional.ofNullable(successHandler)
+                .ifPresent(item -> smsCodeAuthenticationFilter.setAuthenticationSuccessHandler(successHandler));
+
+        Optional.ofNullable(failHandler)
+                .ifPresent(item -> smsCodeAuthenticationFilter.setAuthenticationFailureHandler(failHandler));
 
         SmsCodeAuthenticationProvider smsCodeAuthenticationProvider = new SmsCodeAuthenticationProvider();
         smsCodeAuthenticationProvider.setUserDetailsService(userDetailsRepository);

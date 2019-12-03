@@ -1,6 +1,8 @@
-package com.skrshop.securitycore.security;
+package com.skrshop.oauthcenter.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.skrshop.oauthcenter.security.handler.AuthenticationFailureHandler;
+import com.skrshop.oauthcenter.security.handler.AuthenticationSuccessHandler;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,15 +23,10 @@ public class HandlerConfig {
     }
 
     @Bean
-    @ConditionalOnMissingBean(name = "validateCodeFailureHandler")
-    public SimpleUrlAuthenticationFailureHandler validateCodeFailureHandler() {
-        return new ValidateCodeFailureHandler(objectMapper);
-    }
-
-    @Bean
     @ConditionalOnMissingBean(name = "authenticationSuccessHandler")
     public SavedRequestAwareAuthenticationSuccessHandler authenticationSuccessHandler() {
         return new AuthenticationSuccessHandler(objectMapper);
     }
+
 
 }

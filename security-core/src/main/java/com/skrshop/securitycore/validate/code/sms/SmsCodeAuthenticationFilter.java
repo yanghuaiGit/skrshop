@@ -1,4 +1,4 @@
-package com.skrshop.oauthcenter.security.validate.sms;
+package com.skrshop.securitycore.validate.code.sms;
 
 import com.skrshop.securitycore.security.SecurityConstants;
 import lombok.extern.slf4j.Slf4j;

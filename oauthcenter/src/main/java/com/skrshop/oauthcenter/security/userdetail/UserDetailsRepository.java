@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
 
 import java.util.HashMap;
@@ -17,6 +18,8 @@ import java.util.Map;
 @Data
 @AllArgsConstructor
 public class UserDetailsRepository implements UserDetailsManager {
+
+    private PasswordEncoder passwordEncoder;
 
     private static Map<String, UserDetails> users = new HashMap<>();
 
@@ -69,7 +72,7 @@ public class UserDetailsRepository implements UserDetailsManager {
 
 //        AuthorityUtils.commaSeparatedStringToAuthorityList("");将字符串转为对应的权限
 //        return users.get(username);
-        return User.withUsername("Felordcn").password("{noop}12345").authorities(AuthorityUtils.NO_AUTHORITIES).build();
+        return User.withUsername("Felordcn").password(passwordEncoder.encode("12345")).authorities(AuthorityUtils.NO_AUTHORITIES).build();
         //  return loginProcessor.getUserDetails(username, RequestHolder.getRequest().getParameter(SPRING_SECURITY_FORM_PASSWORD_KEY));
 
     }
