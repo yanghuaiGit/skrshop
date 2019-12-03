@@ -3,6 +3,7 @@ package com.skrshop.securitycore.validate.code.image;
 import com.skrshop.securitycore.properties.SkrShopSecurityCenterProperties;
 import com.skrshop.securitycore.validate.ValidateCodeGenerator;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.context.request.ServletWebRequest;
 
@@ -12,6 +13,7 @@ import java.util.Random;
 
 
 @AllArgsConstructor
+@Slf4j
 public class ImageCodeGenerator implements ValidateCodeGenerator {
     private SkrShopSecurityCenterProperties securityProperties;
 
@@ -55,6 +57,7 @@ public class ImageCodeGenerator implements ValidateCodeGenerator {
                     r.nextInt(height));
         }
         g.dispose();
+        log.info("图片验证码：{}", sysCode.toString());
         return new ImageCode(b, sysCode.toString(), securityProperties.getCode().getImage().getExpireIn());
     }
 
