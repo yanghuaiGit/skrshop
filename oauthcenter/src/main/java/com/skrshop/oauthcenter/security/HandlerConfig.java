@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.security.web.savedrequest.RequestCache;
 
 import javax.annotation.Resource;
 
@@ -24,8 +25,8 @@ public class HandlerConfig {
 
     @Bean
     @ConditionalOnMissingBean(name = "authenticationSuccessHandler")
-    public SavedRequestAwareAuthenticationSuccessHandler authenticationSuccessHandler() {
-        return new AuthenticationSuccessHandler(objectMapper);
+    public SavedRequestAwareAuthenticationSuccessHandler authenticationSuccessHandler(RequestCache requestCache) {
+        return new AuthenticationSuccessHandler(objectMapper,requestCache);
     }
 
 

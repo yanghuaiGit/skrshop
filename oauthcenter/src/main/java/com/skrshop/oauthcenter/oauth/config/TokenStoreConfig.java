@@ -1,5 +1,6 @@
 package com.skrshop.oauthcenter.oauth.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +17,7 @@ import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @Configuration
 public class TokenStoreConfig {
 
@@ -50,10 +52,12 @@ public class TokenStoreConfig {
          * 扩展jwt内容
          */
         @Bean
-        @ConditionalOnMissingBean(TokenEnhancer.class)
-        public TokenEnhancer jwtTokenEnhancer() {
+        @ConditionalOnMissingBean(name = "skrShopJwtTokenEnhancer")
+        public TokenEnhancer skrShopJwtTokenEnhancer() {
             return (accessToken, authentication) -> {
+                log.info("=============enhance 扩展JWT===============");
                 Map<String, Object> info = new HashMap<>(2);
+                info.put("organization", authentication.getName() + "");
                 info.put("company", "skrshop");
                 ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(info);
                 return accessToken;

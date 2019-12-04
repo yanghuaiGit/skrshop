@@ -6,7 +6,7 @@ import com.skrshop.securitycore.properties.SkrShopSecurityCenterProperties;
 import com.skrshop.securitycore.security.AbstractSecurityConfig;
 import com.skrshop.securitycore.security.SecurityConstants;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -15,10 +15,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
 
 import javax.annotation.Resource;
-import java.util.Objects;
 
 
 /**
@@ -31,10 +31,6 @@ import java.util.Objects;
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends AbstractSecurityConfig {
-
-    @Autowired(required = false)
-    private RequestCache requestCache;
-
     @Resource
     private AuthenticationSuccessHandler successHandler;
 
@@ -56,14 +52,17 @@ public class WebSecurityConfig extends AbstractSecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    @ConditionalOnMissingBean(RequestCache.class)
+    public RequestCache requestCache() {
+        return new HttpSessionRequestCache();
+    }
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         applyPasswordAuthenticationConfig(http);
-        //只有需要验证的接口 才会存储进去
-        if (Objects.nonNull(requestCache)) {
-            http.setSharedObject(RequestCache.class, requestCache);
-        }
+        http.setSharedObject(RequestCache.class, requestCache());
         http.formLogin()
                 .loginPage("/authentication/require")
                 .loginProcessingUrl("/authentication/form")
@@ -78,7 +77,6 @@ public class WebSecurityConfig extends AbstractSecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/authentication/require",
                         skrShopSecurityCenterProperties.getLoginpage(),
-                        "/oauth/**",
                         SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX + "/*")
                 .permitAll()
                 .anyRequest()
@@ -86,6 +84,7 @@ public class WebSecurityConfig extends AbstractSecurityConfig {
                 .and()
                 .csrf()
                 .disable();
+        //这个手机验证码配置已经在core服务里写入了
 //                .apply(new SmsCodeAuthenticationSecurityConfig())
 
         ;
