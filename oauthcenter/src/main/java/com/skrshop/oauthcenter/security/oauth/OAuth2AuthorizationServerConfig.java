@@ -1,4 +1,4 @@
-package com.skrshop.oauthcenter.oauth.config;
+package com.skrshop.oauthcenter.security.oauth;
 
 import com.skrshop.oauthcore.config.AbstractOAuth2AuthorizationServerConfig;
 import lombok.extern.slf4j.Slf4j;

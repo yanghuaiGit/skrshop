@@ -1,4 +1,4 @@
-package com.skrshop.oauthcenter.oauth.config;
+package com.skrshop.oauthcenter.security.oauth;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;

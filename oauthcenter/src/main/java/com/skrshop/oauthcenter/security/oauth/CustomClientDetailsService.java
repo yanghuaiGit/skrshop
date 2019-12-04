@@ -1,4 +1,4 @@
-package com.skrshop.oauthcenter.oauth;
+package com.skrshop.oauthcenter.security.oauth;
 
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;

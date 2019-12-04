@@ -1,6 +1,6 @@
 package com.skrshop.oauthcenter.security;
 
-import com.skrshop.oauthcenter.oauth.CustomClientDetailsService;
+import com.skrshop.oauthcenter.security.oauth.CustomClientDetailsService;
 import com.skrshop.oauthcenter.security.userdetail.UserDetailsRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
