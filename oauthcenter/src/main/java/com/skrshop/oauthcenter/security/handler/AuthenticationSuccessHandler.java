@@ -3,6 +3,8 @@ package com.skrshop.oauthcenter.security.handler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
@@ -20,15 +22,16 @@ import java.util.Objects;
  */
 @Slf4j
 public class AuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
-
-    private RequestCache requestCache;
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
+    private RequestCache requestCache;
+    private DefaultTokenServices tokenServices;
     private ObjectMapper objectMapper;
 
-    public AuthenticationSuccessHandler(ObjectMapper objectMapper, RequestCache requestCache) {
+    public AuthenticationSuccessHandler(ObjectMapper objectMapper, RequestCache requestCache, DefaultTokenServices tokenServices) {
         this.objectMapper = objectMapper;
         this.requestCache = requestCache;
+        this.tokenServices = tokenServices;
     }
 
     @Override
@@ -39,7 +42,11 @@ public class AuthenticationSuccessHandler extends SavedRequestAwareAuthenticatio
             redirectStrategy.sendRedirect(request, response, savedRequest.getRedirectUrl());
         } else {
             response.setContentType("application/json;charset=utf-8");
-            response.getWriter().write(objectMapper.writeValueAsString(authentication));
+            if (Objects.nonNull(tokenServices)) {
+                response.getWriter().write(objectMapper.writeValueAsString(tokenServices.createAccessToken((OAuth2Authentication) authentication)));
+            } else {
+                response.getWriter().write(objectMapper.writeValueAsString(authentication));
+            }
         }
     }
 }

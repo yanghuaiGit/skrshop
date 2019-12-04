@@ -16,11 +16,12 @@ public interface SecurityConstants {
     /**
      * form页面提交登录请求地址
      */
-    String DEFAULT_LOGIN_PROCESSING_URL_FOORM = "/login/form";
+    String DEFAULT_LOGIN_PROCESSING_URL_FOORM = "/authentication/form";
     /**
      * 手机验证码登录请求地址
      */
-    String DEFAULT_LOGIN_PROCESSING_URL_MOBILE = "/login/mobile";
+    String DEFAULT_LOGIN_PROCESSING_URL_MOBILE = "/authentication/mobile";
+
     /**
      * 默认的登录页面
      */

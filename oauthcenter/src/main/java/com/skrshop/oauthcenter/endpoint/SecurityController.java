@@ -2,6 +2,7 @@ package com.skrshop.oauthcenter.endpoint;
 
 import com.skrshop.common.error.SkrShopException;
 import com.skrshop.oauthcenter.model.AuthResultCode;
+import com.skrshop.oauthcenter.security.WebSecurityConfig;
 import com.skrshop.securitycore.properties.SkrShopSecurityCenterProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.web.DefaultRedirectStrategy;
@@ -27,10 +28,11 @@ public class SecurityController {
     /**
      * 当需要身份认证时跳转到此地址
      */
-    @RequestMapping("/authentication/require")
+    @RequestMapping(WebSecurityConfig.LOGIN_PAGE)
     public void requireAuthentication(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         try {
+            log.info("==========/authentication/require===============");
             redirectStrategy.sendRedirect(request, response, skrShopSecurityCenterProperties.getLoginpage());
         } catch (IOException e) {
             throw new SkrShopException(AuthResultCode.REDIRECT_ERROR);

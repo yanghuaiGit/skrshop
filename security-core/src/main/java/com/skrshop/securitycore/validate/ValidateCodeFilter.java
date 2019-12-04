@@ -64,6 +64,10 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
     @Override
     public void afterPropertiesSet() throws ServletException {
         super.afterPropertiesSet();
+        urlMap.put(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE, ValidateCodeType.SMS);
+
+        urlMap.put(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_FOORM, ValidateCodeType.IMAGE);
+
         updateUrl(securityProperties.getCode().getSms().getUrl(), ValidateCodeType.SMS);
 
         updateUrl(securityProperties.getCode().getImage().getUrl(), ValidateCodeType.IMAGE);
@@ -77,12 +81,10 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
      * @param type      校验类型
      */
     private void updateUrl(List<String> urlString, ValidateCodeType type) {
-        Map<String, ValidateCodeType> newUrlMap = new ConcurrentHashMap<>();
-        newUrlMap.put(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE, ValidateCodeType.SMS);
+
         if (CollectionUtil.isNotEmpty(urlString)) {
-            urlString.parallelStream().forEach(item -> newUrlMap.put(item, type));
+            urlString.parallelStream().forEach(item -> urlMap.put(item, type));
         }
-        urlMap = newUrlMap;
     }
 
 
@@ -97,7 +99,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
                 validateCodeProcessorHolder.findValidateCodeProcessor(type)
                         .validate(new ServletWebRequest(request, response));
             } catch (ValidateCodeException e) {
-                logger.error("认证失败，具体错误信息为e={}", e);
+                logger.error("认证失败，具体错误信息为", e);
                 if (Objects.nonNull(authenticationFailureHandler)) {
                     authenticationFailureHandler.onAuthenticationFailure(request, response, e);
                 }
@@ -112,10 +114,12 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
      */
     private ValidateCodeType getValidateType(HttpServletRequest request) {
         AtomicReference<ValidateCodeType> validateType = new AtomicReference<>();
+
         //这里设置提交登录表单信息的请求URL，如果是需要校验的返回校验的类型
         urlMap.keySet()
                 .stream()
-                .filter(url -> antPathMatcher.match(url, request.getRequestURI()))
+                .peek(url -> log.info("配置url {} 请求url {},", url, request.getRequestURI()))
+                .filter(url -> antPathMatcher.match(request.getContextPath().concat(url), request.getRequestURI()))
                 .findFirst()
                 .ifPresent(url -> validateType.set(urlMap.get(url)));
 

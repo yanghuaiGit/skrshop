@@ -11,8 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
 
@@ -29,11 +28,8 @@ import javax.annotation.Resource;
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends AbstractSecurityConfig {
-    @Resource
-    private AuthenticationSuccessHandler successHandler;
 
-    @Resource
-    private AuthenticationFailureHandler failHandler;
+    public static final String LOGIN_PAGE="/authentication/require";
 
     @Resource
     private SkrShopSecurityCenterProperties skrShopSecurityCenterProperties;
@@ -51,18 +47,11 @@ public class WebSecurityConfig extends AbstractSecurityConfig {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        applyPasswordAuthenticationConfig(http);
+        FormLoginConfigurer<HttpSecurity> formLoginConfigurer = applyPasswordAuthenticationConfig(http);
+        formLoginConfigurer.loginPage(LOGIN_PAGE);
+
         http.setSharedObject(RequestCache.class, requestCache());
-        http.formLogin()
-                .loginPage("/authentication/require")
-                .loginProcessingUrl("/authentication/form")
-                .successHandler(successHandler)
-                .failureHandler(failHandler)
-                .and()
-                //如果是jwt直接设置jwt的有效时间就行了
-                //   .rememberMe()
-                //       .tokenRepository(persistentTokenRepository())
-                //   .tokenValiditySeconds(skrShopSecurityCenterProperties)
+        http
                 .userDetailsService(userDetailsRepository)
                 .authorizeRequests()
                 .antMatchers("/authentication/require",
@@ -76,6 +65,11 @@ public class WebSecurityConfig extends AbstractSecurityConfig {
                 .disable();
         //这个手机验证码配置已经在core服务里写入了
 //                .apply(new SmsCodeAuthenticationSecurityConfig())
+
+        //如果是jwt直接设置jwt的有效时间就行了
+        //   .rememberMe()
+        //       .tokenRepository(persistentTokenRepository())
+        //   .tokenValiditySeconds(skrShopSecurityCenterProperties)
 
         ;
 //                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
