@@ -62,7 +62,7 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
-        <!-- oauth2 -->
+<!--         oauth2-->
         <dependency>
             <groupId>com.skrshop</groupId>
             <artifactId>oauth-core</artifactId>

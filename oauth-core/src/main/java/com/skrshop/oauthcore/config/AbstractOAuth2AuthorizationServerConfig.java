@@ -18,7 +18,6 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -54,7 +53,7 @@ public class AbstractOAuth2AuthorizationServerConfig extends AuthorizationServer
     private JwtAccessTokenConverter jwtAccessTokenConverter;
 
     @Autowired
-    private List<TokenEnhancer> tokenEnhancer = Collections.emptyList();
+    private List<TokenEnhancer> tokenEnhancer ;
 
 
     @Override
