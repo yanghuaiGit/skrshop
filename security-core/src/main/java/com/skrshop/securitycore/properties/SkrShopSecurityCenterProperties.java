@@ -6,12 +6,17 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ConfigurationProperties(prefix = SkrShopSecurityCenterProperties.AUTH_PREFIX)
+@ConfigurationProperties(prefix = SkrShopSecurityCenterProperties.SECURITY_PREFIX)
 @Data
 public class SkrShopSecurityCenterProperties {
-    static final String AUTH_PREFIX = "skrshop.authority";
+    static final String SECURITY_PREFIX = "skrshop.authority";
 
     private String loginpage = SecurityConstants.DEFAULT_LOGIN_PAGE_URL;
+
+    /**
+     * 单点登陆
+     */
+    private Boolean sdl = false;
 
     private ValidateCodeProperties code = new ValidateCodeProperties();
 

@@ -1,16 +1,16 @@
-package com.skrshop.oauthcore.properties;
+package com.skrshop.oauthcore.config.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ConfigurationProperties(prefix = SkrShopSecurityCenterProperties.AUTH_PREFIX)
+@ConfigurationProperties(prefix = SkrShopOauthCenterProperties.AUTH_PREFIX)
 @Data
-public class SkrShopSecurityCenterProperties {
+public class SkrShopOauthCenterProperties {
     static final String AUTH_PREFIX = "skrshop.authority";
 
     //token配置
-    private TokenProperties token = new TokenProperties();
+    private TokenCodeProperties token = new TokenCodeProperties();
 
 }
