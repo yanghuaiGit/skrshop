@@ -46,7 +46,7 @@ public class AuthenticationSuccessHandler extends SavedRequestAwareAuthenticatio
         } else {
             response.setContentType("application/json;charset=utf-8");
             if (Objects.nonNull(tokenServices)) {
-                //TODO 根据请求获取到对应的数据 自己拼接一个token给前端
+                //TODO 根据请求获取到对应的数据 自己拼接一个token给前端 直接返回一个success
                 DefaultOAuth2AccessToken token = new DefaultOAuth2AccessToken(UUID.randomUUID().toString());
 //                accessTokenEnhancer.enhance(token, authentication);
                 response.getWriter().write(objectMapper.writeValueAsString(token));

@@ -18,7 +18,7 @@ public class CodeProperties {
     //是否启用
     private Boolean enable = false;
 
-    //需要验证码拦截的url以,隔开
+    //需要验证码拦截的url以,隔开 后面应该是map这样就可以restfel形式 url+method
     private List<String> url;
 
     public CodeProperties(int length) {
