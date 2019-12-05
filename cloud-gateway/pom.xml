@@ -7,7 +7,7 @@
         <artifactId>manage</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <groupId>com.skrshop</groupId>
+
     <artifactId>cloud-gateway</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>cloud-gateway</name>
@@ -28,10 +28,21 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-gateway</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.skrshop</groupId>
+            <artifactId>common</artifactId>
         </dependency>
     </dependencies>
 
