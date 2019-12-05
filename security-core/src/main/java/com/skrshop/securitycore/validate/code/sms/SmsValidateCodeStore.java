@@ -19,8 +19,8 @@ public class SmsValidateCodeStore implements ValidateCodeStore<ValidateCode> {
 
     @Override
     public void save(ServletWebRequest request, String key, ValidateCode validateCode) {
-        long timeout = DateUtil.DateCompare.untilMinutes(DateUtil.DateGet.currentDateTime(), validateCode.getExpireTime());
-        this.redisTemplate.opsForValue().set(key, validateCode.getCode(), timeout, TimeUnit.SECONDS);
+        long timeout = DateUtil.DateCompare.untilSenconds(DateUtil.DateGet.currentDateTime(), validateCode.getExpireTime());
+        this.redisTemplate.opsForValue().set(key, validateCode, timeout, TimeUnit.SECONDS);
     }
 
     @Override

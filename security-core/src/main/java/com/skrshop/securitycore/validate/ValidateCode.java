@@ -1,6 +1,8 @@
 package com.skrshop.securitycore.validate;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
@@ -8,6 +10,8 @@ import java.time.LocalDateTime;
  * 验证码需要的基本类
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ValidateCode {
     /**
      * 验证码
@@ -27,11 +31,6 @@ public class ValidateCode {
     public ValidateCode(String code, int expireIn) {
         this.code = code;
         this.expireTime = LocalDateTime.now().plusSeconds(expireIn);
-    }
-
-    public ValidateCode(String code, LocalDateTime expireTime) {
-        this.code = code;
-        this.expireTime = expireTime;
     }
 
 

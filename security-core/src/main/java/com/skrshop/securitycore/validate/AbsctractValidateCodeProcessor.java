@@ -45,7 +45,7 @@ public abstract class AbsctractValidateCodeProcessor<V extends ValidateCode> imp
     @Override
     public void validate(ServletWebRequest request) throws ValidateCodeException {
         //从请求中取出之前存入的验证码
-        ValidateCode imageCode = validateCodeStore.getCode(request, getValidateSeesionKey());
+        ValidateCode validateCode = validateCodeStore.getCode(request, getValidateSeesionKey());
         //获取form表单中用户输入的验证码
         String codeInRequest = null;
         try {
@@ -56,14 +56,14 @@ public abstract class AbsctractValidateCodeProcessor<V extends ValidateCode> imp
         if (StringUtils.isBlank(codeInRequest)) {
             throw new ValidateCodeException("验证码不能为空");
         }
-        if (imageCode == null) {
+        if (validateCode == null) {
             throw new ValidateCodeException("验证码不存在");
         }
-        if (imageCode.isExpired()) {
+        if (validateCode.isExpired()) {
             validateCodeStore.remove(request, getValidateSeesionKey());
             throw new ValidateCodeException("验证码已过期");
         }
-        if (!StringUtils.equals(imageCode.getCode(), codeInRequest)) {
+        if (!StringUtils.equals(validateCode.getCode(), codeInRequest)) {
             throw new ValidateCodeException("验证码不匹配");
         }
         validateCodeStore.remove(request, getValidateSeesionKey());

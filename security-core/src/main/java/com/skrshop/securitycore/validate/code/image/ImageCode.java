@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.awt.image.BufferedImage;
-import java.time.LocalDateTime;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -23,11 +22,6 @@ public class ImageCode extends ValidateCode {
      */
     public ImageCode(BufferedImage image, String code, int expireIn) {
         super(code, expireIn);
-        this.image = image;
-    }
-
-    public ImageCode(BufferedImage image, String code, LocalDateTime expireTime) {
-        super(code, expireTime);
         this.image = image;
     }
 

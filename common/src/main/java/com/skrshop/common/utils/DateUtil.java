@@ -192,6 +192,10 @@ public class DateUtil {
             return dateTime.until(dateTime1, ChronoUnit.MINUTES);
         }
 
+        public static long untilSenconds(LocalDateTime dateTime, LocalDateTime dateTime1) {
+            return dateTime.until(dateTime1, ChronoUnit.SECONDS);
+        }
+
         public static long untilDay(LocalDate dateTime, LocalDate dateTime1) {
             return dateTime.until(dateTime1, ChronoUnit.DAYS);
         }
