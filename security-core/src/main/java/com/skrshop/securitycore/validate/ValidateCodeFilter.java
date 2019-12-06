@@ -66,7 +66,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
         super.afterPropertiesSet();
         urlMap.put(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE, ValidateCodeType.SMS);
 
-        urlMap.put(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_FOORM, ValidateCodeType.IMAGE);
+//        urlMap.put(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_FOORM, ValidateCodeType.IMAGE);
 
         updateUrl(securityProperties.getCode().getSms().getUrl(), ValidateCodeType.SMS);
 

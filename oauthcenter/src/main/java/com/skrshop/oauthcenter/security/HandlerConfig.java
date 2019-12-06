@@ -6,6 +6,7 @@ import com.skrshop.oauthcenter.security.handler.AuthenticationSuccessHandler;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
@@ -25,6 +26,8 @@ public class HandlerConfig {
     @Resource
     private AuthorizationServerTokenServices authorizationServerTokenServices;
 
+    @Resource
+    private PasswordEncoder passwordEncoder;
     @Bean
     @ConditionalOnMissingBean(name = "authenticationFailureHandler")
     public SimpleUrlAuthenticationFailureHandler authenticationFailureHandler() {
@@ -34,7 +37,7 @@ public class HandlerConfig {
     @Bean
     @ConditionalOnMissingBean(name = "authenticationSuccessHandler")
     public SavedRequestAwareAuthenticationSuccessHandler authenticationSuccessHandler(RequestCache requestCache) {
-        return new AuthenticationSuccessHandler(objectMapper,requestCache,clientDetailsService,authorizationServerTokenServices);
+        return new AuthenticationSuccessHandler(objectMapper,requestCache,clientDetailsService,authorizationServerTokenServices,passwordEncoder);
     }
 
 

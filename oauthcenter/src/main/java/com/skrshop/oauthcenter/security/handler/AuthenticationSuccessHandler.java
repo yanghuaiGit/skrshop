@@ -2,26 +2,25 @@ package com.skrshop.oauthcenter.security.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.exceptions.UnapprovedClientAuthenticationException;
 import org.springframework.security.oauth2.provider.*;
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
+import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * 自定义认证成功处理器
@@ -30,20 +29,26 @@ import java.util.Objects;
 @Slf4j
 public class AuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
-//    private AntPathMatcher antPathMatcher = new AntPathMatcher();
-    private final Map<String,String> EMPTY_MAP = new HashMap<>();
+    //    private AntPathMatcher antPathMatcher = new AntPathMatcher();
+    private final Map<String, String> EMPTY_MAP = new HashMap<>();
 
     private RequestCache requestCache;
     private ObjectMapper objectMapper;
     private ClientDetailsService clientDetailsService;
     private AuthorizationServerTokenServices authorizationServerTokenServices;
+    private PasswordEncoder passwordEncoder;
+    @Resource
+    private List<TokenEnhancer> tokenEnhancers = Collections.emptyList();
 
 
-    public AuthenticationSuccessHandler(ObjectMapper objectMapper, RequestCache requestCache, ClientDetailsService clientDetailsService, AuthorizationServerTokenServices authorizationServerTokenServices) {
+    public AuthenticationSuccessHandler(ObjectMapper objectMapper, RequestCache requestCache
+            , ClientDetailsService clientDetailsService, AuthorizationServerTokenServices authorizationServerTokenServices
+            , PasswordEncoder passwordEncoder) {
         this.objectMapper = objectMapper;
         this.requestCache = requestCache;
         this.clientDetailsService = clientDetailsService;
         this.authorizationServerTokenServices = authorizationServerTokenServices;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -61,38 +66,38 @@ public class AuthenticationSuccessHandler extends SavedRequestAwareAuthenticatio
                 throw new UnapprovedClientAuthenticationException("请求中无Client信息");
             }
 
-            try {
-                String[] tokens = extractAndDecodeHeader(header);
-                assert tokens.length == 2;
+            String[] tokens = extractAndDecodeHeader(header);
+            assert tokens.length == 2;
 
-                String clientId = tokens[0];
-                String clientSecret = tokens[1];
+            String clientId = tokens[0];
+            String clientSecret = tokens[1];
 
-                ClientDetails clientDetails = clientDetailsService.loadClientByClientId(clientId);
+            ClientDetails clientDetails = clientDetailsService.loadClientByClientId(clientId);
 
-                if (Objects.isNull(clientDetails)) {
-                    log.info("clientId不存在：{}", clientId);
-                    throw new UnapprovedClientAuthenticationException("CientId不存在");
-                }
-                if (!StringUtils.equals(clientDetails.getClientSecret(), clientSecret)) {
-                    log.info("clientId：{} 对应clientSecret不匹配：{}", clientId, clientSecret);
-                    throw new UnapprovedClientAuthenticationException("CientSecret不匹配");
-                }
-                TokenRequest tokenRequest = new TokenRequest(EMPTY_MAP, clientId, clientDetails.getScope(), "custom");
-
-                OAuth2Request oAuth2Request = tokenRequest.createOAuth2Request(clientDetails);
-
-                OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(oAuth2Request, authentication);
-
-                OAuth2AccessToken accessToken = authorizationServerTokenServices.createAccessToken(oAuth2Authentication);
-
-                response.setContentType("application/json;charset=utf-8");
-                response.getWriter().write(objectMapper.writeValueAsString(accessToken));
-
-            } catch (Exception e) {
-                log.error("登录成功，生成token出现异常", e);
+            if (Objects.isNull(clientDetails)) {
+                log.info("clientId不存在：{}", clientId);
+                throw new UnapprovedClientAuthenticationException("CientId不存在");
             }
+//                if (!StringUtils.equals(clientDetails.getClientSecret(), passwordEncoder.encode(clientSecret))) {
+//                    log.info("clientId：{} 对应clientSecret: {}不匹配", clientId, clientSecret);
+//                    throw new UnapprovedClientAuthenticationException("CientSecret不匹配");
+//                }
+            TokenRequest tokenRequest = new TokenRequest(EMPTY_MAP, clientId, clientDetails.getScope(), "custom");
+
+            OAuth2Request oAuth2Request = tokenRequest.createOAuth2Request(clientDetails);
+
+            OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(oAuth2Request, authentication);
+
+            OAuth2AccessToken accessToken = authorizationServerTokenServices.createAccessToken(oAuth2Authentication);
+
+            accessToken = enhance(accessToken, oAuth2Authentication);
+
+            response.setContentType("application/json;charset=utf-8");
+            response.getWriter().write(objectMapper.writeValueAsString(accessToken));
+
+
         }
+
     }
 
     private String[] extractAndDecodeHeader(String header)
@@ -118,4 +123,11 @@ public class AuthenticationSuccessHandler extends SavedRequestAwareAuthenticatio
         return new String[]{token.substring(0, delim), token.substring(delim + 1)};
     }
 
+    public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
+        OAuth2AccessToken result = accessToken;
+        for (TokenEnhancer enhancer : tokenEnhancers) {
+            result = enhancer.enhance(result, authentication);
+        }
+        return result;
+    }
 }
