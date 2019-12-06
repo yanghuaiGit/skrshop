@@ -56,7 +56,8 @@ public class AuthenticationSuccessHandler extends SavedRequestAwareAuthenticatio
             throws IOException {
         SavedRequest savedRequest = requestCache.getRequest(request, response);
         log.info("登陆成功是否转发请求{}", Objects.nonNull(savedRequest));
-        //todo 判断是否是/oauth/*请求
+        //todo 判断是否是/oauth/*请求 现在不需要了 由于集成了资源服务器 如果是需要授权的接口进行访问 没有token会直接报错 而不是跳转到登录页面 所以能跳转到登录页面且登录成功的并且saverequest存在
+        //只有/oauth协议能进来  oauthFilter不会把/oauth的请求给拦截报错的
         if (Objects.nonNull(savedRequest)) {
             redirectStrategy.sendRedirect(request, response, savedRequest.getRedirectUrl());
         } else {
