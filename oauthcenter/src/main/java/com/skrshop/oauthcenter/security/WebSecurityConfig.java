@@ -29,7 +29,7 @@ import javax.annotation.Resource;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends AbstractSecurityConfig {
 
-    public static final String LOGIN_PAGE="/authentication/require";
+    public static final String LOGIN_PAGE = "/authentication/require";
 
     @Resource
     private SkrShopSecurityCenterProperties skrShopSecurityCenterProperties;
@@ -38,6 +38,11 @@ public class WebSecurityConfig extends AbstractSecurityConfig {
     private UserDetailsRepository userDetailsRepository;
 
 
+    /**
+     * 主要是为了注入到successHandler
+     *
+     * @see HandlerConfig
+     */
     @Bean
     @ConditionalOnMissingBean(RequestCache.class)
     public RequestCache requestCache() {
@@ -54,7 +59,7 @@ public class WebSecurityConfig extends AbstractSecurityConfig {
         http
                 .userDetailsService(userDetailsRepository)
                 .authorizeRequests()
-                .antMatchers("/authentication/require",
+                .antMatchers(WebSecurityConfig.LOGIN_PAGE,
                         skrShopSecurityCenterProperties.getLoginpage(),
                         SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX + "/*")
                 .permitAll()
