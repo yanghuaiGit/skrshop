@@ -2,7 +2,6 @@ package com.skrshop.oauthcenter.security.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
@@ -15,12 +14,13 @@ import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
-import org.springframework.util.AntPathMatcher;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -30,8 +30,8 @@ import java.util.Objects;
 @Slf4j
 public class AuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
-    private AntPathMatcher antPathMatcher = new AntPathMatcher();
-    private String credentialsCharset = "UTF-8";
+//    private AntPathMatcher antPathMatcher = new AntPathMatcher();
+    private final Map<String,String> EMPTY_MAP = new HashMap<>();
 
     private RequestCache requestCache;
     private ObjectMapper objectMapper;
@@ -62,7 +62,7 @@ public class AuthenticationSuccessHandler extends SavedRequestAwareAuthenticatio
             }
 
             try {
-                String[] tokens = extractAndDecodeHeader(header, request);
+                String[] tokens = extractAndDecodeHeader(header);
                 assert tokens.length == 2;
 
                 String clientId = tokens[0];
@@ -78,7 +78,7 @@ public class AuthenticationSuccessHandler extends SavedRequestAwareAuthenticatio
                     log.info("clientId：{} 对应clientSecret不匹配：{}", clientId, clientSecret);
                     throw new UnapprovedClientAuthenticationException("CientSecret不匹配");
                 }
-                TokenRequest tokenRequest = new TokenRequest(MapUtils.EMPTY_MAP, clientId, clientDetails.getScope(), "custom");
+                TokenRequest tokenRequest = new TokenRequest(EMPTY_MAP, clientId, clientDetails.getScope(), "custom");
 
                 OAuth2Request oAuth2Request = tokenRequest.createOAuth2Request(clientDetails);
 
@@ -90,14 +90,15 @@ public class AuthenticationSuccessHandler extends SavedRequestAwareAuthenticatio
                 response.getWriter().write(objectMapper.writeValueAsString(accessToken));
 
             } catch (Exception e) {
-
+                log.error("登录成功，生成token出现异常", e);
             }
         }
     }
 
-    private String[] extractAndDecodeHeader(String header, HttpServletRequest request)
+    private String[] extractAndDecodeHeader(String header)
             throws IOException {
 
+        String credentialsCharset = "UTF-8";
         byte[] base64Token = header.substring(6).getBytes(credentialsCharset);
         byte[] decoded;
         try {
