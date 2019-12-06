@@ -123,7 +123,7 @@ public class AuthenticationSuccessHandler extends SavedRequestAwareAuthenticatio
         return new String[]{token.substring(0, delim), token.substring(delim + 1)};
     }
 
-    public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
+    private OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
         OAuth2AccessToken result = accessToken;
         for (TokenEnhancer enhancer : tokenEnhancers) {
             result = enhancer.enhance(result, authentication);
