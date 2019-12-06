@@ -78,10 +78,10 @@ public class AuthenticationSuccessHandler extends SavedRequestAwareAuthenticatio
                 log.info("clientId不存在：{}", clientId);
                 throw new UnapprovedClientAuthenticationException("CientId不存在");
             }
-//                if (!StringUtils.equals(clientDetails.getClientSecret(), passwordEncoder.encode(clientSecret))) {
-//                    log.info("clientId：{} 对应clientSecret: {}不匹配", clientId, clientSecret);
-//                    throw new UnapprovedClientAuthenticationException("CientSecret不匹配");
-//                }
+            if (!passwordEncoder.matches(clientSecret, clientDetails.getClientSecret())) {
+                log.info("clientId：{} 对应clientSecret: {}不匹配", clientId, clientSecret);
+                throw new UnapprovedClientAuthenticationException("CientSecret不匹配");
+            }
             TokenRequest tokenRequest = new TokenRequest(EMPTY_MAP, clientId, clientDetails.getScope(), "custom");
 
             OAuth2Request oAuth2Request = tokenRequest.createOAuth2Request(clientDetails);
