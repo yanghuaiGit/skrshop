@@ -23,6 +23,8 @@ public class CustomClientDetailsService implements ClientDetailsService {
     @Override
     public ClientDetails loadClientByClientId(String clientId) throws ClientRegistrationException {
         BaseClientDetails result = new BaseClientDetails();
+        //todo 设置resourcesIds配置 auth2processfilter会判断是否包含自己的resources
+//        result.setResourceIds();
         Set<String> set = new HashSet<>();
         set.add("authorization_code");
         set.add("password");
