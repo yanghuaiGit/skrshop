@@ -71,6 +71,7 @@ public class WebSecurityConfig extends AbstractSecurityConfig implements Resourc
                 .userDetailsService(userDetailsRepository)
                 .authorizeRequests()
                 .antMatchers(WebSecurityConfig.LOGIN_PAGE,
+                        "/oauth/check_token",
                         skrShopSecurityCenterProperties.getLoginpage(),
                         SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX + "/*")
                 .permitAll()

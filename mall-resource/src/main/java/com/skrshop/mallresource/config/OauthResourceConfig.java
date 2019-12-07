@@ -1,63 +1,53 @@
 package com.skrshop.mallresource.config;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler;
-import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
-import org.springframework.security.oauth2.provider.token.TokenEnhancer;
-import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
-
-import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.Map;
+import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
 
 @Configuration
 @EnableResourceServer
 @Slf4j
 public class OauthResourceConfig extends ResourceServerConfigurerAdapter {
 
+//
+//    @Resource
+//    private JwtAccessTokenConverter jwtAccessTokenConverter;
+//    @Bean
+//    @ConditionalOnMissingBean(TokenStore.class)
+//    public TokenStore jwtTokenStore() {
+//        log.info("tokenstore: {}","jwtTokenStore");
+//        return new JwtTokenStore(jwtAccessTokenConverter);
+//    }
 
-    @Resource
-    private JwtAccessTokenConverter jwtAccessTokenConverter;
-    @Bean
-    @ConditionalOnMissingBean(TokenStore.class)
-    public TokenStore jwtTokenStore() {
-        log.info("tokenstore: {}","jwtTokenStore");
-        return new JwtTokenStore(jwtAccessTokenConverter);
-    }
-
-    @Bean
-    @ConditionalOnMissingBean(JwtAccessTokenConverter.class)
-    public JwtAccessTokenConverter jwtAccessTokenConverter() {
-        log.info("jwtAccessTokenConverter: {}","jwtAccessTokenConverter");
-        JwtAccessTokenConverter accessTokenConverter = new JwtAccessTokenConverter();
-        accessTokenConverter.setSigningKey("test_key");//配置JWT使用的秘钥accessTokenConverter
-        return accessTokenConverter;
-    }
-
-    /**
-     * 扩展jwt内容
-     */
-    @Bean
-    @ConditionalOnMissingBean(TokenEnhancer.class)
-    public TokenEnhancer jwtTokenEnhancer() {
-        return (accessToken, authentication) -> {
-            Map<String, Object> info = new HashMap<>(2);
-            info.put("company", "skrshop");
-            ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(info);
-            return accessToken;
-        };
-    }
+//    @Bean
+//    @ConditionalOnMissingBean(JwtAccessTokenConverter.class)
+//    public JwtAccessTokenConverter jwtAccessTokenConverter() {
+//        log.info("jwtAccessTokenConverter: {}","jwtAccessTokenConverter");
+//        JwtAccessTokenConverter accessTokenConverter = new JwtAccessTokenConverter();
+//        accessTokenConverter.setSigningKey("test_key");//配置JWT使用的秘钥accessTokenConverter
+//        return accessTokenConverter;
+//    }
+//
+//    /**
+//     * 扩展jwt内容
+//     */
+//    @Bean
+//    @ConditionalOnMissingBean(TokenEnhancer.class)
+//    public TokenEnhancer jwtTokenEnhancer() {
+//        return (accessToken, authentication) -> {
+//            Map<String, Object> info = new HashMap<>(2);
+//            info.put("company", "skrshop");
+//            ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(info);
+//            return accessToken;
+//        };
+//    }
 
 
 //@Bean
@@ -97,26 +87,26 @@ public class OauthResourceConfig extends ResourceServerConfigurerAdapter {
         resources.tokenServices(tokenServices());
     }
 
-    @Bean
-    @Primary
-    public DefaultTokenServices tokenServices() {
-        final DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
-
-        defaultTokenServices.setTokenStore(jwtTokenStore());
-        defaultTokenServices.setSupportRefreshToken(true);
-        return defaultTokenServices;
-    }
-
-
-//    @Primary
 //    @Bean
-//    public RemoteTokenServices tokenServices() {
-//        final RemoteTokenServices tokenService = new RemoteTokenServices();
-//        //通过服务注册与发现获取到对应的域名
-//        tokenService.setCheckTokenEndpointUrl("http://localhost:8080/oauth/check_token");
-//        tokenService.setClientId("c1");
-//        tokenService.setClientSecret("secret");
-//        return tokenService;
+//    @Primary
+//    public DefaultTokenServices tokenServices() {
+//        final DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
+//
+//        defaultTokenServices.setTokenStore(jwtTokenStore());
+//        defaultTokenServices.setSupportRefreshToken(true);
+//        return defaultTokenServices;
 //    }
+
+
+    @Primary
+    @Bean
+    public RemoteTokenServices tokenServices() {
+        final RemoteTokenServices tokenService = new RemoteTokenServices();
+        //通过服务注册与发现获取到对应的域名
+        tokenService.setCheckTokenEndpointUrl("http://localhost:8083/skrshop/oauth/oauth/check_token");
+        tokenService.setClientId("c1");
+        tokenService.setClientSecret("secret");
+        return tokenService;
+    }
 
 }
