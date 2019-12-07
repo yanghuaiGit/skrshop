@@ -1,5 +1,6 @@
 package com.skrshop.oauthcenter.security.oauth;
 
+import com.skrshop.oauthcore.config.properties.SkrShopOauthCenterProperties;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -9,6 +10,7 @@ import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.ClientRegistrationException;
 import org.springframework.security.oauth2.provider.client.BaseClientDetails;
 
+import javax.annotation.Resource;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
@@ -18,7 +20,15 @@ import java.util.Set;
 @Slf4j
 public class CustomClientDetailsService implements ClientDetailsService {
 
+    @Resource
+    private SkrShopOauthCenterProperties skrShopOauthCenterProperties;
+
     private PasswordEncoder passwordEncoder;
+
+
+    public CustomClientDetailsService(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     public ClientDetails loadClientByClientId(String clientId) throws ClientRegistrationException {
@@ -34,8 +44,8 @@ public class CustomClientDetailsService implements ClientDetailsService {
 
         result.setClientId(clientId);
         result.setAuthorizedGrantTypes(set);
-        result.setAccessTokenValiditySeconds(3600);
-        result.setRefreshTokenValiditySeconds(3600);
+        result.setAccessTokenValiditySeconds(skrShopOauthCenterProperties.getToken().getTokenExpireTime());
+        result.setRefreshTokenValiditySeconds(skrShopOauthCenterProperties.getToken().getRefreshTokenExpireTime());
         result.setRegisteredRedirectUri(uris);
         result.setClientSecret(passwordEncoder.encode("secret"));
         result.setScope(Collections.singletonList("all"));

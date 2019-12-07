@@ -18,6 +18,11 @@ public class TokenCodeProperties {
     private Integer tokenExpireTime = 30;
 
     /**
+     * token默认过期时间单位分钟
+     */
+    private Integer refreshTokenExpireTime = 7 * 24 * 69;
+
+    /**
      * 用户选择保存登录状态对应token过期时间（天）
      */
 //    private Integer saveLoginTime = 7;
