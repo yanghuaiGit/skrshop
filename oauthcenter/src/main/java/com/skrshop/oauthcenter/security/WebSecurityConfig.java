@@ -75,6 +75,8 @@ public class WebSecurityConfig extends AbstractSecurityConfig implements Resourc
                         SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX + "/*")
                 .permitAll()
                 .anyRequest()
+                //todo 和rabc模型对应上
+//               .access("@rabcService.hasPermission(httpServletRequest,authentication)")
                 .authenticated()
                 .and()
                 .csrf()
