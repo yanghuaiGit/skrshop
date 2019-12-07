@@ -45,6 +45,8 @@ public class TokenStoreConfig {
         public JwtAccessTokenConverter jwtAccessTokenConverter() {
             JwtAccessTokenConverter accessTokenConverter = new JwtAccessTokenConverter();
             accessTokenConverter.setSigningKey("test_key");//配置JWT使用的秘钥
+            //todo 还需要设置一个校验的配置 进行签名
+            //accessTokenConverter.setJwtClaimsSetVerifier();
             return accessTokenConverter;
         }
 

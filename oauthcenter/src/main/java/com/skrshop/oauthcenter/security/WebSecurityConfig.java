@@ -58,7 +58,7 @@ public class WebSecurityConfig extends AbstractSecurityConfig implements Resourc
      */
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
-
+//        resources.resourceId("1");
     }
 
     @Override

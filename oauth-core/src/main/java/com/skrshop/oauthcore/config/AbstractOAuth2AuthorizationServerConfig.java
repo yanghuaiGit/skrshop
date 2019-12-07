@@ -36,7 +36,6 @@ public class AbstractOAuth2AuthorizationServerConfig extends AuthorizationServer
         defaultTokenServices.setClientDetailsService(clientDetails);
         defaultTokenServices.setAccessTokenValiditySeconds(7200);//2小时
         defaultTokenServices.setRefreshTokenValiditySeconds(259200);//2天
-
         defaultTokenServices.setTokenStore(tokenStore);
         defaultTokenServices.setSupportRefreshToken(true);
         return defaultTokenServices;

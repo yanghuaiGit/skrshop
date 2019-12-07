@@ -1,6 +1,8 @@
 package com.skrshop.oauthcenter.security.oauth;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
@@ -9,9 +11,11 @@ import org.springframework.security.oauth2.provider.client.BaseClientDetails;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @AllArgsConstructor
+@Slf4j
 public class CustomClientDetailsService implements ClientDetailsService {
 
     private PasswordEncoder passwordEncoder;
@@ -42,6 +46,10 @@ public class CustomClientDetailsService implements ClientDetailsService {
 //        else {
 //            result.setAutoApproveScopes(autoApproveScopes);
 //        }
+        if (Objects.isNull(result)) {
+            log.info("ClientId {} 不存在", clientId);
+            throw new EmptyResultDataAccessException("ClientId不存在", 1);
+        }
         return result;
 
 
