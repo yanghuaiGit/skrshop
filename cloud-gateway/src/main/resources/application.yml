@@ -2,7 +2,11 @@
 spring:
   application:
     name: skrshop-gateway
-
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
   redis:
     database: 0
     host: 127.0.0.1
