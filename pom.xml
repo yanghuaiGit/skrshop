@@ -27,6 +27,7 @@
         <module>oauthserver</module>
         <module>oauth-core</module>
         <module>redis-support</module>
+        <module>support-zookeeper</module>
         <module>skrshop-mybatisplus</module>
         <module>cloud-gateway</module>
         <module>mall-resource</module>
