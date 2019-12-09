@@ -43,7 +43,7 @@ public class TokenStoreConfig {
         @Bean
         @ConditionalOnMissingBean(JwtAccessTokenConverter.class)
         public JwtAccessTokenConverter jwtAccessTokenConverter() {
-            JwtAccessTokenConverter accessTokenConverter = new JwtAccessTokenConverter();
+            CustomJwtAccessTokenConverter accessTokenConverter = new CustomJwtAccessTokenConverter();
             accessTokenConverter.setSigningKey("test_key");//配置JWT使用的秘钥
             //todo 还需要设置一个校验的配置 进行签名
             //accessTokenConverter.setJwtClaimsSetVerifier();

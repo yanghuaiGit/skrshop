@@ -12,6 +12,8 @@ spring:
         #iw: 2323
 management:
   endpoints:
+    gateway:
+      enabled: true
     web:
       exposure:
         include: "*"

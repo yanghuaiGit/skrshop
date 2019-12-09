@@ -3,6 +3,7 @@ package com.skrshop.oauthcore.config;
 import cn.hutool.core.collection.CollectionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -31,6 +32,7 @@ public class AbstractOAuth2AuthorizationServerConfig extends AuthorizationServer
 
     @Bean
     @Primary
+    @ConditionalOnMissingBean(DefaultTokenServices.class)
     public DefaultTokenServices tokenServices() {
         final DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
         defaultTokenServices.setClientDetailsService(clientDetails);

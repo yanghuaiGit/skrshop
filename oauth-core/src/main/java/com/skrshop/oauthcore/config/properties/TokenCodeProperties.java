@@ -13,14 +13,14 @@ public class TokenCodeProperties {
 
 
     /**
-     * token默认过期时间单位分钟
+     * token默认过期时间单位S
      */
-    private Integer tokenExpireTime = 30;
+    private Integer tokenExpireTime = 30*60;
 
     /**
-     * token默认过期时间单位分钟
+     * token默认过期时间单位S
      */
-    private Integer refreshTokenExpireTime = 7 * 24 * 69;
+    private Integer refreshTokenExpireTime = 7 * 24 * 60*60;
 
     /**
      * 用户选择保存登录状态对应token过期时间（天）
