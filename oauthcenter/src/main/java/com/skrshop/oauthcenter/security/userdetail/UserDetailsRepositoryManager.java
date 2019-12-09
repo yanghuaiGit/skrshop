@@ -1,28 +1,32 @@
 package com.skrshop.oauthcenter.security.userdetail;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
 
+import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Data
-@AllArgsConstructor
-public class UserDetailsRepository implements UserDetailsManager {
+public class UserDetailsRepositoryManager implements UserDetailsManager {
 
     private PasswordEncoder passwordEncoder;
 
+    @Resource
+    private List<UserServiceSupport> delagate;
+
     private static Map<String, UserDetails> users = new HashMap<>();
 
+    public UserDetailsRepositoryManager(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
 
     public void createUser(UserDetails user) {
         users.putIfAbsent(user.getUsername(), user);
@@ -70,10 +74,14 @@ public class UserDetailsRepository implements UserDetailsManager {
 
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
+        return delagate
+                .stream()
+                .filter(item -> item.support(username))
+                .map(item -> item.loadUserByUsername(username))
+                .findFirst()
+                .orElseThrow(() -> new UsernameNotFoundException(username));
 //        AuthorityUtils.commaSeparatedStringToAuthorityList("");将字符串转为对应的权限
-//        return users.get(username);
-        return User.withUsername("Felordcn").password(passwordEncoder.encode("12345")).authorities(AuthorityUtils.NO_AUTHORITIES).build();
-        //  return loginProcessor.getUserDetails(username, RequestHolder.getRequest().getParameter(SPRING_SECURITY_FORM_PASSWORD_KEY));
-
+        //  return User.withUsername("Felordcn").password(passwordEncoder.encode("12345")).authorities(AuthorityUtils.NO_AUTHORITIES).build();
     }
+
 }

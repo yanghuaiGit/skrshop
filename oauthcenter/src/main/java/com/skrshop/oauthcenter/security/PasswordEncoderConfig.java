@@ -1,9 +1,10 @@
 package com.skrshop.oauthcenter.security;
 
 import com.skrshop.oauthcenter.security.oauth.CustomClientDetailsService;
-import com.skrshop.oauthcenter.security.userdetail.UserDetailsRepository;
+import com.skrshop.oauthcenter.security.userdetail.UserDetailsRepositoryManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
@@ -17,8 +18,9 @@ public class PasswordEncoderConfig {
     }
 
     @Bean
-    public UserDetailsRepository userDetailsRepository() {
-        return new UserDetailsRepository(passwordEncoder());
+    @Primary
+    public UserDetailsRepositoryManager userDetailsRepository() {
+        return new UserDetailsRepositoryManager(passwordEncoder());
     }
 
 

@@ -1,7 +1,7 @@
 package com.skrshop.oauthcenter.security;
 
 
-import com.skrshop.oauthcenter.security.userdetail.UserDetailsRepository;
+import com.skrshop.oauthcenter.security.userdetail.UserDetailsRepositoryManager;
 import com.skrshop.securitycore.properties.SkrShopSecurityCenterProperties;
 import com.skrshop.securitycore.security.AbstractSecurityConfig;
 import com.skrshop.securitycore.security.SecurityConstants;
@@ -39,7 +39,7 @@ public class WebSecurityConfig extends AbstractSecurityConfig implements Resourc
     private SkrShopSecurityCenterProperties skrShopSecurityCenterProperties;
 
     @Resource
-    private UserDetailsRepository userDetailsRepository;
+    private UserDetailsRepositoryManager userDetailsRepositoryManager;
 
 
     /**
@@ -68,7 +68,7 @@ public class WebSecurityConfig extends AbstractSecurityConfig implements Resourc
 
         http.setSharedObject(RequestCache.class, requestCache());
         http
-                .userDetailsService(userDetailsRepository)
+                .userDetailsService(userDetailsRepositoryManager)
                 .authorizeRequests()
                 .antMatchers(WebSecurityConfig.LOGIN_PAGE,
                         "/oauth/check_token",
