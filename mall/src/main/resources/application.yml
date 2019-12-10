@@ -10,3 +10,16 @@ server:
     context-path: /skrshop/mall
 mybatis-plus:
     mapper-locations:  classpath*:mapper/**/*.xml
+feign:
+  client:
+    config:
+      #想要调用的服务名称 default为全局配置
+      default:
+        LoggerLevel: basic
+  httpclient:
+    #Feign使用apacheClient进行请求而不是UrlConnection
+    enabled: true
+    #feign的最大连接数
+    max-connections: 300
+    #feign单个路径的最大连接数
+    max-connections-per-route: 50
