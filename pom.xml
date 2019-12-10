@@ -30,7 +30,8 @@
         <module>redis-support</module>
         <module>support-zookeeper</module>
         <module>skrshop-mybatisplus</module>
-        <module>cloud-gateway</module>
+        <module>cloud-backstage-gateway</module>
+        <module>cloud-app-gateway</module>
         <module>mall-resource</module>
         <module>security-core</module>
     </modules>
