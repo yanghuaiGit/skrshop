@@ -24,6 +24,7 @@
         <module>mall</module>
         <module>oauth</module>
         <module>oauthcenter</module>
+        <module>oauthcenter-api</module>
         <module>oauthserver</module>
         <module>oauth-core</module>
         <module>redis-support</module>
