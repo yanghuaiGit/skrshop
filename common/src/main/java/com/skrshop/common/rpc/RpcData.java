@@ -18,7 +18,6 @@ public class RpcData {
      * 如果无异常,则返回data
      *
      * @param BaseResponse 远程调用结果
-     * @return
      */
     public static <T> T of(BaseResponse<T> BaseResponse, ResultCode BaseResponseStatus) {
         Ensure.that(BaseResponse).isNotNullData(BaseResponseStatus);
@@ -30,7 +29,6 @@ public class RpcData {
      * 如果无异常,则返回data
      *
      * @param BaseResponse 远程调用结果
-     * @return
      */
     public static <T> T ofNullable(BaseResponse<T> BaseResponse) {
         Ensure.that(BaseResponse).isSuccess(CommonResultCode.REMOTE_REQUEST_ERROR);
