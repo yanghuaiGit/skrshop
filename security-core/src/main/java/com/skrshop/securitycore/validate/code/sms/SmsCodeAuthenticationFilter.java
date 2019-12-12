@@ -11,6 +11,9 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * @author yh
+ */
 @Slf4j
 public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
@@ -18,10 +21,11 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
         super(new AntPathRequestMatcher("/authentication/mobile", "POST"));
     }
 
+    @Override
     public Authentication attemptAuthentication(HttpServletRequest request,
                                                 HttpServletResponse response) throws AuthenticationException {
 
-        if (!request.getMethod().equals("POST")) {
+        if (!"POST".equals(request.getMethod())) {
             throw new AuthenticationServiceException(
                     "Authentication method not supported: " + request.getMethod());
         }
