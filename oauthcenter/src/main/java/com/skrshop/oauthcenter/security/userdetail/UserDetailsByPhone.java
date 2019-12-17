@@ -16,9 +16,11 @@ import java.util.regex.Pattern;
 public class UserDetailsByPhone extends UserServiceSupport {
     @Resource
     private PasswordEncoder passwordEncoder;
+    private  final Pattern p = Pattern.compile("^[1][3,4,5,7,8][0-9]{9}$");
 
+    @Override
     public boolean support(String userName) {
-        Pattern p = Pattern.compile("^[1][3,4,5,7,8][0-9]{9}$"); // 验证手机号
+       // 验证手机号
         return p.matcher(userName).matches();
     }
 

@@ -28,21 +28,24 @@ public class UserDetailsRepositoryManager implements UserDetailsManager {
         this.passwordEncoder = passwordEncoder;
     }
 
+    @Override
     public void createUser(UserDetails user) {
         users.putIfAbsent(user.getUsername(), user);
     }
 
 
+    @Override
     public void updateUser(UserDetails user) {
         users.put(user.getUsername(), user);
     }
 
 
+    @Override
     public void deleteUser(String username) {
         users.remove(username);
     }
 
-
+@Override
     public void changePassword(String oldPassword, String newPassword) {
         Authentication currentUser = SecurityContextHolder.getContext()
                 .getAuthentication();
@@ -66,12 +69,14 @@ public class UserDetailsRepositoryManager implements UserDetailsManager {
     }
 
 
+    @Override
     public boolean userExists(String username) {
 
         return users.containsKey(username);
     }
 
 
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         return delagate
