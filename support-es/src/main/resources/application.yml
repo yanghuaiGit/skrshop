@@ -1,0 +1,9 @@
+
+spring:
+  data:
+    elasticsearch:
+      cluster-nodes: localhost:9300
+      cluster-name: es-skrshop
+  elasticsearch:
+    rest:
+      uris: http://127.0.0.1:9200
