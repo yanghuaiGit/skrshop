@@ -31,8 +31,8 @@ public class AccountUserController implements AccountUserApi {
     }
 
     @Override
-    @GetMapping("/accountUserManagement/queryById")
-    public BaseResponse<AccountUserVo> queryById(@RequestParam  Long id) {
+    @GetMapping(path = "/accountUserManagement/queryById")
+    public BaseResponse<AccountUserVo> queryById(@RequestParam Long id) {
         return BaseResponse.code().data(accountUserService.queryById(id)).build();
     }
 }

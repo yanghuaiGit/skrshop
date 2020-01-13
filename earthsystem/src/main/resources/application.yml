@@ -30,7 +30,7 @@ server:
     context-path: /skrshop/earthsystem
 mybatis-plus:
   mapper-locations:  classpath*:mapper/**/*.xml
-  typeEnumsPackage: com.skrshop.skrshoptkmybatis.handler
+  typeEnumsPackage:  com.skrshop.skrshoptkmybatis.handler
 
 feign:
   client:
