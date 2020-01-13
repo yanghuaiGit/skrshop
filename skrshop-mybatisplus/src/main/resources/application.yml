@@ -1,2 +1,2 @@
-mybatis:
-  type-handlers-package: com.skrshop.skrshoptkmybatis.handler
+mybatis-plus:
+  typeEnumsPackage: com.skrshop.skrshoptkmybatis.handler
