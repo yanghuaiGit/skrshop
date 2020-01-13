@@ -30,8 +30,8 @@ server:
     context-path: /skrshop/earthsystem
 mybatis-plus:
   mapper-locations:  classpath*:mapper/**/*.xml
-  configuration:
-    default-enum-type-handler: com.skrshop.skrshoptkmybatis.handler.EnumCodeTypeHandler
+#  configuration:
+#    default-enum-type-handler: com.skrshop.skrshoptkmybatis.handler.EnumCodeTypeHandler
 feign:
   client:
     config:
