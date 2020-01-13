@@ -2,6 +2,8 @@ package com.skrshop.common.error;
 
 import com.skrshop.common.response.BaseResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import org.hibernate.validator.internal.engine.path.PathImpl;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
@@ -110,7 +112,7 @@ public class GlobalExceptionTranslator {
 
     @ExceptionHandler(SkrShopException.class)
     public BaseResponse handleError(SkrShopException e) {
-        log.error("Service Exception", e);
+        log.error("Service Exception{}", ToStringBuilder.reflectionToString(e.getResultCode(), ToStringStyle.DEFAULT_STYLE),e);
         return BaseResponse
                 .code(e.getResultCode())
                 .build();

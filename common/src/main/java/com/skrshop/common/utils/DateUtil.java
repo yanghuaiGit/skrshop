@@ -176,27 +176,31 @@ public class DateUtil {
     public static class DateCompare {
         // 时间差
 
-        public long untilDay(LocalDateTime dateTime, LocalDateTime dateTime1) {
+        public static long untilDay(LocalDateTime dateTime, LocalDateTime dateTime1) {
             return dateTime.until(dateTime1, ChronoUnit.DAYS);
         }
 
-        public long untilMonth(LocalDateTime dateTime, LocalDateTime dateTime1) {
+        public static long untilMonth(LocalDateTime dateTime, LocalDateTime dateTime1) {
             return dateTime.until(dateTime1, ChronoUnit.MONTHS);
         }
 
-        public long untilHours(LocalDateTime dateTime, LocalDateTime dateTime1) {
+        public static long untilHours(LocalDateTime dateTime, LocalDateTime dateTime1) {
             return dateTime.until(dateTime1, ChronoUnit.HOURS);
         }
 
-        public long untilMinutes(LocalDateTime dateTime, LocalDateTime dateTime1) {
+        public static long untilMinutes(LocalDateTime dateTime, LocalDateTime dateTime1) {
             return dateTime.until(dateTime1, ChronoUnit.MINUTES);
         }
 
-        public long untilDay(LocalDate dateTime, LocalDate dateTime1) {
+        public static long untilSenconds(LocalDateTime dateTime, LocalDateTime dateTime1) {
+            return dateTime.until(dateTime1, ChronoUnit.SECONDS);
+        }
+
+        public static long untilDay(LocalDate dateTime, LocalDate dateTime1) {
             return dateTime.until(dateTime1, ChronoUnit.DAYS);
         }
 
-        public long untilMonth(LocalDate dateTime, LocalDate dateTime1) {
+        public static long untilMonth(LocalDate dateTime, LocalDate dateTime1) {
             return dateTime.until(dateTime1, ChronoUnit.MONTHS);
         }
 
@@ -204,23 +208,23 @@ public class DateUtil {
             return dateTime.until(dateTime1, ChronoUnit.HOURS);
         }
 
-        public long untilMinutes(LocalDate dateTime, LocalDate dateTime1) {
+        public static long untilMinutes(LocalDate dateTime, LocalDate dateTime1) {
             return dateTime.until(dateTime1, ChronoUnit.MINUTES);
         }
 
-        public long untilMinutes(LocalTime dateTime, LocalTime dateTime1) {
+        public static long untilMinutes(LocalTime dateTime, LocalTime dateTime1) {
             return dateTime.until(dateTime1, ChronoUnit.MINUTES);
         }
 
-        public long untilDay(LocalTime dateTime, LocalTime dateTime1) {
+        public static long untilDay(LocalTime dateTime, LocalTime dateTime1) {
             return dateTime.until(dateTime1, ChronoUnit.DAYS);
         }
 
-        public long untilMonth(LocalTime dateTime, LocalTime dateTime1) {
+        public static long untilMonth(LocalTime dateTime, LocalTime dateTime1) {
             return dateTime.until(dateTime1, ChronoUnit.MONTHS);
         }
 
-        public long untilHours(LocalTime dateTime, LocalTime dateTime1) {
+        public static long untilHours(LocalTime dateTime, LocalTime dateTime1) {
             return dateTime.until(dateTime1, ChronoUnit.HOURS);
         }
     }

@@ -96,6 +96,44 @@ public class JwtUtils {
         return builder.compact();
     }
 
+    public static String buildJwtRS256(Map<String, Object> claims, long ttlMillis) throws Exception {
+
+        SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.RS256;
+        // 读取私钥
+        String key = readResourceKey("secret/rsa_private_key_pkcs8.pem");
+
+        // 生成签名密钥
+        byte[] keyBytes = (new BASE64Decoder()).decodeBuffer(key);
+        PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(keyBytes);
+        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+        PrivateKey privateKey = keyFactory.generatePrivate(keySpec);
+
+        // 生成JWT的时间
+        long nowMillis = System.currentTimeMillis();
+        Date now = new Date(nowMillis);
+
+        // 没配置过期时间 默认是30分钟
+        ttlMillis = ttlMillis >= 0 ? ttlMillis : 30 * 60 * 1000;
+        // 当前时间加上过期的秒数
+        long expMillis = nowMillis + ttlMillis;
+        Date exp = new Date(expMillis);
+        // 设置过期时间
+        claims.put(JwtInfo.EXPTIME, exp);
+
+        // 生成jwt文件
+        JwtBuilder builder = Jwts.builder()
+                // 这里其实就是new一个JwtBuilder，设置jwt的body
+                // 如果有私有声明，一定要先设置这个自己创建的私有的声明，这个是给builder的claim赋值，一旦写在标准的声明赋值之后，就是覆盖了那些标准的声明的
+                .setClaims(claims)
+                .setHeaderParam("typ", "JWT")
+                .setIssuedAt(now)
+                //  .setSubject(JackSonUtil.encode(user))
+                .signWith(signatureAlgorithm, privateKey);
+
+
+        return builder.compact();
+    }
+
     /**
      * 解密Jwt内容
      *

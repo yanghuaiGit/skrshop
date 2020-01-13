@@ -1,1 +1,3 @@
 
+spring.security.user.name=yh
+spring.security.user.password=root

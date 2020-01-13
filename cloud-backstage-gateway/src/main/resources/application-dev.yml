@@ -1,0 +1,19 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+        #  指定namespace
+        # namespace: 04a067aa-178c-4fee-bc97-df5a6a4a23ff
+        #指定集群名称
+        cluster-name: NJ
+        #metadata:
+        #ins: 2
+        #iw: 2323
+management:
+  endpoints:
+    gateway:
+      enabled: true
+    web:
+      exposure:
+        include: "*"

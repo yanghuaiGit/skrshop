@@ -1,4 +1,6 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 com.skrshop.common.error.ErrorAutoConfiguration,\
 com.skrshop.common.config.JacksonConfig,\
-com.skrshop.common.config.DozerConfig
+com.skrshop.common.config.DozerConfig,\
+com.skrshop.common.config.DozerHolder,\
+com.skrshop.common.config.RestTemplateConfig

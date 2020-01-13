@@ -1,44 +1,33 @@
 package com.skrshop.oauthcenter.security.handler;
 
-import com.skrshop.oauthcenter.config.LoginTypeEnum;
-import com.skrshop.oauthcenter.security.config.properties.SkrShopAuthorityCenterProperties;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.skrshop.common.response.BaseResponse;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
-import org.springframework.stereotype.Component;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Map;
 
-@Component
+/**
+ * 登录失败认证处理
+ * 继承Spring默认的处理器
+ */
 @Slf4j
+@AllArgsConstructor
 public class AuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
-    @Autowired
-    private SkrShopAuthorityCenterProperties skrShopAuthorityCenterProperties;
+    private ObjectMapper objectMapper;
 
     @Override
-    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
-
-        log.error("--登录失败--");
-        if (response.isCommitted()) {
-            log.debug("Response has already been committed");
-            return;
-        }
-        if (LoginTypeEnum.JSON.equals(skrShopAuthorityCenterProperties.getSecurity().getLoginTypeEnum())) {
-            Map<String, Object> map = new HashMap<>(2);
-            map.put("time", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-            map.put("flag", "failure_login");
-            response.getWriter().write(map.toString());
-        } else {
-            super.onAuthenticationFailure(request, response, exception);
-        }
+    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception)
+            throws IOException {
+        log.info("登录失败");
+        response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+        response.setContentType("application/json;charset=utf-8");
+        response.getWriter().write(objectMapper.writeValueAsString(BaseResponse.code().data(exception.getMessage()).build()));
     }
 }
