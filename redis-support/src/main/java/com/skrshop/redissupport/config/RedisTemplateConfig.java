@@ -28,6 +28,8 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.*;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+import javax.annotation.Resource;
+
 /**
  * @author yh
  * Redis 配置类
@@ -65,35 +67,5 @@ public class RedisTemplateConfig {
 //        redisTemplate.setHashValueSerializer(jackson2JsonRedisSerializer);
 //        redisTemplate.afterPropertiesSet();
 //        return redisTemplate;
-    }
-
-    @Bean
-    @ConditionalOnMissingBean(name = "hashOperations")
-    public HashOperations<String, String, Object> hashOperations(RedisTemplate<String, Object> redisTemplate) {
-        return redisTemplate.opsForHash();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean(name = "valueOperations")
-    public ValueOperations<String, String> valueOperations(RedisTemplate<String, String> redisTemplate) {
-        return redisTemplate.opsForValue();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean(name = "listOperations")
-    public ListOperations<String, Object> listOperations(RedisTemplate<String, Object> redisTemplate) {
-        return redisTemplate.opsForList();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean(name = "setOperations")
-    public SetOperations<String, Object> setOperations(RedisTemplate<String, Object> redisTemplate) {
-        return redisTemplate.opsForSet();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean(name = "ZSetOperations")
-    public ZSetOperations<String, Object> zSetOperations(RedisTemplate<String, Object> redisTemplate) {
-        return redisTemplate.opsForZSet();
     }
 }
