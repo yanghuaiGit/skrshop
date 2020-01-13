@@ -31,6 +31,7 @@ public class AccountUserController implements AccountUserApi {
     }
 
     @Override
+    @GetMapping("/{id}")
     public BaseResponse<AccountUserVo> queryById(@PathVariable("id") Long id) {
         return BaseResponse.code().data(accountUserService.queryById(id)).build();
     }
