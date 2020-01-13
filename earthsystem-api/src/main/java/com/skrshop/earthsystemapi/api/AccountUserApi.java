@@ -21,6 +21,6 @@ public interface AccountUserApi {
     @PostMapping("/accountUserManagement/create")
     BaseResponse<AccountUserVo> createAccountUser(@RequestBody AccountUserDto accountUserDto);
 
-    @GetMapping("/accountUserManagement/queryById")
-    BaseResponse<AccountUserVo> queryById(@RequestParam Long id);
+    @GetMapping("/accountUserManagement/{id}")
+    BaseResponse<AccountUserVo> queryById(@PathVariable("id") Long id);
 }
