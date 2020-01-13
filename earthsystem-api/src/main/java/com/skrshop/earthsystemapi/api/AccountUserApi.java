@@ -5,6 +5,8 @@ import com.skrshop.earthsystemapi.fallback.AccountUserApiFallBack;
 import com.skrshop.earthsystemapi.model.dto.AccountUserDto;
 import com.skrshop.earthsystemapi.model.vo.AccountUserVo;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -21,4 +23,7 @@ public interface AccountUserApi {
 
     @PostMapping("/accountUserManagement/create")
     BaseResponse<AccountUserVo> createAccountUser(@RequestBody AccountUserDto accountUserDto);
+
+    @GetMapping("/accountUserManagement/{id}")
+    BaseResponse<AccountUserVo> queryById(@PathVariable("id") Long id);
 }

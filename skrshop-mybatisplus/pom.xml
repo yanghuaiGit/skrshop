@@ -7,10 +7,10 @@
         <artifactId>manage</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-   
+
     <artifactId>skrshop-mybatisplus</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>skrshop-tkmybatis</name>
+    <name>skrshop-mybatisplus</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>

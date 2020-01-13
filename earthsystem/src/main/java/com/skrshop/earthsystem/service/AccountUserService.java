@@ -3,6 +3,8 @@ package com.skrshop.earthsystem.service;
 import com.skrshop.earthsystemapi.model.dto.AccountUserDto;
 import com.skrshop.earthsystemapi.model.vo.AccountUserVo;
 
+import java.util.List;
+
 /**
  * @author huaiyang
  * @version 1.0.0
@@ -13,4 +15,6 @@ import com.skrshop.earthsystemapi.model.vo.AccountUserVo;
 public interface AccountUserService {
 
     AccountUserVo create(AccountUserDto accountUserDto);
+
+    AccountUserVo queryById(Long id);
 }

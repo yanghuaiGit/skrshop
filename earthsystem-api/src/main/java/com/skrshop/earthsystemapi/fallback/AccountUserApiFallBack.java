@@ -19,4 +19,9 @@ public class AccountUserApiFallBack implements AccountUserApi {
     public BaseResponse<AccountUserVo> createAccountUser(AccountUserDto accountUserDto) {
         return BaseResponse.code(CommonResultCode.REMOTE_REQUEST_ERROR).build();
     }
+
+    @Override
+    public BaseResponse<AccountUserVo> queryById(Long id) {
+        return BaseResponse.code(CommonResultCode.REMOTE_REQUEST_ERROR).build();
+    }
 }

@@ -32,4 +32,9 @@ public class AccountUserController implements AccountUserApi {
     public BaseResponse<AccountUserVo> createAccountUser(@RequestBody AccountUserDto accountUserDto) {
         return BaseResponse.code().data(accountUserService.create(accountUserDto)).build();
     }
+
+    @Override
+    public BaseResponse<AccountUserVo> queryById(Long id) {
+        return BaseResponse.code().data(accountUserService.queryById(id)).build();
+    }
 }
