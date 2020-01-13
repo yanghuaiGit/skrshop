@@ -31,7 +31,6 @@ public class AccountUserServiceImpl implements AccountUserService {
     @Override
     public AccountUserVo create(AccountUserDto accountUserDto) {
         AccountUser accountUser = dozerHolder.convert(accountUserDto, AccountUser.class);
-        accountUser.setType(AccountTypeEnum.STAFF);
         return dozerHolder.convert(accountUserMapper.createAndReturn(accountUser), AccountUserVo.class);
     }
 

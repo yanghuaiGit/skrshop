@@ -3,7 +3,6 @@ package com.skrshop.earthsystem.model.po.account;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.skrshop.earthsystem.common.enums.AccountTypeEnum;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -27,7 +26,7 @@ public class AccountUser implements Serializable {
     /**
      * 账户类型 0:员工,1:用户
      */
-    private AccountTypeEnum type;
+    private Integer type;
 
     /**
      * 账户来源 0:skr电商,1:sky新闻客户端
