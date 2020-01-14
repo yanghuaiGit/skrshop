@@ -1,2 +1,3 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.skrshop.redissupport.config.RedisTemplateConfig
+com.skrshop.redissupport.config.RedisTemplateConfig,\
+com.skrshop.redissupport.config.RedisManager
