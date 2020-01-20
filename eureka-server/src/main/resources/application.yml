@@ -1,15 +1,15 @@
 server:
-  #配置eurekaServer的端口号
   port: 8761
 eureka:
-  client:
-    service-url:
-      #代表注册到eureka服务端的地址
-      defaultZone: http://127.0.0.1:8761/eureka
-      #该服务为注册中心，增加此行代表不在注册中心注册自己
-    register-with-eureka: false
-    #由于注册中心呢的职责是维护实例，为FALSE代表其不用去检索服务
-    fetch-registry: false
-    #配置主机名
   instance:
-    hostname: peer1
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    ip-address: ${spring.cloud.client.ip-address}
+    health-check-url: http://${spring.cloud.client.ip-address}:${server.port}${server.servlet.context-path:}/actuator/health
+    status-page-url: http://${spring.cloud.client.ip-address}:${server.port}${server.servlet.context-path:}/actuator/info
+    home-page-url: http://${spring.cloud.client.ip-address}:${server.port}${server.servlet.context-path:}/
+  client:
+    serviceUrl:
+      defaultZone: http://127.0.0.1:8761/eureka/
+    register-with-eureka: false
+    fetch-registry: false
