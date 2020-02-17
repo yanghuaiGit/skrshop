@@ -1,6 +1,8 @@
 package com.skrshop.skrshoptkmybatis.Performance;
 
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.apache.ibatis.plugin.Interceptor;
+import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;

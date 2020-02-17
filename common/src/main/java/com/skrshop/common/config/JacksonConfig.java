@@ -40,6 +40,8 @@ public class JacksonConfig {
     @Bean
     public Jackson2ObjectMapperBuilderCustomizer customizer() {
         return builder -> {
+            // mybatis 枚举序列化
+            builder.featuresToEnable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
             //为空的字段不返回
             builder.serializationInclusion(JsonInclude.Include.NON_NULL);
             builder.locale(Locale.CHINA);

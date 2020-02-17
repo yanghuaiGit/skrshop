@@ -24,6 +24,11 @@ public class AccountUserVo implements Serializable {
     private Integer type;
 
     /**
+     * 账户类型 0:员工,1:用户
+     */
+    private String typeDesc;
+
+    /**
      * 账户来源 0:skr电商,1:sky新闻客户端
      */
     private Integer orign;

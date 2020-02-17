@@ -1,0 +1,15 @@
+server:
+  port: 8761
+eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    ip-address: ${spring.cloud.client.ip-address}
+    health-check-url: http://${spring.cloud.client.ip-address}:${server.port}${server.servlet.context-path:}/actuator/health
+    status-page-url: http://${spring.cloud.client.ip-address}:${server.port}${server.servlet.context-path:}/actuator/info
+    home-page-url: http://${spring.cloud.client.ip-address}:${server.port}${server.servlet.context-path:}/
+  client:
+    serviceUrl:
+      defaultZone: http://127.0.0.1:8761/eureka/
+    register-with-eureka: false
+    fetch-registry: false
