@@ -8,7 +8,6 @@
         <version>0.0.1-SNAPSHOT</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.skrshop</groupId>
     <artifactId>earthsystem</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>earthsystem</name>
