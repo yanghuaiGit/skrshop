@@ -39,6 +39,8 @@ public class CommonResultCode implements ResultCode {
         return new CommonResultCode(resultCode.getCode(), resultCode.getDesc(), msg);
     }
 
+    public static ResultCode SERVER_ERROR = new CommonResultCode(9999, "Server Error");
+
     public static ResultCode SUCCESS = new CommonResultCode(HttpServletResponse.SC_OK, "Operation is Successful");
 
     public static ResultCode FAILURE = new CommonResultCode(HttpServletResponse.SC_BAD_REQUEST, "Biz Exception");

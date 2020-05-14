@@ -1,0 +1,7 @@
+
+#404 等也是抛出异常 而不是显示SpringMvc内置页面
+spring:
+  mvc:
+   throw-exception-if-no-handler-found: true
+  resources:
+    add-mappings: false
