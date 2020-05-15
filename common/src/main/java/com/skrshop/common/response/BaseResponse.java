@@ -32,6 +32,14 @@ public class BaseResponse<T> {
         return CommonResultCode.SUCCESS.getCode().equals(code);
     }
 
+    public static <T> BaseResponse<T> success(T data) {
+        return code().data(data).build();
+    }
+
+    public static <T> BaseResponse<T> error(T data) {
+        return code(CommonResultCode.SERVER_ERROR).data(data).build();
+    }
+
 
     public static BaseResponseBuilder code() {
         return code(CommonResultCode.SUCCESS);

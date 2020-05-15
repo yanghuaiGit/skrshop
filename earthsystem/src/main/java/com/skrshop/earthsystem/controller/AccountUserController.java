@@ -27,12 +27,12 @@ public class AccountUserController implements AccountUserApi {
     @Override
     @PostMapping(path = "/create")
     public BaseResponse<AccountUserVo> createAccountUser(@RequestBody AccountUserDto accountUserDto) {
-        return BaseResponse.code().data(accountUserService.create(accountUserDto)).build();
+        return BaseResponse.success(accountUserService.create(accountUserDto));
     }
 
     @Override
     @GetMapping("/{id}")
     public BaseResponse<AccountUserVo> queryById(@PathVariable("id") Long id) {
-        return BaseResponse.code().data(accountUserService.queryById(id)).build();
+        return BaseResponse.success(accountUserService.queryById(id));
     }
 }
