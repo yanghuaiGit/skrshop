@@ -1,5 +1,7 @@
 # application.yml
 spring:
+  profiles:
+    active: dev
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/skrshop-earth-system?allowMultiQueries=true&useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=TRUE
     hikari:

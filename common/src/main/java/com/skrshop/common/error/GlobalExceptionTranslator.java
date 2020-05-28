@@ -77,12 +77,11 @@ public class GlobalExceptionTranslator {
 //        }
         if (ENV_PROD.equals(profile)) {
 //            String message = String.format("Missing Request Parameter: %s", e.getParameterName());
-            return BaseResponse
-                    .code(CommonResultCode.resultCodeFactory(CommonResultCode.SERVER_ERROR, e.getMessage()))
-                    .build();
+            return BaseResponse.code(CommonResultCode.SERVER_ERROR).build();
         }
-        return BaseResponse.code(CommonResultCode.SERVER_ERROR).build();
-
+        return BaseResponse
+                .code(CommonResultCode.resultCodeFactory(CommonResultCode.SERVER_ERROR, e.getMessage()))
+                .build();
     }
 
 
