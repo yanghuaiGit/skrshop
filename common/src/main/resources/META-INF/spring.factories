@@ -3,4 +3,5 @@ com.skrshop.common.error.ErrorAutoConfiguration,\
 com.skrshop.common.config.JacksonConfig,\
 com.skrshop.common.config.DozerConfig,\
 com.skrshop.common.config.DozerHolder,\
-com.skrshop.common.config.RestTemplateConfig
+com.skrshop.common.config.RestTemplateConfig,\
+com.skrshop.common.utils.ContextUtil  
